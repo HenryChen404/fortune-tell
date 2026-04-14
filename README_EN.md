@@ -46,7 +46,7 @@ Trigger words: fortune, horoscope, astrology, vedic, jyotish, birth chart, natal
 ## Structure
 
 ```
-.claude/skills/fortune-tell-experts/
+fortune-tell/                # Clone into .claude/skills/fortune-tell-experts/
 ├── SKILL.md              # Skill definition & prompt
 ├── scripts/
 │   ├── bazi_chart.py      # BaZi chart generator

@@ -46,7 +46,7 @@ git clone https://github.com/HenryChen404/fortune-tell.git .claude/skills/fortun
 ## 项目结构
 
 ```
-.claude/skills/fortune-tell-experts/
+fortune-tell/                # clone 到 .claude/skills/fortune-tell-experts/
 ├── SKILL.md              # Skill 定义与 prompt
 ├── scripts/
 │   ├── bazi_chart.py      # 八字排盘
