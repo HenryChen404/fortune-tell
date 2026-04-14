@@ -1,0 +1,9 @@
+lunar_python
+kerykeion
+PyJHora
+pyswisseph
+geocoder
+timezonefinder
+geopy
+pytz
+python-dateutil

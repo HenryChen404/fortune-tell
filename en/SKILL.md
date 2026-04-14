@@ -72,7 +72,7 @@ node -e "require('iztro'); console.log('OK')"
 python3.11 -m pip install lunar_python kerykeion PyJHora pyswisseph geocoder timezonefinder geopy pytz python-dateutil
 
 # Node dependencies (in scripts/ directory)
-cd .claude/skills/fortune-tell-experts/scripts && npm install
+cd ${CLAUDE_SKILL_DIR}/scripts && npm install
 ```
 
 ## First-Time Setup Flow
@@ -91,8 +91,8 @@ Each time the skill is invoked, first try to read `references/birth-info.md`.
 4. Run the charting scripts to generate natal chart data:
 
 ```bash
-SCRIPTS=".claude/skills/fortune-tell-experts/scripts"
-REFS=".claude/skills/fortune-tell-experts/references"
+SCRIPTS="${CLAUDE_SKILL_DIR}/scripts"
+REFS="${CLAUDE_SKILL_DIR}/references"
 
 # BaZi (Four Pillars)
 python3.11 "$SCRIPTS/bazi_chart.py" \
