@@ -1,3 +1,5 @@
+[**中文版 Chinese Version**](https://github.com/HenryChen404/fortune-tell/tree/cn)
+
 # fortune-tell-experts
 
 **Claude Code Skill** — Multi-system Fortune Telling Expert Panel
@@ -64,6 +66,3 @@ fortune-tell/                # Clone into .claude/skills/fortune-tell-experts/
 
 MIT
 
----
-
-**中文版:** `git clone -b cn https://github.com/HenryChen404/fortune-tell.git .claude/skills/fortune-tell-experts`

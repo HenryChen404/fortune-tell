@@ -1,5 +1,6 @@
 # Generated chart data (contains personal birth info)
-references/
+references/*
+!references/.gitkeep
 
 # Local Claude Code config
 CLAUDE.md
