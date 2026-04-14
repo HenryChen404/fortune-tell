@@ -8,6 +8,9 @@ en/references/*
 CLAUDE.md
 .claude/
 
+# Developer-only version tracking
+CHANGELOG.md
+
 # Dependencies
 **/node_modules/
 
