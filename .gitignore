@@ -4,6 +4,7 @@ references/*
 
 # Local Claude Code config
 CLAUDE.md
+.claude/
 
 # Node dependencies
 node_modules/
