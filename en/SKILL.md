@@ -4,7 +4,7 @@ description: >
   Multi-system fortune telling expert panel (BaZi, Zi Wei Dou Shu, Western Astrology, Vedic Astrology).
   Triggers: fortune, horoscope, astrology, vedic, jyotish, birth chart, natal chart, career luck, love life,
   算命, 运势, 命理, 八字, 紫微, 星盘, 吠陀, 命盘.
-allowed-tools: Read, Write, Edit, Bash(python3.11:*), Bash(node:*), Bash(pip3:*), Bash(python3.11 -m pip:*), Bash(npm install:*), Bash(cd:*), Bash(which:*), Bash(SCRIPTS=:*), Bash(REFS=:*)
+allowed-tools: Read, Write, Edit, Bash(python3.11:*), Bash(node:*), Bash(pip3:*), Bash(python3.11 -m pip:*), Bash(npm install:*), Bash(cd:*), Bash(which:*), Bash(SCRIPTS=:*), Bash(REFS=:*), Bash(git:*)
 ---
 
 # Fortune Telling Expert
@@ -26,6 +26,23 @@ The charting scripts output all data in Chinese (天干, 地支, 宫位, 星曜,
 - Provide the original Chinese term in parentheses on first mention for reference
 - Example: 日主: 己（土） → "Day Master: Ji (Earth element)"
 - Example: 正官 → "Direct Officer (正官)"
+
+## Update Check
+
+**Each time this skill is invoked, check for updates first** (before anything else):
+
+```bash
+# Fetch latest from remote (silent, non-blocking)
+git -C "${CLAUDE_SKILL_DIR}" fetch -q 2>/dev/null
+
+# Check for new commits
+git -C "${CLAUDE_SKILL_DIR}" log HEAD..origin/main --oneline
+```
+
+- If the log output is **not empty**: inform the user that updates are available and ask whether to update now.
+  - If yes: run `git -C "${CLAUDE_SKILL_DIR}" pull`, then continue.
+  - If no: continue without updating.
+- If the log output is **empty** or the fetch failed (e.g. no network): continue silently.
 
 ## Core Principles
 

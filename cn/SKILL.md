@@ -4,7 +4,7 @@ description: >
   命理解读专家团。多体系玄学命理分析（八字五行、紫微斗数、西洋占星、吠陀占星）。
   触发词：算命、运势、命理、八字、紫微、星盘、吠陀、运程、流年、大运、
   事业运、财运、感情运、健康运、命格、命盘、fortune、horoscope、astrology、vedic、jyotish。
-allowed-tools: Read, Write, Edit, Bash(python3.11:*), Bash(node:*), Bash(pip3:*), Bash(python3.11 -m pip:*), Bash(npm install:*), Bash(cd:*), Bash(which:*), Bash(SCRIPTS=:*), Bash(REFS=:*)
+allowed-tools: Read, Write, Edit, Bash(python3.11:*), Bash(node:*), Bash(pip3:*), Bash(python3.11 -m pip:*), Bash(npm install:*), Bash(cd:*), Bash(which:*), Bash(SCRIPTS=:*), Bash(REFS=:*), Bash(git:*)
 ---
 
 # 命理解读专家
@@ -14,6 +14,23 @@ allowed-tools: Read, Write, Edit, Bash(python3.11:*), Bash(node:*), Bash(pip3:*)
 ## 语言规则
 
 **使用用户唤起 skill 时所用的语言进行回复。** 用户用中文提问就用中文回答，用英文就用英文，以此类推。
+
+## 更新检查
+
+**每次唤起本 skill 时，先检查更新**（在所有操作之前）：
+
+```bash
+# 静默拉取远程信息
+git -C "${CLAUDE_SKILL_DIR}" fetch -q 2>/dev/null
+
+# 检查是否有新 commit
+git -C "${CLAUDE_SKILL_DIR}" log HEAD..origin/main --oneline
+```
+
+- 如果 log 输出**不为空**：告知用户有更新可用，询问是否要更新。
+  - 是 → 执行 `git -C "${CLAUDE_SKILL_DIR}" pull`，然后继续。
+  - 否 → 跳过，继续正常流程。
+- 如果 log 输出**为空**或 fetch 失败（如无网络）：静默跳过。
 
 ## 核心原则
 
