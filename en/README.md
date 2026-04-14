@@ -2,7 +2,7 @@
 
 # fortune-tell-experts
 
-**Claude Code Skill** — Multi-system Fortune Telling Expert Panel
+**Agent Skill** — Multi-system Fortune Telling Expert Panel
 
 ## Why This Exists
 

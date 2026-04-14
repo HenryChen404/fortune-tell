@@ -2,7 +2,7 @@
 
 # fortune-tell-experts
 
-**Claude Code Skill** — 命理解读专家团
+**Agent Skill** — 命理解读专家团
 
 ## 为什么做这个
 
