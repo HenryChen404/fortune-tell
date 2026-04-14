@@ -1,0 +1,8 @@
+{
+  "name": "fortune-tell-scripts",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "iztro": "^2.4.0"
+  }
+}
