@@ -5,6 +5,42 @@
 
 const { astro } = require('iztro');
 
+/**
+ * 将钟表时间（北京时间等标准时区时间）转换为真太阳时。
+ * 返回校正后的 { year, month, day, hour, minute }
+ */
+function trueSolarTime(year, month, day, hour, minute, lng) {
+  // 经度时差修正（中国标准时间基准经度为120°E）
+  const lngCorrection = 4.0 * (lng - 120.0); // 分钟
+
+  // 均时差修正 (Equation of Time)
+  const dt = new Date(year, month - 1, day);
+  const startOfYear = new Date(year, 0, 1);
+  const dayOfYear = Math.floor((dt - startOfYear) / 86400000) + 1;
+  const b = (2 * Math.PI * (dayOfYear - 81)) / 365.0;
+  const eot = 9.87 * Math.sin(2 * b) - 7.53 * Math.cos(b) - 1.5 * Math.sin(b); // 分钟
+
+  let totalMinutes = hour * 60 + (minute || 0) + lngCorrection + eot;
+
+  // 处理跨日
+  let adjustedDate = new Date(year, month - 1, day);
+  if (totalMinutes < 0) {
+    totalMinutes += 1440;
+    adjustedDate.setDate(adjustedDate.getDate() - 1);
+  } else if (totalMinutes >= 1440) {
+    totalMinutes -= 1440;
+    adjustedDate.setDate(adjustedDate.getDate() + 1);
+  }
+
+  return {
+    year: adjustedDate.getFullYear(),
+    month: adjustedDate.getMonth() + 1,
+    day: adjustedDate.getDate(),
+    hour: Math.floor(totalMinutes / 60),
+    minute: Math.floor(totalMinutes % 60),
+  };
+}
+
 function parseArgs() {
   const args = {};
   const argv = process.argv.slice(2);
@@ -116,14 +152,27 @@ function generateMarkdown(result) {
 const args = parseArgs();
 
 if (!args.date || !args.gender) {
-  console.error('Usage: node ziwei_chart.js --date YYYY-M-D --hour H [--minute M] --gender male/female/男/女');
+  console.error('Usage: node ziwei_chart.js --date YYYY-M-D --hour H [--minute M] [--lng LNG] --gender male/female/男/女');
   process.exit(1);
 }
 
 const hour = parseInt(args.hour || '0', 10);
 const minute = parseInt(args.minute || '0', 10);
-const timeIndex = hourToTimeIndex(hour, minute);
+const lng = parseFloat(args.lng || '120');
 const gender = (args.gender === 'male' || args.gender === 'm') ? '男' : (args.gender === 'female' || args.gender === 'f') ? '女' : args.gender;
 
-const result = astro.bySolar(args.date, timeIndex, gender, true, 'zh-CN');
-console.log(generateMarkdown(result));
+// 解析原始日期
+const dateParts = args.date.split('-').map(Number);
+const origYear = dateParts[0], origMonth = dateParts[1], origDay = dateParts[2];
+
+// 真太阳时校正
+const tst = trueSolarTime(origYear, origMonth, origDay, hour, minute, lng);
+const correctedDate = `${tst.year}-${tst.month}-${tst.day}`;
+const timeIndex = hourToTimeIndex(tst.hour, tst.minute);
+
+const result = astro.bySolar(correctedDate, timeIndex, gender, true, 'zh-CN');
+// 在输出中注入真太阳时信息
+const md = generateMarkdown(result);
+const tstInfo = `- 钟表时间: ${origYear}-${String(origMonth).padStart(2,'0')}-${String(origDay).padStart(2,'0')} ${String(hour).padStart(2,'0')}:${String(minute).padStart(2,'0')}\n- 真太阳时: ${tst.year}-${String(tst.month).padStart(2,'0')}-${String(tst.day).padStart(2,'0')} ${String(tst.hour).padStart(2,'0')}:${String(tst.minute).padStart(2,'0')}\n- 出生经度: ${lng}°E`;
+// 插入到基本信息段末尾（在 "- 五行局" 之前）
+console.log(md.replace('- 五行局', tstInfo + '\n- 五行局'));

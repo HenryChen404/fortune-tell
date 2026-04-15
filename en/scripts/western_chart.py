@@ -45,6 +45,17 @@ HOUSE_CN = {
 ELEMENT_CN = {'Fire': '火', 'Earth': '土', 'Air': '风', 'Water': '水'}
 QUALITY_CN = {'Cardinal': '基本', 'Fixed': '固定', 'Mutable': '变动'}
 
+HOUSE_SYSTEMS = {
+    'P': 'Placidus',
+    'K': 'Koch',
+    'O': 'Porphyrius',
+    'R': 'Regiomontanus',
+    'C': 'Campanus',
+    'A': 'Equal (Asc)',
+    'W': 'Whole Sign',
+    'B': 'Alcabitius',
+}
+
 
 def sign_cn(sign_abbr):
     return SIGN_CN.get(sign_abbr, sign_abbr)
@@ -56,10 +67,11 @@ def format_position(pos):
     return f"{deg}°{minutes:02d}'"
 
 
-def generate_western_md(year, month, day, hour, minute, lat, lng, tz_str):
+def generate_western_md(year, month, day, hour, minute, lat, lng, tz_str, house_system='P'):
     subject = AstrologicalSubjectFactory.from_birth_data(
         'Subject', year, month, day, hour, minute,
-        lng=lng, lat=lat, tz_str=tz_str, online=False
+        lng=lng, lat=lat, tz_str=tz_str, online=False,
+        houses_system_identifier=house_system,
     )
     chart = ChartDataFactory.create_natal_chart_data(subject)
 
@@ -72,6 +84,7 @@ def generate_western_md(year, month, day, hour, minute, lat, lng, tz_str):
     lines.append(f'- 月亮星座: {sign_cn(subject.moon.sign)} {format_position(subject.moon.position)}')
     lines.append(f'- 上升星座: {sign_cn(subject.ascendant.sign)} {format_position(subject.ascendant.position)}')
     lines.append(f'- 天顶(MC): {sign_cn(subject.medium_coeli.sign)} {format_position(subject.medium_coeli.position)}')
+    lines.append(f'- 宫位制: {HOUSE_SYSTEMS.get(house_system, house_system)}')
     if hasattr(chart, 'lunar_phase') and chart.lunar_phase:
         lp = chart.lunar_phase
         lines.append(f'- 月相: {lp.phase_name} ({lp.illumination:.1f}%)')
@@ -87,7 +100,7 @@ def generate_western_md(year, month, day, hour, minute, lat, lng, tz_str):
         subject.sun, subject.moon, subject.mercury, subject.venus, subject.mars,
         subject.jupiter, subject.saturn, subject.uranus, subject.neptune, subject.pluto,
     ]
-    for attr in ('chiron', 'mean_north_lunar_node'):
+    for attr in ('chiron', 'mean_north_lunar_node', 'mean_lilith'):
         val = getattr(subject, attr, None)
         if val is not None:
             planets.append(val)
@@ -160,10 +173,12 @@ def main():
     parser.add_argument('--lat', type=float, required=True)
     parser.add_argument('--lng', type=float, required=True)
     parser.add_argument('--tz', type=str, required=True, help='Timezone string, e.g. Asia/Shanghai')
+    parser.add_argument('--house-system', type=str, default='P',
+                        help='宫位制: P=Placidus, K=Koch, W=Whole Sign, A=Equal 等（默认P）')
     args = parser.parse_args()
 
     result = generate_western_md(args.year, args.month, args.day, args.hour, args.minute,
-                                  args.lat, args.lng, args.tz)
+                                  args.lat, args.lng, args.tz, args.house_system)
     print(result)
 
 

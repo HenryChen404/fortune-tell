@@ -4,9 +4,11 @@
 import argparse
 import sys
 import collections
-from jhora import utils
+from jhora import utils, const
 from jhora.panchanga import drik
 from jhora.horoscope.dhasa.graha import vimsottari
+
+AVAILABLE_AYANAMSAS = list(const.available_ayanamsa_modes.keys())
 
 Place = collections.namedtuple('Place', ['Place', 'latitude', 'longitude', 'timezone'])
 
@@ -53,7 +55,10 @@ def format_deg(deg):
     return f"{d}°{m:02d}'"
 
 
-def generate_vedic_md(year, month, day, hour, minute, lat, lng, tz_offset, gender):
+def generate_vedic_md(year, month, day, hour, minute, lat, lng, tz_offset, gender, ayanamsa='LAHIRI'):
+    # 设置 Ayanamsa
+    drik.set_ayanamsa_mode(ayanamsa)
+
     jd = utils.julian_day_number((year, month, day), (hour, minute, 0))
     place = Place('BirthPlace', lat, lng, tz_offset)
     is_male = gender.lower() in ('male', '男', 'm')
@@ -67,6 +72,7 @@ def generate_vedic_md(year, month, day, hour, minute, lat, lng, tz_offset, gende
     lines.append(f'- 出生时间: {year}-{month:02d}-{day:02d} {hour:02d}:{minute:02d}')
     lines.append(f'- 坐标: {lat}°N, {lng}°E')
     lines.append(f'- 时区: UTC+{tz_offset}')
+    lines.append(f'- Ayanamsa: {ayanamsa}')
     lines.append('')
 
     # Rasi chart (D-1)
@@ -89,6 +95,25 @@ def generate_vedic_md(year, month, day, hour, minute, lat, lng, tz_offset, gende
     try:
         planet_positions = drik.dhasavarga(jd, place, divisional_chart_factor=1)
         for entry in planet_positions:
+            pid = entry[0]
+            sign, deg = entry[1]
+            name = PLANET_NAMES.get(pid, str(pid))
+            if sign < len(SIGN_NAMES):
+                lines.append(f'| {name} | {SIGN_NAMES[sign]} | {format_deg(deg)} |')
+    except Exception as e:
+        lines.append(f'| (计算出错: {e}) | | |')
+
+    lines.append('')
+
+    # D-9 Navamsa chart
+    lines.append('## Navamsa Chart (D-9 分盘)')
+    lines.append('')
+    lines.append('| 行星 | 星座 (Navamsa) | 度数 |')
+    lines.append('|------|---------------|------|')
+
+    try:
+        navamsa_positions = drik.dhasavarga(jd, place, divisional_chart_factor=9)
+        for entry in navamsa_positions:
             pid = entry[0]
             sign, deg = entry[1]
             name = PLANET_NAMES.get(pid, str(pid))
@@ -146,13 +171,12 @@ def generate_vedic_md(year, month, day, hour, minute, lat, lng, tz_offset, gende
 
         lines.append('')
 
-        # Show current period's antardashas
-        lines.append('### Antardasha 明细（前20条）')
+        # Show all antardashas
+        lines.append('### Antardasha 明细')
         lines.append('')
         lines.append('| 主运 | 子运 | 起始日期 | 持续(年) |')
         lines.append('|------|------|----------|----------|')
 
-        count = 0
         for d in dashas:
             lords = d[0]
             date_tuple = d[1]
@@ -162,9 +186,6 @@ def generate_vedic_md(year, month, day, hour, minute, lat, lng, tz_offset, gende
                 antar = DASHA_LORDS.get(lords[1], str(lords[1]))
                 y, m, dy = int(date_tuple[0]), int(date_tuple[1]), int(date_tuple[2])
                 lines.append(f'| {maha} | {antar} | {y}-{m:02d}-{dy:02d} | {duration:.2f} |')
-                count += 1
-                if count >= 20:
-                    break
 
     except Exception as e:
         lines.append(f'(Dasha 计算出错: {e})')
@@ -185,10 +206,12 @@ def main():
     parser.add_argument('--lng', type=float, required=True)
     parser.add_argument('--tz', type=float, required=True, help='Timezone offset, e.g. 8 for UTC+8')
     parser.add_argument('--gender', type=str, required=True, help='male/female/男/女')
+    parser.add_argument('--ayanamsa', type=str, default='LAHIRI',
+                        help=f'Ayanamsa 模式（默认LAHIRI）。可选: {", ".join(AVAILABLE_AYANAMSAS)}')
     args = parser.parse_args()
 
     result = generate_vedic_md(args.year, args.month, args.day, args.hour, args.minute,
-                                args.lat, args.lng, args.tz, args.gender)
+                                args.lat, args.lng, args.tz, args.gender, args.ayanamsa)
     print(result)
 
 

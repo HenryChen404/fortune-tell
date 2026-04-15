@@ -2,8 +2,47 @@
 """八字五行排盘脚本 — 基于 lunar_python"""
 
 import argparse
+import math
 import sys
+from datetime import datetime
 from lunar_python import Solar
+
+
+def true_solar_time(year, month, day, hour, minute, lng):
+    """将钟表时间（北京时间等标准时区时间）转换为真太阳时。
+
+    真太阳时 = 钟表时间 + 经度时差修正 + 均时差修正
+    - 经度时差: 4分钟 × (出生地经度 - 标准经度120°)
+    - 均时差(Equation of Time): 由一年中的日序数计算
+    """
+    # 经度时差修正（中国标准时间基准经度为120°E）
+    lng_correction = 4.0 * (lng - 120.0)  # 分钟
+
+    # 均时差修正
+    dt = datetime(year, month, day)
+    day_of_year = dt.timetuple().tm_yday
+    b = 2 * math.pi * (day_of_year - 81) / 365.0
+    eot = 9.87 * math.sin(2 * b) - 7.53 * math.cos(b) - 1.5 * math.sin(b)  # 分钟
+
+    # 总修正量（分钟）
+    total_correction = lng_correction + eot
+
+    # 换算
+    total_minutes = hour * 60 + minute + total_correction
+    # 处理跨日
+    if total_minutes < 0:
+        total_minutes += 1440
+        # 需要回退一天
+        from datetime import timedelta
+        dt2 = datetime(year, month, day) - timedelta(days=1)
+        return dt2.year, dt2.month, dt2.day, int(total_minutes // 60), int(total_minutes % 60)
+    elif total_minutes >= 1440:
+        total_minutes -= 1440
+        from datetime import timedelta
+        dt2 = datetime(year, month, day) + timedelta(days=1)
+        return dt2.year, dt2.month, dt2.day, int(total_minutes // 60), int(total_minutes % 60)
+
+    return year, month, day, int(total_minutes // 60), int(total_minutes % 60)
 
 
 WUXING_MAP = {
@@ -13,21 +52,6 @@ WUXING_MAP = {
     '巳': '火', '午': '火', '未': '土', '申': '金', '酉': '金',
     '戌': '土', '亥': '水',
 }
-
-
-def hour_minute_to_shichen(hour, minute):
-    """将时分转换为时辰描述"""
-    total = hour * 60 + minute
-    shichen = [
-        (0, '早子'), (60, '丑'), (180, '寅'), (300, '卯'),
-        (420, '辰'), (540, '巳'), (660, '午'), (780, '未'),
-        (900, '申'), (1020, '酉'), (1140, '戌'), (1260, '亥'), (1380, '晚子'),
-    ]
-    name = '早子'
-    for start, n in shichen:
-        if total >= start:
-            name = n
-    return name
 
 
 def count_wuxing(ba):
@@ -47,8 +71,12 @@ def get_hidden_gan_str(hide_gan_list):
     return '、'.join(f'{g}({WUXING_MAP.get(g, "")})' for g in hide_gan_list)
 
 
-def generate_bazi_md(year, month, day, hour, minute, gender):
-    solar = Solar(year, month, day, hour, minute, 0)
+def generate_bazi_md(year, month, day, hour, minute, gender, lng=120.0):
+    # 真太阳时校正
+    t_year, t_month, t_day, t_hour, t_minute = true_solar_time(
+        year, month, day, hour, minute, lng
+    )
+    solar = Solar(t_year, t_month, t_day, t_hour, t_minute, 0)
     lunar = solar.getLunar()
     ba = lunar.getEightChar()
     is_male = gender.lower() in ('male', '男', 'm')
@@ -63,6 +91,9 @@ def generate_bazi_md(year, month, day, hour, minute, gender):
     lines.append('## 基本信息')
     lines.append('')
     lines.append(f'- 性别: {"男" if is_male else "女"}')
+    lines.append(f'- 钟表时间: {year}-{month:02d}-{day:02d} {hour:02d}:{minute:02d}')
+    lines.append(f'- 真太阳时: {t_year}-{t_month:02d}-{t_day:02d} {t_hour:02d}:{t_minute:02d}')
+    lines.append(f'- 出生经度: {lng}°E')
     lines.append(f'- 日主: {day_gan}（{day_gan_wuxing}）')
     lines.append(f'- 命宫: {ba.getDay()}日')
     lines.append('')
@@ -97,13 +128,18 @@ def generate_bazi_md(year, month, day, hour, minute, gender):
     lines.append(f'| 时干 | {ba.getTime()[0]} | {ba.getTimeShiShenGan()} |')
     lines.append('')
 
-    # 地支十神
-    lines.append('| 位置 | 地支 | 十神 |')
-    lines.append('|------|------|------|')
-    lines.append(f'| 年支 | {ba.getYear()[1]} | {ba.getYearShiShenZhi()[0] if ba.getYearShiShenZhi() else ""} |')
-    lines.append(f'| 月支 | {ba.getMonth()[1]} | {ba.getMonthShiShenZhi()[0] if ba.getMonthShiShenZhi() else ""} |')
-    lines.append(f'| 日支 | {ba.getDay()[1]} | {ba.getDayShiShenZhi()[0] if ba.getDayShiShenZhi() else ""} |')
-    lines.append(f'| 时支 | {ba.getTime()[1]} | {ba.getTimeShiShenZhi()[0] if ba.getTimeShiShenZhi() else ""} |')
+    # 地支十神（含所有藏干）
+    lines.append('| 位置 | 地支 | 十神（藏干） |')
+    lines.append('|------|------|------------|')
+    zhi_shishen = [
+        ('年支', ba.getYear()[1], ba.getYearShiShenZhi()),
+        ('月支', ba.getMonth()[1], ba.getMonthShiShenZhi()),
+        ('日支', ba.getDay()[1], ba.getDayShiShenZhi()),
+        ('时支', ba.getTime()[1], ba.getTimeShiShenZhi()),
+    ]
+    for label, zhi, ss_list in zhi_shishen:
+        ss_str = '、'.join(ss_list) if ss_list else ''
+        lines.append(f'| {label} | {zhi} | {ss_str} |')
     lines.append('')
 
     # 五行统计
@@ -156,10 +192,11 @@ def main():
     parser.add_argument('--day', type=int, required=True)
     parser.add_argument('--hour', type=int, required=True)
     parser.add_argument('--minute', type=int, default=0)
+    parser.add_argument('--lng', type=float, default=120.0, help='出生地经度，用于真太阳时校正（默认120°E）')
     parser.add_argument('--gender', type=str, required=True, help='male/female/男/女')
     args = parser.parse_args()
 
-    result = generate_bazi_md(args.year, args.month, args.day, args.hour, args.minute, args.gender)
+    result = generate_bazi_md(args.year, args.month, args.day, args.hour, args.minute, args.gender, args.lng)
     print(result)
 
 

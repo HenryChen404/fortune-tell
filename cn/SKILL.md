@@ -5,7 +5,7 @@ description: >
   触发词：算命、运势、命理、八字、紫微、星盘、吠陀、运程、流年、大运、
   事业运、财运、感情运、健康运、命格、命盘、fortune、horoscope、astrology、vedic、jyotish。
 metadata:
-  version: "1.1.0"
+  version: "1.2.0"
   author: "HenryChen404"
 allowed-tools: Read, Write, Edit, Bash(python3.11:*), Bash(node:*), Bash(pip3:*), Bash(python3.11 -m pip:*), Bash(npm install:*), Bash(cd:*), Bash(which:*), Bash(SCRIPTS=:*), Bash(REFS=:*), Bash(git:*)
 ---
@@ -91,32 +91,36 @@ cd "${CLAUDE_SKILL_DIR}/scripts" && npm install
 
 1. 检查环境依赖（见上方），缺失则安装
 2. 向命主询问以下信息：
-   - **必填**：出生年、月、日、时、分
+   - **必填**：出生年、月、日、时、分（公历）
    - **必填**：性别
-   - **必填**：出生地点（用于真太阳时校正、上升星座计算、吠陀占星宫位计算）
-3. 将出生地点转换为经纬度和时区（可使用常识或询问命主）
+   - **必填**：出生地点（城市名即可）
+3. 根据出生地点自行推算经纬度和时区，**不要向命主询问经纬度或时区**。规则：
+   - 经纬度：根据城市名用常识判断（如：北京 → 39.9, 116.4；上海 → 31.2, 121.5；纽约 → 40.7, -74.0）
+   - 时区字符串（西洋占星用）：如 `Asia/Shanghai`、`America/New_York`
+   - UTC 偏移数字（吠陀占星用）：如中国 → `8`、美东 → `-5`
+   - 如果城市不常见或有歧义，才向命主确认具体位置
 4. 调用排盘脚本生成命盘数据：
 
 ```bash
 SCRIPTS="${CLAUDE_SKILL_DIR}/scripts"
 REFS="${CLAUDE_SKILL_DIR}/references"
 
-# 八字五行
+# 八字五行（--lng 用于真太阳时校正）
 python3.11 "$SCRIPTS/bazi_chart.py" \
   --year YYYY --month MM --day DD --hour HH --minute MM \
-  --gender male/female > "$REFS/bazi.md"
+  --lng LNG --gender male/female > "$REFS/bazi.md"
 
-# 紫微斗数
+# 紫微斗数（--lng 用于真太阳时校正）
 node "$SCRIPTS/ziwei_chart.js" \
   --date YYYY-M-D --hour HH --minute MM \
-  --gender male/female > "$REFS/ziwei.md"
+  --lng LNG --gender male/female > "$REFS/ziwei.md"
 
-# 西洋占星
+# 西洋占星（--house-system 可选，默认 P=Placidus）
 python3.11 "$SCRIPTS/western_chart.py" \
   --year YYYY --month MM --day DD --hour HH --minute MM \
   --lat LAT --lng LNG --tz TIMEZONE_STRING > "$REFS/western-astrology.md"
 
-# 吠陀占星
+# 吠陀占星（--ayanamsa 可选，默认 LAHIRI）
 python3.11 "$SCRIPTS/vedic_chart.py" \
   --year YYYY --month MM --day DD --hour HH --minute MM \
   --lat LAT --lng LNG --tz TZ_OFFSET \
@@ -125,8 +129,11 @@ python3.11 "$SCRIPTS/vedic_chart.py" \
 
 参数说明：
 - `--lat` / `--lng`：出生地经纬度（十进制度数）
+- `--lng`（八字/紫微）：出生地经度，用于真太阳时校正。**必须传入**，否则默认120°E（上海）
 - `--tz`：西洋占星用时区字符串（如 `Asia/Shanghai`），吠陀用 UTC 偏移数字（如 `8`）
 - `--gender`：`male` 或 `female`
+- `--house-system`（西洋占星，可选）：宫位制，如 `P`(Placidus)、`K`(Koch)、`W`(Whole Sign)，默认 `P`
+- `--ayanamsa`（吠陀占星，可选）：Ayanamsa 模式，如 `LAHIRI`、`KP`、`RAMAN`，默认 `LAHIRI`
 
 5. 将原始出生信息写入 `references/birth-info.md`，格式：
 
