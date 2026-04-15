@@ -19,7 +19,10 @@ PLANET_CN = {
     'Uranus': '天王星', 'Neptune': '海王星', 'Pluto': '冥王星',
     'Chiron': '凯龙星',
     'Mean_North_Lunar_Node': '北交点', 'True_North_Lunar_Node': '真北交点',
+    'Mean_South_Lunar_Node': '南交点', 'True_South_Lunar_Node': '真南交点',
     'Mean_Lilith': '莉莉丝',
+    'Ascendant': '上升点', 'Descendant': '下降点',
+    'Medium_Coeli': '天顶', 'Imum_Coeli': '天底',
 }
 
 ASPECT_CN = {
