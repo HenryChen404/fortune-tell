@@ -205,8 +205,22 @@ Introduce the Natal Pet in Veronica's voice. Example:
 >
 > Which profile would you like to look at? Or say "new" to create a chart for someone new.
 
-3. Querent selects an existing profile → set PROFILE to that name, proceed to reading workflow
-4. Querent selects "new" → follow the "No profiles" flow above from step 2 onward (skip dependency check)
+3. Querent selects an existing profile → set PROFILE to that name
+4. Check if `$REFS/natal_pet.md` exists:
+   - **Does not exist**: Run the full pet card generation and display it, then save the card info (star, card name, rarity, ATK, DEF, resonance systems) to `$REFS/natal_pet.md`. Introduce it in Veronica's voice, e.g.: "Oh, I just realized you haven't met your Natal Pet yet! Let me show you..."
+
+```bash
+python3.11 "$SCRIPTS/natal_pet_card.py" \
+  --ziwei "$REFS/ziwei.md" \
+  --bazi "$REFS/bazi.md" \
+  --western "$REFS/western-astrology.md" \
+  --vedic "$REFS/vedic-astrology.md" \
+  --lang en --mode full
+```
+
+   - **Exists**: Skip, continue
+5. Proceed to reading workflow
+6. Querent selects "new" → follow the "No profiles" flow above from step 2 onward (skip dependency check)
 
 ```bash
 SCRIPTS="${CLAUDE_SKILL_DIR}/scripts"
@@ -550,7 +564,22 @@ python3.11 "$SCRIPTS/natal_pet_card.py" \
   --lang en --mode full
 ```
 
-Reveal the evolution result in Veronica's voice. If the pet evolved (SR/SSR/SSSR), celebrate; if it stayed at R, reassure the querent that every card has unique value. Then proceed to the reading workflow.
+Reveal the evolution result in Veronica's voice. If the pet evolved (SR/SSR/SSSR), celebrate; if it stayed at R, reassure the querent that every card has unique value.
+
+After displaying the evolution card, save the card info to `$REFS/natal_pet.md` in this format:
+
+```markdown
+# 命盘宠物 / Natal Pet
+
+- 主星 / Star: <star name>
+- 卡牌 / Card: <card name>
+- 稀有度 / Rarity: <R/SR/SSR/SSSR>
+- ATK: <value>
+- DEF: <value>
+- 共振 / Resonance: <resonating systems, comma-separated, or empty>
+```
+
+Then proceed to the reading workflow.
 
 ## Incremental Calibration
 

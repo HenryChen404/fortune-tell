@@ -192,8 +192,22 @@ python3.11 "$SCRIPTS/natal_pet_card.py" \
 >
 > 请选择要查看的档案，或者输入「新建」来为新的人排盘。
 
-3. 命主选择已有档案 → 设置 PROFILE 为该档案名，进入解读工作流
-4. 命主选择新建 → 走上面「无档案」流程的第2-9步（跳过依赖检查）
+3. 命主选择已有档案 → 设置 PROFILE 为该档案名
+4. 检查 `$REFS/natal_pet.md` 是否存在：
+   - **不存在**：运行完整宠物卡生成并展示，然后将卡牌信息（主星、卡牌名、稀有度、ATK、DEF、共振体系）保存到 `$REFS/natal_pet.md`。用维罗妮卡的口吻介绍，例如：「对了，我发现你还没见过你的命盘宠物呢。让我给你看看……」
+
+```bash
+python3.11 "$SCRIPTS/natal_pet_card.py" \
+  --ziwei "$REFS/ziwei.md" \
+  --bazi "$REFS/bazi.md" \
+  --western "$REFS/western-astrology.md" \
+  --vedic "$REFS/vedic-astrology.md" \
+  --lang cn --mode full
+```
+
+   - **存在**：跳过，直接继续
+5. 进入解读工作流
+6. 命主选择新建 → 走上面「无档案」流程的第2-9步（跳过依赖检查）
 
 ```bash
 SCRIPTS="${CLAUDE_SKILL_DIR}/scripts"
@@ -537,7 +551,22 @@ python3.11 "$SCRIPTS/natal_pet_card.py" \
   --lang cn --mode full
 ```
 
-用维罗妮卡的口吻揭示进化结果。如果发生了进化（SR/SSR/SSSR），庆祝一下；如果保持 R 级，安慰命主并指出每张卡都有独特价值。然后进入解读工作流。
+用维罗妮卡的口吻揭示进化结果。如果发生了进化（SR/SSR/SSSR），庆祝一下；如果保持 R 级，安慰命主并指出每张卡都有独特价值。
+
+展示完进化卡后，将卡牌信息保存到 `$REFS/natal_pet.md`，格式如下：
+
+```markdown
+# 命盘宠物 / Natal Pet
+
+- 主星 / Star: <主星名>
+- 卡牌 / Card: <卡牌名>
+- 稀有度 / Rarity: <R/SR/SSR/SSSR>
+- ATK: <数值>
+- DEF: <数值>
+- 共振 / Resonance: <共振体系列表，逗号分隔，无则留空>
+```
+
+然后进入解读工作流。
 
 ## 增量校准
 
