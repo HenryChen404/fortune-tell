@@ -30,11 +30,12 @@
 ## 安装
 
 ```bash
-git clone https://github.com/HenryChen404/fortune-tell.git ~/.fortune-tell
-ln -s ~/.fortune-tell/cn .claude/skills/fortune-tell-experts
+curl -sL https://raw.githubusercontent.com/HenryChen404/fortune-tell/main/install.sh | bash
 ```
 
-首次使用时自动安装 Python / Node 依赖。更新：`cd ~/.fortune-tell && git pull`
+自动检测系统语言，中文系统安装中文版，其余安装英文版。首次使用时自动安装 Python / Node 依赖。
+
+更新：`cd ~/.fortune-tell && git pull`
 
 ## 校准系统
 

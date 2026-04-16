@@ -30,11 +30,12 @@ Same idea as ensemble methods in ML: **multiple weak classifiers voting is more 
 ## Installation
 
 ```bash
-git clone https://github.com/HenryChen404/fortune-tell.git ~/.fortune-tell
-ln -s ~/.fortune-tell/en .claude/skills/fortune-tell-experts
+curl -sL https://raw.githubusercontent.com/HenryChen404/fortune-tell/main/install.sh | bash
 ```
 
-Dependencies are auto-installed on first use. Update with `cd ~/.fortune-tell && git pull`.
+Auto-detects system language (Chinese → cn, otherwise → en). Dependencies are auto-installed on first use.
+
+Update: `cd ~/.fortune-tell && git pull`
 
 ## Calibration System
 
