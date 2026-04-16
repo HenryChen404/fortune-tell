@@ -44,10 +44,10 @@ class Colors:
     BOLD = '\033[1m'
 
     # Rarity colors
-    R_BORDER = '\033[37m'       # White
-    R_NAME = '\033[1;37m'       # Bold white
-    SR_BORDER = '\033[36m'      # Cyan
-    SR_NAME = '\033[1;36m'      # Bold cyan
+    R_BORDER = '\033[90m'       # Gray
+    R_NAME = '\033[1;90m'       # Bold gray
+    SR_BORDER = '\033[32m'      # Green
+    SR_NAME = '\033[1;32m'      # Bold green
     SSR_BORDER = '\033[35m'     # Magenta
     SSR_NAME = '\033[1;35m'     # Bold magenta
     SSSR_BORDER = '\033[33m'    # Gold/Yellow
@@ -95,20 +95,17 @@ CARD_DATA = {
             "under its light carry the bearing of kings.",
         ],
         "art": [
-            r"                    ____ /|",
-            r"              _.--'     / |",
-            r"          _.-'    /\   /  |",
-            r"        .'  \    /  \_/   /",
-            r"       /  /\ \  / /\ \   /",
-            r"      /  /  \ \/\/  |\\_/",
-            r"     /  / /| \  /  / ||",
-            r"    |  / / |  \/  /  ||",
-            r"    | / /  |  |\_/   ||",
-            r"    |/ /   | /  /\   ||",
-            r"    | /   _|/  /  \  ||",
-            r"    |/  .'   \/    \_/|",
-            r"     \_/  ~~  \  ~~   |",
-            r"      ~~~~~~~~ \~~~~~~",
+            r"          /|    /| ",
+            r"         / |   / | ",
+            r"     ___/  |__/  | ",
+            r"    /  o        / ",
+            r"    | \/\/\/\  / ",
+            r"     \_      _/ ",
+            r"       \    / ",
+            r"        \  / ",
+            r"        _\/ ",
+            r"       /\/\ ",
+            r"    ~ ~ ~ ~ ~ ~ ~ ~ ~ ",
         ],
     },
     "天机": {
@@ -126,20 +123,18 @@ CARD_DATA = {
             "calculating the myriad patterns of fate.",
         ],
         "art": [
-            r"              /\_/\ ",
-            r"             / o o \    /|",
-            r"            (  >w<  )  / |",
-            r"             \  -  /  /  /",
-            r"            __|   |_/ _/",
-            r"           / _     _ /",
-            r"          / / \   / \ ",
-            r"         / /   | |   \_",
-            r"     _  / /    | |  _  \_",
-            r"    / \/ /     | | / \_  \ ",
-            r"   /   \/    __|_|/    \  |",
-            r"  /   /  \__/     \   _/ /",
-            r"  \__/  ~ ~ ~ ~ ~ \_/  /",
-            r"   ~ ~ ~ ~ ~ ~ ~ ~ ~ ~",
+            r"        /\ ",
+            r"       /  \ ",
+            r"      / o  | ",
+            r"      |   _/ ",
+            r"       \_/ ",
+            r"       / \ ",
+            r"      /   \___ ",
+            r"     |   ////  \ ",
+            r"     |  /////   | ",
+            r"      \_/////  / ",
+            r"        \_____/ ",
+            r"    ~ ~ ~ ~ ~ ~ ~ ~ ~ ",
         ],
     },
     "太阳": {
@@ -157,51 +152,46 @@ CARD_DATA = {
             "fills every corner and all things flourish.",
         ],
         "art": [
-            r"             \  |  /",
-            r"          --- \.|./ ---",
-            r"         /   /(   )\   \ ",
-            r"        /   / (o o) \   \ ",
-            r"       /   /  ( ^ )  \   \ ",
-            r"      /  _/  / \_/ \  \_  \ ",
-            r"     / _/ \_/       \_/ \_ \ ",
-            r"    /_/  _/    / \    \_  \_\ ",
-            r"   / \__/ \   / | \   / \__/ \ ",
-            r"  /  /     \_/  |  \_/     \  \ ",
-            r" /  /     _/    |    \_     \  \ ",
-            r"/  /    _/      |      \_    \  \ ",
-            r"\  \  /    ~ ~ ~ ~ ~ ~   \  /  /",
-            r" \__\/  ~ ~ ~ ~ ~ ~ ~ ~  \/__/",
+            r"          _ ",
+            r"         /o \__ ",
+            r"        / //   \ ",
+            r"       / //     \ ",
+            r"       |/       | ",
+            r"       \       _/ ",
+            r"        \_____/________ ",
+            r"         \ / / / / / / ",
+            r"          \/ / / / / / ",
+            r"           \__________/ ",
+            r"    ~ ~ ~ ~ ~ ~ ~ ~ ~ ",
         ],
     },
     "武曲": {
-        "name_cn": "铁麟·武曲", "name_en": "Iron Qilin",
+        "name_cn": "铁骏·武曲", "name_en": "Iron Steed",
         "element": "金", "element_en": "Metal",
         "base_atk": 2600, "base_def": 2400,
         "desc_cn": [
-            "武曲星化身铁麒麟，",
-            "浑身鳞甲如精金铸成，踏地则金石俱震。",
+            "武曲星化身铁骏，",
+            "钢鬃如刃，铁蹄踏地则金石俱震。",
             "命得武曲者，刚毅果决，财帛丰厚。",
         ],
         "desc_en": [
-            "The Warrior Star forges itself into an Iron",
-            "Qilin, its scales wrought of pure metal.",
-            "Where it treads, gold and stone tremble.",
+            "The Warrior Star gallops forth as an Iron",
+            "Steed, its steel mane like blades, its",
+            "hooves shaking gold and stone alike.",
         ],
         "art": [
-            r"            /\      /|",
-            r"           /  \    / |",
-            r"       /\_/  o \__/  |",
-            r"      / /  \  __/\  _/",
-            r"     / / /\ \/    \/",
-            r"    | | |  | |  /| |",
-            r"    | | |  | | / | |",
-            r"    | |_|  |_|/  |_|",
-            r"    |/ /   / /  / /|",
-            r"    / /   / /  / / |",
-            r"   / /___/ /__/ /  |",
-            r"  /_/===/_/==/_/ __|",
-            r"  |_|   |_|  |_|/",
-            r"  ~~~~~~~~~~~~~~~~",
+            r"            __ ",
+            r"           //\ ",
+            r"          // | ",
+            r"         / o  \____ ",
+            r"        |  /  /   _/ ",
+            r"         \/  / __/ ",
+            r"     /\   \_/ / ",
+            r"    /  \   | / ",
+            r"    |   |  | | ",
+            r"    |   |  | | ",
+            r"    |___|  |_| ",
+            r"    ~ ~ ~ ~ ~ ~ ~ ~ ~ ",
         ],
     },
     "天同": {
@@ -219,20 +209,18 @@ CARD_DATA = {
             "Wherever it passes, all things find peace.",
         ],
         "art": [
-            r"              \|/    \|/",
-            r"            ___\______/___",
-            r"           /   (  ..  )   \ ",
-            r"          |    ( (__) )    |",
-            r"           \___ \    / ___/",
-            r"               '----'",
-            r"               |    |",
-            r"          /\   |    |   /\ ",
-            r"         /  \  |    |  /  \ ",
-            r"        / /\ \ |    | / /\ \ ",
-            r"       / /  \_\|    |/_/  \ \ ",
-            r"      /_/      |    |      \_\ ",
-            r"   ~~~/~ ~ ~ ~ |    | ~ ~ ~ ~\~~~",
-            r"    ~/~ ~ ~ ~ ~'----'~ ~ ~ ~ ~\~",
+            r"        _/| ",
+            r"       / /| ",
+            r"      | / | ",
+            r"      |/  | ",
+            r"       \  | ",
+            r"        \_| ",
+            r"        /o \ ",
+            r"       /    \___ ",
+            r"      | - - -   \ ",
+            r"      |   - -    | ",
+            r"       \___|  |__/ ",
+            r"    ~ ~ ~ ~ ~ ~ ~ ~ ~ ",
         ],
     },
     "廉贞": {
@@ -250,20 +238,18 @@ CARD_DATA = {
             "darkness. Those it marks burn with intensity.",
         ],
         "art": [
-            r"                    __",
-            r"                _.-'  '-._",
-            r"             .-'  /\  /\  '-.",
-            r"            / \  (0 )(0 ) /  \ ",
-            r"           |   '-.\==/.--'   |",
-            r"            \     '||'      /",
-            r"          .--'-.   ||   .-'--.  ",
-            r"         /      \  ||  /      \ ",
-            r"        /    .---\_||_/---.    \ ",
-            r"       /    /     \  /     \    \ ",
-            r"      /    /   .--'\/'--. _ \    \ ",
-            r"     |    /   /    /\   _\ \  \   |",
-            r"      \  /   /  ~~/~~\_/ ~\ \  \ /",
-            r"       ~~   ~~~ ~~~~~~~~~ ~~~  ~~",
+            r"        ______ ",
+            r"       / o    \ ",
+            r"       |       | ",
+            r"        \_    / ",
+            r"          \  / ",
+            r"          / / ",
+            r"         /\/ ",
+            r"        / / ",
+            r"       /\/ ",
+            r"      / / ",
+            r"     /__/ ",
+            r"    ~ ~ ~ ~ ~ ~ ~ ~ ~ ",
         ],
     },
     "天府": {
@@ -281,20 +267,16 @@ CARD_DATA = {
             "holding ten thousand treasures within.",
         ],
         "art": [
-            r"            _____/\_____",
-            r"          .' /\  /\  /\ '.",
-            r"         / .'  \/  \/ '. \ ",
-            r"        / / /\  /\  /\ \ \ ",
-            r"       |  |/  \/  \/  |  |",
-            r"       |  |\  /\  /\  |  |",
-            r"       |  | \/  \/  \ |  |",
-            r"     __|  |__________\| _|__",
-            r"    /  (o)            (o)   \ ",
-            r"   /  /    \________/    \   \ ",
-            r"  |  /                    \  |",
-            r"  | |  /|            |\   | |",
-            r"  \_| / |            | \  |_/",
-            r"  ~~~~~~~~~~~~~~~~~~~~~+~~~~~",
+            r"          ______ ",
+            r"         /  /\  \ ",
+            r"        / _/  \_ \ ",
+            r"        | / \/ \ | ",
+            r"         \______/ ",
+            r"      __|        |__ ",
+            r"     /o |        |  \ ",
+            r"     \__|        |__/ ",
+            r"         |__| |__| ",
+            r"    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ",
         ],
     },
     "太阴": {
@@ -312,21 +294,19 @@ CARD_DATA = {
             "clear as water. Its gaze perceives all.",
         ],
         "art": [
-            r"                       ___",
-            r"                 _.--'    '--._",
-            r"               .'    (  )      '.",
-            r"              '   .--'--'--.    '",
-            r"                .'          '.",
-            r"           __  /  /)    (\   \ ",
-            r"          /  \/  (o )  ( o)  |",
-            r"         |    |   /  --  \   |",
-            r"          \   |  (  <  >  ) /",
-            r"           \   \  '------' /",
-            r"            |   '--.  .--'",
-            r"            |      |  |",
-            r"            |      |  |",
-            r"     ~~~~~~/       |  \~~~~~~~~~",
-            r"      ~~~ / ~ ~ ~ |~ ~\ ~ ~ ~~~",
+            r"          _ ",
+            r"         /o\ ",
+            r"          | ",
+            r"         / ",
+            r"        / ",
+            r"         \ ",
+            r"          \___ ",
+            r"         / // \ ",
+            r"        | ///  | ",
+            r"         \____/ ",
+            r"           || ",
+            r"           || ",
+            r"    ~ ~ ~ ~ ~ ~ ~ ~ ~ ",
         ],
     },
     "贪狼": {
@@ -344,20 +324,18 @@ CARD_DATA = {
             "a hundred talents. Boundless ability.",
         ],
         "art": [
-            r"           /\    /\ ",
-            r"          /  \__/  \ ",
-            r"         / /(o)(o)\ \ ",
-            r"        | |  (  )  | |",
-            r"         \ \ (--) / /",
-            r"          \_\'--'/_/",
-            r"           _|    |_",
-            r"          / |    | \ ",
-            r"   _     /  |    |  \    _",
-            r"  / \   /   |    |   \  / \ ",
-            r" / _ \_/    |    |   _\/ _ \ ",
-            r"/ / \ /   __|    |__  \ / \ \ ",
-            r"\_\_//   /  '----'  \  \\/_/",
-            r" ~~~~~~~~ ~~ ~~ ~~ ~~ ~~~~~~~~",
+            r"       /\ ",
+            r"      /  | ",
+            r"     /   / ",
+            r"    /   / ",
+            r"    |o / ",
+            r"    | / ",
+            r"     \|_____ ",
+            r"     / //   \ ",
+            r"    | ///    | ",
+            r"    |  //   / ",
+            r"     \____/ ",
+            r"    ~ ~ ~ ~ ~ ~ ~ ~ ~ ",
         ],
     },
     "巨门": {
@@ -375,82 +353,73 @@ CARD_DATA = {
             "One cry shatters all illusion.",
         ],
         "art": [
-            r"           ._____.___.",
-            r"          /   .---.   \ ",
-            r"         / .'       '. \ ",
-            r"        / / /_\   /_\ \ \ ",
-            r"       | | ((@)).((@)) | |",
-            r"       |  \   \_ _/   /  |",
-            r"        \  '--. V .--'  /",
-            r"         \    '---'    /",
-            r"       /--\   .---.  /--\ ",
-            r"      / /\ \_/     \_/\ \ \ ",
-            r"     / /  \/    |    \/  \ \ ",
-            r"    /_/   |     |     |   \_\ ",
-            r"          |    / \    |",
-            r"   ~~~~~~~/   /~~~\   \~~~~~~~",
+            r"       ___     ___ ",
+            r"      /   \   /   \ ",
+            r"     | / \ | | / \ | ",
+            r"     | \o/ | | \o/ | ",
+            r"      \___/   \___/ ",
+            r"          |   | ",
+            r"          |   | ",
+            r"          |\/\| ",
+            r"          |/\/| ",
+            r"           \_/ ",
+            r"    ~ ~ ~ ~ ~ ~ ~ ~ ~ ",
         ],
     },
     "天相": {
-        "name_cn": "和鸾·天相", "name_en": "Harmony Luan",
+        "name_cn": "天鹅·天相", "name_en": "Harmony Swan",
         "element": "水", "element_en": "Water",
         "base_atk": 1800, "base_def": 2400,
         "desc_cn": [
-            "天相星化身和鸾，",
-            "百鸟之间穿行调和，不偏不倚。",
+            "天相星化身天鹅，",
+            "于碧波之上优雅游弋，不偏不倚。",
             "命得天相者，进退有度，左右逢源。",
         ],
         "desc_en": [
-            "The Minister Star takes the form of the",
-            "Harmony Luan-bird, mediating among all",
-            "creatures, perfectly balanced and impartial.",
+            "The Minister Star takes the form of a",
+            "graceful Swan gliding upon still waters,",
+            "perfectly balanced and impartial.",
         ],
         "art": [
-            r"                ___",
-            r"              .'   '.",
-            r"             / o   o \ ",
-            r"            |   .-.   |",
-            r"             \  '-'  /",
-            r"           _  '---' /\  _",
-            r"          / \  /|  /  \/ \ ",
-            r"         /   \/ | / /\   \ ",
-            r"        / /\  \ |/ /  \   \ ",
-            r"       / /  \  \| /    \   \ ",
-            r"      / /    \  | / /\  \   \ ",
-            r"     /_/      \_|/ /  \  \___\ ",
-            r"      ~~  ~~~~~~~~ ~~  ~~~~~~",
-            r"       ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~",
+            r"          _ ",
+            r"         /o\ ",
+            r"          | \ ",
+            r"           \ \ ",
+            r"            | | ",
+            r"           / | ",
+            r"          /  |___ ",
+            r"         | ////  \ ",
+            r"         |/////   | ",
+            r"    ~~~~~~\______/~~~~ ",
+            r"    ~ ~ ~ ~ ~ ~ ~ ~ ~ ",
         ],
     },
     "天梁": {
-        "name_cn": "玄武·天梁", "name_en": "Black Tortoise",
+        "name_cn": "玄龟·天梁", "name_en": "Ancient Tortoise",
         "element": "土", "element_en": "Earth",
         "base_atk": 1600, "base_def": 3200,
         "desc_cn": [
-            "天梁星化身玄武，龟蛇一体，守护四方。",
-            "命得天梁者，",
-            "阅尽沧桑，化险为夷。",
+            "天梁星化身玄龟，",
+            "阅尽沧桑，甲如磐石，守护四方。",
+            "命得天梁者，化险为夷，长者之风。",
         ],
         "desc_en": [
-            "The Wisdom Star manifests as the Black",
-            "Tortoise, turtle and serpent intertwined,",
-            "guardian of the four directions.",
+            "The Wisdom Star manifests as the Ancient",
+            "Tortoise, shell like bedrock, guardian",
+            "of the four directions across all ages.",
         ],
         "art": [
-            r"               __..---..__",
-            r"           _.-'__________'-._",
-            r"         .' /\  /\  /\  /\ '.",
-            r"        / .'  \/  \/  \/ '. \ ",
-            r"       |  | /\ /\ /\ /\ |  |",
-            r"       |  | \/ \/ \/ \/ |  |",
-            r"     __|  |______________|  |__",
-            r"    / (o)                (o)   \ ",
-            r"   / /    \____________/    \   \ ",
-            r"  | |   _    ___  ___    _   | |",
-            r"  | |  /o\  / .'\/'. \  /0\  | |",
-            r"  | |  \_/  | |    | |  \_/  | |",
-            r"  \_|  / |  \_'.__.'_/  |  \ |_/",
-            r"  ~~~~~~~~~~~~~~~~~~~~~~~~~+~~~~~",
+            r"        ___________ ",
+            r"       /  ---  ---  \ ",
+            r"      / ---  /---\  \ ",
+            r"     | ---  ---  --- | ",
+            r"     |  ---   ---    | ",
+            r"      \______________/ ",
+            r"    __|              |__ ",
+            r"   /o |              |  \ ",
+            r"   \__|              |__/ ",
+            r"       |__|      |__| ",
+            r"    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ",
         ],
     },
     "七杀": {
@@ -468,20 +437,16 @@ CARD_DATA = {
             "Those born under its sign fight to the end.",
         ],
         "art": [
-            r"       \  \ | /  /",
-            r"     ---\  \|/  /---",
-            r"        /\_/\_/\ ",
-            r"       / / o o \ \ ",
-            r"      | |  ___  | |",
-            r"      | | /   \ | |",
-            r"       \ ( === ) /",
-            r"        \_'---'_/",
-            r"        / |   | \ ",
-            r"       / /|   |\ \ ",
-            r"      / / |   | \ \ ",
-            r"     / /  |___|  \ \ ",
-            r"    /_/  /|   |\  \_\ ",
-            r"   ~~~~~/ '---' \~~~~~",
+            r"        ____ ",
+            r"       / o  \________ ",
+            r"      /  \/    |  |  \ ",
+            r"      \_    |  |  |   | ",
+            r"        \   |  |  |  / ",
+            r"         \__|__|__|_/ ",
+            r"         /  |  |  | \ ",
+            r"        |   |  |  |  | ",
+            r"        |___|  |  |__| ",
+            r"    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ",
         ],
     },
     "破军": {
@@ -499,20 +464,17 @@ CARD_DATA = {
             "Those it marks must destroy to rebuild.",
         ],
         "art": [
-            r"          \   |   /",
-            r"        -- \_.|._/ --",
-            r"           /- -\ ",
-            r"          / (o)(o)\ ",
-            r"         |   /__\  |",
-            r"      __  \  '--' /__",
-            r"     /  \__'------'__/ \ ",
-            r"    /  _/  \      /  \_  \ ",
-            r"   / _/     \    /     \_ \ ",
-            r"  /_/  /\    \  /   /\  \_\ ",
-            r"      /  \    \/   /  \ ",
-            r"     /    \   /\  /    \ ",
-            r"    /      \_/  \/      \ ",
-            r"   ~~~~~ ~ ~ /\ ~ ~ ~~~~~",
+            r"        /o\ ",
+            r"       / _/ ",
+            r"      / /______ ",
+            r"      |/       \ ",
+            r"       \        | ",
+            r"       /\    __/ ",
+            r"      /  \__/ ",
+            r"     / ///   \ ",
+            r"    | ////    | ",
+            r"     \________/ ",
+            r"    ~ ~ ~ ~ ~ ~ ~ ~ ~ ",
         ],
     },
 }
@@ -1077,6 +1039,31 @@ def _make_stars(filled, total=8):
     return '*' * filled + '.' * (total - filled)
 
 
+BAR_LEN = 20
+
+
+def _stat_bar_content(label, value, value_str, bc, use_color):
+    """Build stat bar inner content (without card border).
+
+    Returns (plain_text, colored_text) where plain_text is for width
+    calculation and colored_text has ANSI codes for display.
+    """
+    if value is not None:
+        filled = max(1, round(value / 4000 * BAR_LEN))
+    else:
+        filled = 0
+    empty = BAR_LEN - filled
+    bar_plain = '█' * filled + '░' * empty
+    plain = f"  {label} {bar_plain} {value_str}"
+    if use_color:
+        dim = '\033[90m'
+        bar_colored = '█' * filled + f"{dim}{'░' * empty}{Colors.RESET}{bc}"
+        colored = f"  {label} {bar_colored} {value_str}"
+    else:
+        colored = plain
+    return plain, colored
+
+
 def render_card(star, rarity, atk, def_val, resonances, lang='cn', use_color=True):
     """Render a full card as a list of lines."""
     card = CARD_DATA[star]
@@ -1168,12 +1155,14 @@ def render_card(star, rarity, atk, def_val, resonances, lang='cn', use_color=Tru
     sep = '─' * (W - 4)
     lines.append(f"{bc}┃  {sep}  ┃{rst}")
 
-    # ATK / DEF
-    atk_str = f"  ATK / {atk}"
-    def_str = f"DEF / {def_val}  "
-    mid_pad = W - display_width(atk_str) - display_width(def_str)
-    stat_line = atk_str + ' ' * mid_pad + def_str
-    lines.append(f"{bc}┃{pad_to_width(stat_line, W)}┃{rst}")
+    # ATK / DEF stat bars
+    atk_plain, atk_colored = _stat_bar_content('ATK', atk, str(atk), bc, use_color)
+    atk_pad = ' ' * max(0, W - display_width(atk_plain))
+    lines.append(f"{bc}┃{atk_colored}{atk_pad}┃{rst}")
+
+    def_plain, def_colored = _stat_bar_content('DEF', def_val, str(def_val), bc, use_color)
+    def_pad = ' ' * max(0, W - display_width(def_plain))
+    lines.append(f"{bc}┃{def_colored}{def_pad}┃{rst}")
 
     # Resonance
     res_dots = ''
@@ -1270,12 +1259,14 @@ def render_preview(star, lang='cn', use_color=True):
     sep = '─' * (W - 4)
     lines.append(f"{dim}{bc}┃  {sep}  ┃{rst}")
 
-    # ATK / DEF (hidden)
-    atk_str = "  ATK / ????"
-    def_str = "DEF / ????  "
-    mid_pad = W - display_width(atk_str) - display_width(def_str)
-    stat_line = atk_str + ' ' * mid_pad + def_str
-    lines.append(f"{dim}{bc}┃{pad_to_width(stat_line, W)}┃{rst}")
+    # ATK / DEF (hidden stat bars)
+    atk_plain, atk_colored = _stat_bar_content('ATK', None, '????', bc, use_color)
+    atk_pad = ' ' * max(0, W - display_width(atk_plain))
+    lines.append(f"{dim}{bc}┃{atk_colored}{atk_pad}┃{rst}")
+
+    def_plain, def_colored = _stat_bar_content('DEF', None, '????', bc, use_color)
+    def_pad = ' ' * max(0, W - display_width(def_plain))
+    lines.append(f"{dim}{bc}┃{def_colored}{def_pad}┃{rst}")
 
     # Resonance
     res_str = "  Cross-System: ---  Resonance: R"

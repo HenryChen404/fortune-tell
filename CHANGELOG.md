@@ -1,5 +1,26 @@
 # Changelog
 
+## 2.3.0
+
+- 命盘宠物卡 ASCII Art 全面细化：侧视图 + 特征比例夸张 + 内部结构线
+  - 5 张卡改为侧视图（狐、凤凰、鹿、玄龟·天梁、虎）
+  - 1 张保持正面（猫头鹰，眼部辨识度需要）
+  - 8 张侧视微调，增加内部线条（龙鳞、虎纹、龟壳纹、羽纹等）
+  - 天府龟 vs 天梁龟通过壳大小 + 内部纹路双重区分
+- 稀有度视觉效果增强
+  - 色阶重新设计：R 灰色 → SR 绿色 → SSR 洋红 → SSSR 金黄，梯度更清晰
+  - ATK/DEF 改为 `█░` stat bar 可视化（bar 长 20 格，按比例填充）
+  - preview 卡显示全空 stat bar + `????`
+- Natal Pet card ASCII art overhaul: side view + exaggerated features + internal detail lines
+  - 5 cards changed to side view (Fox, Phoenix, Deer, Ancient Tortoise, Tiger)
+  - 1 card kept front view (Owl, eye recognition requires it)
+  - 8 side-view cards refined with internal lines (dragon scales, tiger stripes, shell texture, feather marks, etc.)
+  - Jade Tortoise vs Ancient Tortoise differentiated by shell size + internal pattern
+- Rarity visual effects enhancement
+  - Color scheme redesigned: R gray → SR green → SSR magenta → SSSR gold, clearer gradient
+  - ATK/DEF replaced with `█░` stat bar visualization (20-segment bar, proportional fill)
+  - Preview card shows empty stat bars + `????`
+
 ## 2.2.0
 
 - 新增命盘宠物系统：排盘后自动分配一张游戏王风格的 ASCII Art 卡牌

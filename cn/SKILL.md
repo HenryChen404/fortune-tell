@@ -5,7 +5,7 @@ description: >
   触发词：算命、运势、命理、八字、紫微、星盘、吠陀、运程、流年、大运、
   事业运、财运、感情运、健康运、命格、命盘、fortune、horoscope、astrology、vedic、jyotish。
 metadata:
-  version: "2.2.0"
+  version: "2.3.0"
   author: "HenryChen404"
 allowed-tools: Read, Write, Edit, Bash(python3.11:*), Bash(node:*), Bash(pip3:*), Bash(python3.11 -m pip:*), Bash(npm install:*), Bash(cd:*), Bash(which:*), Bash(SCRIPTS=:*), Bash(REFS=:*), Bash(PROFILE=:*), Bash(ls:*), Bash(mkdir:*), Bash(mv:*), Bash(git:*)
 ---
