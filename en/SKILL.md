@@ -272,8 +272,8 @@ The number of questions has no fixed limit — generate naturally based on the q
 - Question wording must be objectively neutral — like a friend who's curious about the querent's life story, not an astrologer validating a theory
 - Options should not imply value judgments: avoid "breakthrough" vs "setback" framing; instead, describe changes in different life areas with equal weight
 
-**Principle 2: Randomized option order**
-- The options for each question must be **randomly ordered** — do not always place the most likely option first
+**Principle 2: Randomized option content assignment**
+- Labels must always be in sequential order (A, B, C, D), but the **content assigned to each label** must be randomized — do not always place the most likely option at A
 - Across different questions, similar domains (e.g., career, relationships) should appear in varying positions to avoid the querent anchoring on "the first option is always the most accurate"
 
 **Principle 3: Gamification**
@@ -289,7 +289,7 @@ Each question must satisfy:
 1. **Anchored to a specific time period**: Internally mapped to Major Luck Period/Annual Influence/Dasha, but only show the querent age and calendar years
 2. **Provide 2-4 concrete options**: Each option is a verifiable, specific life experience description, not an abstract concept
 3. **Multi-select supported**: The querent may choose multiple options (a symbol can manifest in multiple directions simultaneously). Use wording like "which of the following match your experience? (select all that apply)"
-4. **Options are randomly ordered**: Do not sort by likelihood
+4. **Option content randomly assigned**: Labels stay in A/B/C/D order, but the content assigned to each label is randomized — do not sort by likelihood
 5. **Include "Uncertain" and "None of the above" options**
 6. **Allow free-text supplement for every question**
 7. **Include a pure ASCII art sketch**
