@@ -48,6 +48,16 @@ curl -sL https://raw.githubusercontent.com/HenryChen404/fortune-tell/main/instal
 
 校准不是一次性的——后续解读中如果命主反馈不准，可以随时增量校准。
 
+## 命盘宠物
+
+排盘完成后，系统会根据紫微斗数命宫主星分配一张游戏王风格的 ASCII Art 卡牌——你的命盘宠物。14 颗主星各对应一只独特的神兽。
+
+卡牌分两步展示：
+1. **排盘后**：展示 R 级预览卡（图案被 `?` 遮罩，ATK/DEF 隐藏）
+2. **校准后**：跨体系共振扫描——八字、西洋、吠陀三套命盘中有多少与命宫主星产生共鸣，决定进化等级（R → SR → SSR → SSSR）
+
+ATK/DEF 根据命盘数据动态计算，卡牌在终端以 ANSI 色彩渲染，不同稀有度有不同视觉效果。
+
 ## 使用
 
 在 Claude Code 中直接说就行：
@@ -68,6 +78,7 @@ cn/                          # 软链接到 .claude/skills/fortune-tell-experts/
 │   ├── ziwei_chart.js     # 紫微斗数排盘
 │   ├── western_chart.py   # 西洋占星排盘
 │   ├── vedic_chart.py     # 吠陀占星排盘
+│   ├── natal_pet_card.py  # 命盘宠物卡牌生成
 │   ├── requirements.txt   # Python 依赖
 │   └── package.json       # Node 依赖
 └── references/            # (git-ignored) 生成的个人命盘数据

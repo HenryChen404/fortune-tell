@@ -48,6 +48,16 @@ After the first chart generation, the system automatically enters a calibration 
 
 Calibration is not one-time — if a reading feels off, you can always request incremental calibration.
 
+## Natal Pet
+
+After chart generation, the system assigns a Yu-Gi-Oh! style ASCII Art card based on your Zi Wei Dou Shu Life Palace main star — your Natal Pet. Each of the 14 main stars corresponds to a unique mythical creature.
+
+The card is revealed in two steps:
+1. **After charting**: An R-level preview card (art masked with `?`, ATK/DEF hidden)
+2. **After calibration**: Cross-system resonance scan — how many of BaZi, Western, and Vedic charts resonate with your Life Palace star determines the evolution level (R → SR → SSR → SSSR)
+
+ATK/DEF are dynamically calculated from chart data. Cards render in ANSI terminal colors with different visual effects per rarity.
+
 ## Usage
 
 Just talk to Claude Code:
@@ -70,6 +80,7 @@ en/                        # Symlinked to .claude/skills/fortune-tell-experts/
 │   ├── ziwei_chart.js     # Zi Wei Dou Shu chart generator
 │   ├── western_chart.py   # Western astrology chart generator
 │   ├── vedic_chart.py     # Vedic astrology chart generator
+│   ├── natal_pet_card.py  # Natal Pet card generator
 │   ├── requirements.txt   # Python deps
 │   └── package.json       # Node deps
 └── references/            # (git-ignored) Generated personal chart data

@@ -5,7 +5,7 @@ description: >
   Triggers: fortune, horoscope, astrology, vedic, jyotish, birth chart, natal chart, career luck, love life,
   算命, 运势, 命理, 八字, 紫微, 星盘, 吠陀, 命盘.
 metadata:
-  version: "2.1.1"
+  version: "2.2.0"
   author: "HenryChen404"
 allowed-tools: Read, Write, Edit, Bash(python3.11:*), Bash(node:*), Bash(pip3:*), Bash(python3.11 -m pip:*), Bash(npm install:*), Bash(cd:*), Bash(which:*), Bash(SCRIPTS=:*), Bash(REFS=:*), Bash(PROFILE=:*), Bash(ls:*), Bash(mkdir:*), Bash(mv:*), Bash(git:*)
 ---
@@ -181,7 +181,18 @@ Parameter notes:
 - Timezone: America/New_York (UTC-5)
 ```
 
-8. Proceed to the calibration phase
+8. Display the Natal Pet preview card:
+
+```bash
+python3.11 "$SCRIPTS/natal_pet_card.py" \
+  --ziwei "$REFS/ziwei.md" \
+  --lang en --mode preview
+```
+
+Introduce the Natal Pet in Veronica's voice. Example:
+> Charts are done! By the way, here's a peek at your Natal Pet — **[card name]**. It's still in R-level form for now. Once we finish calibration, if the energy from your other three chart systems resonates, it might evolve...
+
+9. Proceed to the calibration phase
 
 #### Profiles exist
 
@@ -257,14 +268,72 @@ Symbols activated during specific Major Luck Period/Dasha periods that the quere
 
 **Vedic**: Lagna lord condition, Rahu-Ketu axis, Moon Nakshatra, Rasi vs Navamsa differences, Dasha transition points
 
+#### Build Symbol Groups
+
+After identifying polysemous symbols, organize them into **symbol groups**. Each symbol group becomes the internal target for one calibration question.
+
+**Rule 1: Homologous grouping**
+Group symbols from different systems into the same group ONLY if they satisfy both conditions:
+- Condition A: Same thematic core (e.g., all point to "relationship with authority," "expression of creativity," "emotional processing pattern," etc.)
+- Condition B: Highly overlapping interpretation direction sets (i.e., a single life-experience description can meaningfully distinguish between the same directions for all symbols in the group)
+
+**Rule 2: Maximum 3 symbols per group**
+Beyond 3 symbols, the intersection of direction sets typically degenerates into overly broad descriptions. Split into multiple groups rather than force-fitting.
+
+**Rule 3: Single-system symbols can stand alone**
+If a symbol has no truly homologous counterpart in other systems (direction sets don't overlap), it should be its own group. Do not force cross-system pairing for the sake of it.
+
+**Rule 4: Different themes cannot merge**
+Even if two symbols are activated by the same time period, if their themes differ (e.g., one about "career style," another about "emotional pattern"), they must be separate symbol groups generating separate calibration questions.
+
+#### Internal Output Format (not shown to querent)
+
+After identification, internally generate the following structure to guide Step 3 question generation:
+
+```
+Symbol Group 1: [theme label, e.g., "relationship with authority"]
+- Symbol A: BaZi "Direct Officer (丙火) at Month Stem"
+- Symbol B: Western "Moon opposite Saturn (8th-2nd house)"
+- Shared direction set:
+  1. Surface compliance — rules exist, but kept own ideas inside
+  2. Direct confrontation — frequent clashes, often felt misunderstood
+  3. Emotional distance — relationship was cold, didn't share feelings
+  4. Internalized pressure — channeled external expectations into self-motivation
+- Time anchor: Yi-Wei Major Luck Period, age 13-17 (2013-2017)
+- Priority: 1 (cross-system resonance)
+
+Symbol Group 2: [theme label, e.g., "creative outlet"]
+- Symbol A: BaZi "Hurting Officer (壬水) in Month Branch"
+- Shared direction set:
+  1. Artistic/literary creation
+  2. Technical/engineering deep-dive
+  3. Social expression/verbal talent
+  4. Rebellion/rule-breaking
+- Time anchor: Yi-Wei Major Luck Period, age 13-17 (2013-2017)
+- Priority: 2 (single-system high-weight)
+```
+
 ### Step 3: Generate All Calibration Questions
 
-After reading all four charts, **internally generate all calibration questions at once**. A single question can calibrate the same symbol across multiple systems simultaneously (e.g., Seven Killings exists in both BaZi and ZiWei). Plan all questions together to ensure:
-- Questions have logical coherence (e.g., arranged chronologically from earliest to latest)
-- No redundant coverage of the same time period (unless different dimensions of symbols are involved)
-- Cross-system resonance symbols are prioritized
+Based on the Symbol Group Table from Step 2, **generate exactly one calibration question per symbol group**.
 
-The number of questions has no fixed limit — generate naturally based on the quantity and complexity of polysemous symbols in the chart.
+#### Core Rule: One Question Per Group, Options Are Directions
+
+**Rule A: One question targets one symbol group.** A single question must not cover multiple symbol groups with different themes. If two symbol groups happen to map to the same time period but have different themes, they must be two separate questions.
+
+**Rule B: Options must be the symbol group's interpretation directions.** Each option describes one possible interpretation direction of the symbol group, phrased as a concrete life experience the querent can relate to. The distinctions between options correspond to different "manifestation paths" of the same theme, not changes across different life domains.
+
+**Rule C: Time period is an anchor, not the organizing principle.** The time period appears in the question's context preamble ("When you were 13-17...") to help the querent locate memories, but the core of the question is about how they experienced a specific theme, not "what happened during that period."
+
+**Rule D: The question's theme must be specific.** Questions should focus on a recognizable life theme (e.g., "how you related to authority figures," "how you spent your free time," "how you reacted to pressure") — not a broad "your experiences during that time."
+
+#### Question Planning Requirements
+
+Building on the core rules above, plan all questions together to ensure:
+- Questions have logical coherence (e.g., arranged chronologically from earliest to latest)
+- Multiple questions for the same time period are normal and expected (corresponding to different symbol groups / different themes)
+- Cross-system resonance symbol groups are prioritized
+- The number of questions has no fixed limit — it is determined by the number of symbol groups
 
 #### Questioning Principles
 
@@ -289,62 +358,92 @@ The number of questions has no fixed limit — generate naturally based on the q
 Each question must satisfy:
 
 1. **Anchored to a specific time period**: Internally mapped to Major Luck Period/Annual Influence/Dasha, but only show the querent age and calendar years
-2. **Provide 2-4 concrete options**: Each option is a verifiable, specific life experience description, not an abstract concept
+2. **Provide 2-4 concrete options**: Each option describes a specific way of experiencing or reacting within the question's theme, corresponding to one interpretation direction of the symbol group. The distinctions between options must be "different manifestations of the same thing," not "changes across different life areas"
 3. **Multi-select supported**: The querent may choose multiple options (a symbol can manifest in multiple directions simultaneously). Use wording like "which of the following match your experience? (select all that apply)"
 4. **Option content randomly assigned**: Labels stay in A/B/C/D order, but the content assigned to each label is randomized — do not sort by likelihood
 5. **Include "Uncertain" and "None of the above" options**
 6. **Allow free-text supplement for every question**
 7. **Include a pure ASCII art sketch**
+8. **Theme focus**: The question's title or preamble must clearly name a specific life theme (e.g., "how you related to authority figures," "how you spent your free time," "how you handled pressure") — not a generic "your experiences during that period"
 
-**Good calibration question example:**
+**Good calibration question examples:**
 
-> [Q1] When you were 25-30 (around 2015-2020), which of the following match your experience? (select all that apply)
+Note: The "Internal target" and "Direction mapping" annotations below are for your reference — **do not show them to the querent**.
+
+> [Q1] When you were 13-17 (2013-2017), how did you typically relate to authority figures — parents, teachers, etc.? (select all that apply)
 >
-> A. You moved to a new city or started living abroad
-> B. You had some health issues — a surgery, an accident, or a notable illness
-> C. Your career shifted significantly — a promotion, a career change, or starting something of your own
-> D. You went through a major relationship change — falling in love, getting married, or a breakup
+> A. You mostly went along with their rules on the surface, but kept your own ideas to yourself
+> B. There were frequent clashes — you often felt misunderstood and would push back directly
+> C. The relationship was fairly distant — you didn't really share feelings with each other
+> D. They had high expectations, and you channeled that pressure into self-motivation
 >
 > **Uncertain** / **None of the above**
 > Additional notes (optional): ___
 >
 > ```
->          _____
->         /     \
->        / () () \
->        |  __   |
->         \_____/
->           /|\
->          / | \
->         /  |  \      ~  ~
->            |        ~~~~~~~
->           / \      ~~~~~~~~
->     -----     -----------------
->       25            30
+>      _____
+>     |     |          o
+>     | RULE|         /|\
+>     | BOOK|    ?    / \
+>     |_____|   /|\
+>              / | \     "I think..."
+>               / \
 > ```
-
-> [Q2] When you were 18-22 (around 2008-2012), which of the following match your experience? (select all that apply)
 >
-> A. You made an important choice about your studies or career direction
-> B. Your family went through some significant changes
-> C. You started your first job or internship — stepping into the working world
-> D. You explored something new on a spiritual level — religion, philosophy, or self-discovery
+> (Internal target: BaZi "Direct Officer (丙火) at Month Stem" x Western "Moon opposite Saturn"
+>  Direction mapping: A→surface compliance B→confrontation C→emotional distance D→internalized pressure)
+
+> [Q2] Still during ages 13-17 — how did you spend most of your free time after school? (select all that apply)
+>
+> A. You poured lots of time into a specific interest — gaming, music, drawing, coding, etc.
+> B. Mostly socializing — you liked hanging out with friends, chatting, organizing things
+> C. You preferred being alone — reading, daydreaming, thinking, not needing company
+> D. Most time went to studying, though not always by choice
 >
 > **Uncertain** / **None of the above**
 > Additional notes (optional): ___
 >
 > ```
->                   |
->          ___|___|___|___
->         |               |
->         |   UNIVERSITY  |
->         |   _       _   |
->         |  |_|     |_|  |
->         |  |_|     |_|  |
->     ____|_______._______|____
->         |   |       |   |
->     ----+---+-------+---+----
+>        ___
+>       |   |  ~~    /|
+>       | ? | ~~~   / |   *
+>       |___|~~~~  /  |  /|\
+>                 /___|
+>                 |   |
+>       after school...
 > ```
+>
+> (Internal target: BaZi "Hurting Officer (壬水) in Month Branch"
+>  Direction mapping: A→creative deep-dive B→social expression C→introspective solitude D→passive compliance)
+
+> [Q3] When you were 20-22 (2020-2022), when you felt down or under pressure, how did you usually deal with it? (select all that apply)
+>
+> A. You'd talk to someone you trust — venting helped you feel better
+> B. You carried it alone — you didn't really want others to know
+> C. You'd distract yourself — exercise, gaming, throwing yourself into work, etc.
+> D. You'd spend a lot of time thinking, analyzing your own state, trying to figure out why you felt that way
+>
+> **Uncertain** / **None of the above**
+> Additional notes (optional): ___
+>
+> ```
+>     .  *  . * .  *
+>    * .   *  .  * .
+>       \  |  /
+>        \ | /
+>     ----\|/----
+>         /|\
+>        / | \
+>       /  |  \
+>          |
+>        --+--
+>       20   22
+> ```
+>
+> (Internal target: Western "Moon conjunct Pluto in 8th" x Vedic "Moon in Scorpio Jyeshtha" x BaZi "lacks Water"
+>  Direction mapping: A→emotional externalization B→emotional suppression C→behavioral displacement D→psychological introspection)
+
+Note that Q1 and Q2 cover the same time period (ages 13-17) but target different themes (authority relationships vs. free time) — this is the correct approach.
 
 **Question types to avoid:**
 - Exposing terminology: "During your Jia-Wu Major Luck Period..." → the querent doesn't need to know what a Major Luck Period is
@@ -354,6 +453,10 @@ Each question must satisfy:
 - Indistinguishable options: "A. Career developed B. Career progressed" → same thing
 - Value-laden framing: "A. Achieved great success B. Suffered a major setback" → not neutral
 - Fixed ordering: career option always first across all questions → creates anchoring effect
+- **Life survey pattern**: "During that period, which apply? A. Moved cities B. Family changes C. Did well at school D. Personality shifted" → each option covers a different life domain, cannot discriminate any specific symbol's direction. **This is the #1 pattern to avoid**
+- **One question, many themes**: Options spanning career, relationships, health, relocation in a single question → one answer gets used to "calibrate" multiple unrelated symbols simultaneously, each calibration is low-precision guesswork
+- **Time period as subject**: The question's core is "what happened during that period" instead of "how did you experience [specific theme]" → yields an event inventory, not a direction judgment for a symbol
+- **Cross-theme indistinguishable directions**: "A. Career changed B. Relationship changed C. Inner life changed" → these are different dimensions, not different interpretation directions of the same symbol
 
 ### Step 4: Collect Answers One by One
 
@@ -436,7 +539,18 @@ Example transition phrases:
 - "Thanks for sharing — I have a much clearer picture of your life story now. Let's move on to your question."
 - "Great, those experiences really help me understand your chart better. What would you like to look at first?"
 
-After calibration is complete, proceed to the reading workflow.
+After calibration is complete, display the Natal Pet evolution card:
+
+```bash
+python3.11 "$SCRIPTS/natal_pet_card.py" \
+  --ziwei "$REFS/ziwei.md" \
+  --bazi "$REFS/bazi.md" \
+  --western "$REFS/western-astrology.md" \
+  --vedic "$REFS/vedic-astrology.md" \
+  --lang en --mode full
+```
+
+Reveal the evolution result in Veronica's voice. If the pet evolved (SR/SSR/SSSR), celebrate; if it stayed at R, reassure the querent that every card has unique value. Then proceed to the reading workflow.
 
 ## Incremental Calibration
 
