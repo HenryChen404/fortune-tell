@@ -36,6 +36,17 @@ ln -s ~/.fortune-tell/en .claude/skills/fortune-tell-experts
 
 Dependencies are auto-installed on first use. Update with `cd ~/.fortune-tell && git pull`.
 
+## Calibration System
+
+After the first chart generation, the system automatically enters a calibration phase. Many symbols in natal charts (e.g., Seven Killings, Sun in the 12th House, Rahu-Ketu axis) are polysemous — the same symbol can manifest in completely different ways for different people. Calibration solves this through retrospective verification:
+
+1. **Read all charts** and identify cross-system resonance symbols and single-system polysemous symbols
+2. **Dynamically generate questions**, each anchored to a specific Major Luck Period/Annual Influence/Dasha time period, with 2-4 verifiable options
+3. **Collect answers** — supports "Uncertain" (marked as uncalibrated) and "None of the above" (triggers follow-up questions exploring new directions); every question allows free-text supplements
+4. **Save calibration data** to each system's independent calibration file (`bazi_calibration.md`, etc.); a cross-system question's results are written to all relevant system files simultaneously
+
+Calibration is not one-time — if a reading feels off, you can always request incremental calibration.
+
 ## Usage
 
 Just talk to Claude Code:
@@ -61,6 +72,15 @@ en/                        # Symlinked to .claude/skills/fortune-tell-experts/
 │   ├── requirements.txt   # Python deps
 │   └── package.json       # Node deps
 └── references/            # (git-ignored) Generated personal chart data
+    ├── birth-info.md      # Birth information
+    ├── bazi.md            # BaZi chart
+    ├── ziwei.md           # ZiWei chart
+    ├── western-astrology.md  # Western chart
+    ├── vedic-astrology.md    # Vedic chart
+    ├── bazi_calibration.md   # BaZi calibration data
+    ├── ziwei_calibration.md  # ZiWei calibration data
+    ├── western_calibration.md # Western calibration data
+    └── vedic_calibration.md   # Vedic calibration data
 ```
 
 ## License

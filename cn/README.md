@@ -36,6 +36,17 @@ ln -s ~/.fortune-tell/cn .claude/skills/fortune-tell-experts
 
 首次使用时自动安装 Python / Node 依赖。更新：`cd ~/.fortune-tell && git pull`
 
+## 校准系统
+
+首次排盘后，系统会自动进入校准阶段。命盘中的许多意象（如七杀、太阳落12宫、Rahu-Ketu轴等）具有多义性——同一个符号在不同人身上走完全不同的方向。校准通过回溯验证来解决这个问题：
+
+1. **读取全部命盘**，识别跨体系共振意象和单体系多义意象
+2. **动态生成问题**，每个问题绑定具体的大运/流年/Dasha时间段，提供2-4个可验证的选项
+3. **收集回答**，支持"不确定"（标记为未校准）和"都不符合"（触发追问探索新方向），每题可附自由文字补充
+4. **保存校准数据**到各体系独立的校准文件（`bazi_calibration.md` 等），一个跨体系问题的结果会同时写入相关体系的文件
+
+校准不是一次性的——后续解读中如果命主反馈不准，可以随时增量校准。
+
 ## 使用
 
 在 Claude Code 中直接说就行：
@@ -59,6 +70,15 @@ cn/                          # 软链接到 .claude/skills/fortune-tell-experts/
 │   ├── requirements.txt   # Python 依赖
 │   └── package.json       # Node 依赖
 └── references/            # (git-ignored) 生成的个人命盘数据
+    ├── birth-info.md      # 出生信息
+    ├── bazi.md            # 八字命盘
+    ├── ziwei.md           # 紫微命盘
+    ├── western-astrology.md  # 西洋星盘
+    ├── vedic-astrology.md    # 吠陀星盘
+    ├── bazi_calibration.md   # 八字校准数据
+    ├── ziwei_calibration.md  # 紫微校准数据
+    ├── western_calibration.md # 西洋校准数据
+    └── vedic_calibration.md   # 吠陀校准数据
 ```
 
 ## License
