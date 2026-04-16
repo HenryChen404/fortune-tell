@@ -71,15 +71,16 @@ cn/                          # 软链接到 .claude/skills/fortune-tell-experts/
 │   ├── requirements.txt   # Python 依赖
 │   └── package.json       # Node 依赖
 └── references/            # (git-ignored) 生成的个人命盘数据
-    ├── birth-info.md      # 出生信息
-    ├── bazi.md            # 八字命盘
-    ├── ziwei.md           # 紫微命盘
-    ├── western-astrology.md  # 西洋星盘
-    ├── vedic-astrology.md    # 吠陀星盘
-    ├── bazi_calibration.md   # 八字校准数据
-    ├── ziwei_calibration.md  # 紫微校准数据
-    ├── western_calibration.md # 西洋校准数据
-    └── vedic_calibration.md   # 吠陀校准数据
+    └── <档案名>/           # 每个人一个独立档案
+        ├── birth-info.md      # 出生信息
+        ├── bazi.md            # 八字命盘
+        ├── ziwei.md           # 紫微命盘
+        ├── western-astrology.md  # 西洋星盘
+        ├── vedic-astrology.md    # 吠陀星盘
+        ├── bazi_calibration.md   # 八字校准数据
+        ├── ziwei_calibration.md  # 紫微校准数据
+        ├── western_calibration.md # 西洋校准数据
+        └── vedic_calibration.md   # 吠陀校准数据
 ```
 
 ## License

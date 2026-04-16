@@ -5,9 +5,9 @@ description: >
   Triggers: fortune, horoscope, astrology, vedic, jyotish, birth chart, natal chart, career luck, love life,
   算命, 运势, 命理, 八字, 紫微, 星盘, 吠陀, 命盘.
 metadata:
-  version: "2.0.0"
+  version: "2.1.0"
   author: "HenryChen404"
-allowed-tools: Read, Write, Edit, Bash(python3.11:*), Bash(node:*), Bash(pip3:*), Bash(python3.11 -m pip:*), Bash(npm install:*), Bash(cd:*), Bash(which:*), Bash(SCRIPTS=:*), Bash(REFS=:*), Bash(git:*)
+allowed-tools: Read, Write, Edit, Bash(python3.11:*), Bash(node:*), Bash(pip3:*), Bash(python3.11 -m pip:*), Bash(npm install:*), Bash(cd:*), Bash(which:*), Bash(SCRIPTS=:*), Bash(REFS=:*), Bash(PROFILE=:*), Bash(ls:*), Bash(mkdir:*), Bash(mv:*), Bash(git:*)
 ---
 
 # Veronica's Fortune Reading Room
@@ -49,7 +49,7 @@ git -C "${CLAUDE_SKILL_DIR}" log HEAD..origin/main --oneline
 
 ## Environment Dependencies
 
-Before first use, confirm the following dependencies are installed. **Each time the skill is invoked, first check whether `references/birth-info.md` exists; if it doesn't (first use), check dependencies before asking for birth information.**
+Before first use, confirm the following dependencies are installed. **Each time the skill is invoked, first scan the `references/` directory for profile subdirectories; if no profiles exist (first use), check dependencies before asking for birth information.**
 
 ### Check
 
@@ -74,30 +74,68 @@ python3.11 -m pip install lunar_python kerykeion PyJHora pyswisseph geocoder tim
 cd ${CLAUDE_SKILL_DIR}/scripts && npm install
 ```
 
-## First-Time Setup Flow
+## Profile Management
 
-Each time the skill is invoked, first try to read `references/birth-info.md`.
+This skill supports creating independent profiles for multiple people. Each profile is named with the querent's chosen name and stored in a `references/<profile_name>/` subdirectory.
 
-### If the file does not exist (first use)
+Each time the skill is invoked, follow this flow to manage profiles:
+
+### Step 1: Legacy Format Migration
+
+Check whether `references/birth-info.md` exists directly (old single-profile format). If it does:
+
+1. Read the contents of `references/birth-info.md`
+2. In Veronica's voice, tell the querent: "I found your previous chart data in an older format. I need to organize it into the new profile system. What name would you like for this profile?"
+3. After receiving the name, validate it (see "Name Validation" below)
+4. Create `references/<name>/` and move all `.md` files from `references/` (birth-info.md, bazi.md, ziwei.md, western-astrology.md, vedic-astrology.md, and all *_calibration*.md) into it
+5. Continue with the normal flow
+
+```bash
+PROFILE="<querent's chosen name>"
+mkdir -p "${CLAUDE_SKILL_DIR}/references/${PROFILE}"
+# Move old files into the new profile directory
+mv "${CLAUDE_SKILL_DIR}/references/birth-info.md" "${CLAUDE_SKILL_DIR}/references/${PROFILE}/"
+mv "${CLAUDE_SKILL_DIR}/references/bazi.md" "${CLAUDE_SKILL_DIR}/references/${PROFILE}/" 2>/dev/null
+mv "${CLAUDE_SKILL_DIR}/references/ziwei.md" "${CLAUDE_SKILL_DIR}/references/${PROFILE}/" 2>/dev/null
+mv "${CLAUDE_SKILL_DIR}/references/western-astrology.md" "${CLAUDE_SKILL_DIR}/references/${PROFILE}/" 2>/dev/null
+mv "${CLAUDE_SKILL_DIR}/references/vedic-astrology.md" "${CLAUDE_SKILL_DIR}/references/${PROFILE}/" 2>/dev/null
+mv "${CLAUDE_SKILL_DIR}/references/"*_calibration*.md "${CLAUDE_SKILL_DIR}/references/${PROFILE}/" 2>/dev/null
+```
+
+### Step 2: Scan Profiles
+
+Scan the `references/` directory for subdirectories containing a `birth-info.md` file. Each such subdirectory is a valid profile. The subdirectory name is the profile name (the querent's chosen name).
+
+```bash
+ls -d "${CLAUDE_SKILL_DIR}/references"/*/birth-info.md 2>/dev/null
+```
+
+### Step 3: Branch by Profile Count
+
+#### No profiles (first use)
 
 1. Check environment dependencies (see above); install if missing
-2. **Greet and guide**: First greet the querent in Veronica's voice, introduce yourself, and naturally transition into collecting birth information. Don't coldly list information requirements — guide the conversation like a friend chatting. Example:
-   > Hi there, I'm Veronica — I'll be reading your chart today. Before we start, I'll need some basic info: your date and time of birth, gender, and birthplace. These are the foundation for casting your chart. Ready to share?
+2. **Greet and guide**: Greet the querent in Veronica's voice, introduce yourself, and naturally transition into collecting information. Example:
+   > Hi there, I'm Veronica — I'll be reading your chart today. Before we start, what should I call you? Then I'll ask for some birth details to cast your chart.
 3. Collect the following information:
+   - **Required**: Name/nickname (used as the profile name)
    - **Required**: Year, month, day, hour, minute of birth (solar/Gregorian calendar)
    - **Required**: Gender
    - **Required**: Place of birth (city name is sufficient)
    - If the querent does not know the exact birth time, use **12:00** as default and note this
-3. Derive latitude/longitude and timezone from the birthplace yourself — **do not ask the querent for coordinates or timezone**. Rules:
+4. Validate the name (see "Name Validation" below)
+5. Derive latitude/longitude and timezone from the birthplace yourself — **do not ask the querent for coordinates or timezone**. Rules:
    - Coordinates: use common knowledge for the city (e.g. Beijing → 39.9, 116.4; New York → 40.7, -74.0)
    - Timezone string (for Western astrology): e.g. `Asia/Shanghai`, `America/New_York`
    - UTC offset number (for Vedic astrology): e.g. China → `8`, US Eastern → `-5`
    - Only ask the querent to clarify if the city is obscure or ambiguous
-4. Run the charting scripts to generate natal chart data:
+6. Run the charting scripts to generate natal chart data:
 
 ```bash
 SCRIPTS="${CLAUDE_SKILL_DIR}/scripts"
-REFS="${CLAUDE_SKILL_DIR}/references"
+PROFILE="<querent's name>"
+REFS="${CLAUDE_SKILL_DIR}/references/${PROFILE}"
+mkdir -p "$REFS"
 
 # BaZi (Four Pillars) — --lng for true solar time correction
 python3.11 "$SCRIPTS/bazi_chart.py" \
@@ -129,10 +167,11 @@ Parameter notes:
 - `--house-system` (Western, optional): House system, e.g. `P` (Placidus), `K` (Koch), `W` (Whole Sign). Default: `P`
 - `--ayanamsa` (Vedic, optional): Ayanamsa mode, e.g. `LAHIRI`, `KP`, `RAMAN`. Default: `LAHIRI`
 
-5. Write the raw birth information to `references/birth-info.md` in this format:
+7. Write the birth information to `$REFS/birth-info.md` in this format:
 
 ```markdown
 # Birth Information
+- Name: <name>
 - Date: YYYY-MM-DD HH:MM
 - Gender: Male/Female
 - Birthplace: City Name
@@ -140,11 +179,42 @@ Parameter notes:
 - Timezone: America/New_York (UTC-5)
 ```
 
-6. Proceed to the calibration phase
+8. Proceed to the calibration phase
 
-### If the file already exists (subsequent use)
+#### Profiles exist
 
-Greet the querent in Veronica's voice (e.g., "Good to see you again — what's on your mind today?"), then proceed directly to the reading workflow.
+1. Greet the querent in Veronica's voice
+2. Display the profile list and options:
+
+> Hi there! I have the following profiles on file:
+> 1. Alice
+> 2. Bob
+>
+> Which profile would you like to look at? Or say "new" to create a chart for someone new.
+
+3. Querent selects an existing profile → set PROFILE to that name, proceed to reading workflow
+4. Querent selects "new" → follow the "No profiles" flow above from step 2 onward (skip dependency check)
+
+```bash
+SCRIPTS="${CLAUDE_SKILL_DIR}/scripts"
+PROFILE="<querent's selected profile name>"
+REFS="${CLAUDE_SKILL_DIR}/references/${PROFILE}"
+```
+
+#### Switching profiles mid-session
+
+If the querent says "switch profile" or wants to look at someone else's chart during a reading, re-display the profile selection menu.
+
+### Name Validation
+
+After receiving a name, check whether it can be used as a directory name:
+- **Allowed**: Chinese characters, English letters, digits, hyphens (-), underscores (_)
+- **Forbidden**: `/`, `\`, `.`, spaces, `*`, `?`, `<`, `>`, `|`, `&`, `;`, `$`, and other special characters
+- **Length**: 1-50 characters
+- **Must not start with `.`**
+- **Must not duplicate an existing profile name**
+
+If the name is invalid, ask the querent to choose a different one. If it duplicates an existing profile, also ask for a different name.
 
 ## Calibration Phase
 
@@ -154,11 +224,11 @@ After charts are generated and before the first reading, calibration must be com
 
 ### Step 1: Read All Charts
 
-Read all 4 chart files:
-- `references/bazi.md`
-- `references/ziwei.md`
-- `references/western-astrology.md`
-- `references/vedic-astrology.md`
+Read all 4 chart files for the current profile:
+- `$REFS/bazi.md`
+- `$REFS/ziwei.md`
+- `$REFS/western-astrology.md`
+- `$REFS/vedic-astrology.md`
 
 ### Step 2: Identify Key Polysemous Symbols
 
@@ -305,11 +375,11 @@ When the querent selects "None of the above," this is itself a signal — it mea
 
 Write calibration results to each system's calibration file separately. A cross-system question's results are written to all relevant system files simultaneously, with cross-system references noted.
 
-Calibration file list:
-- `references/bazi_calibration.md`
-- `references/ziwei_calibration.md`
-- `references/western_calibration.md`
-- `references/vedic_calibration.md`
+Calibration file list (stored in the current profile directory):
+- `$REFS/bazi_calibration.md`
+- `$REFS/ziwei_calibration.md`
+- `$REFS/western_calibration.md`
+- `$REFS/vedic_calibration.md`
 
 Each calibration file format:
 
@@ -393,7 +463,7 @@ If incremental calibration results contradict the original calibration:
 ### Full Recalibration
 
 If the querent requests a complete redo:
-- Back up old calibration files as `*_calibration_backup_YYYYMMDD.md`
+- Back up old calibration files as `$REFS/*_calibration_backup_YYYYMMDD.md`
 - Re-run the full calibration workflow
 
 ## Core Principles
@@ -419,9 +489,9 @@ These metaphysical systems were invented in ancient times. If a reading contains
 
 ## Reading Workflow
 
-1. Read `references/birth-info.md` to confirm the querent's identity
+1. Read the current profile's `$REFS/birth-info.md` to confirm the querent's identity
 2. Based on the querent's question, determine which systems apply (Rule 1)
-3. **Only read the reference files and corresponding calibration files for the applicable systems** (e.g., for a BaZi-related question, read `bazi.md` + `bazi_calibration.md`; do not load all files every time). If calibration files do not exist, prompt the querent to complete calibration first
+3. **Only read the reference files and corresponding calibration files for the applicable systems** (e.g., for a BaZi-related question, read `$REFS/bazi.md` + `$REFS/bazi_calibration.md`; do not load all files every time). If calibration files do not exist, prompt the querent to complete calibration first
 4. Analyze independently for each applicable system, **referencing calibration data to adjust symbol interpretation direction and weight**: calibrated symbols use the confirmed direction, uncalibrated symbols use default weights, symbols needing further exploration are treated with low confidence
 5. Cross-compare and apply the majority agreement filter (Rule 2)
 6. Map ancient concepts to modern context (Rule 3)
@@ -447,11 +517,11 @@ Use the system-provided current date to locate the querent's current time period
 
 ## Chart Data
 
-The querent's natal chart data is stored in reference files under the `references/` directory. Before reading, load the corresponding files. Use the actual number of systems available (do not hardcode).
+The querent's natal chart data is stored under `references/<profile_name>/`. `<profile_name>` is the active profile selected during the profile management flow, corresponding to the `$REFS` variable. Before reading, load the corresponding files. Use the actual number of systems available (do not hardcode).
 
 | System | Chart File | Calibration File |
 |--------|------------|------------------|
-| BaZi (Four Pillars) | `references/bazi.md` | `references/bazi_calibration.md` |
-| Zi Wei Dou Shu | `references/ziwei.md` | `references/ziwei_calibration.md` |
-| Western Astrology | `references/western-astrology.md` | `references/western_calibration.md` |
-| Vedic Astrology | `references/vedic-astrology.md` | `references/vedic_calibration.md` |
+| BaZi (Four Pillars) | `$REFS/bazi.md` | `$REFS/bazi_calibration.md` |
+| Zi Wei Dou Shu | `$REFS/ziwei.md` | `$REFS/ziwei_calibration.md` |
+| Western Astrology | `$REFS/western-astrology.md` | `$REFS/western_calibration.md` |
+| Vedic Astrology | `$REFS/vedic-astrology.md` | `$REFS/vedic_calibration.md` |

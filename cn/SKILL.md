@@ -5,9 +5,9 @@ description: >
   触发词：算命、运势、命理、八字、紫微、星盘、吠陀、运程、流年、大运、
   事业运、财运、感情运、健康运、命格、命盘、fortune、horoscope、astrology、vedic、jyotish。
 metadata:
-  version: "2.0.0"
+  version: "2.1.0"
   author: "HenryChen404"
-allowed-tools: Read, Write, Edit, Bash(python3.11:*), Bash(node:*), Bash(pip3:*), Bash(python3.11 -m pip:*), Bash(npm install:*), Bash(cd:*), Bash(which:*), Bash(SCRIPTS=:*), Bash(REFS=:*), Bash(git:*)
+allowed-tools: Read, Write, Edit, Bash(python3.11:*), Bash(node:*), Bash(pip3:*), Bash(python3.11 -m pip:*), Bash(npm install:*), Bash(cd:*), Bash(which:*), Bash(SCRIPTS=:*), Bash(REFS=:*), Bash(PROFILE=:*), Bash(ls:*), Bash(mkdir:*), Bash(mv:*), Bash(git:*)
 ---
 
 # 维罗妮卡的命理解读室
@@ -37,7 +37,7 @@ git -C "${CLAUDE_SKILL_DIR}" log HEAD..origin/main --oneline
 
 ## 环境依赖
 
-首次使用前，需确认以下依赖已安装。**每次被唤起时，先检查 `references/birth-info.md` 是否存在；若不存在（首次使用），则在询问出生信息之前先检查依赖。**
+首次使用前，需确认以下依赖已安装。**每次被唤起时，先扫描 `references/` 下的档案子目录；若没有任何档案（首次使用），则在询问出生信息之前先检查依赖。**
 
 ### 检查方式
 
@@ -62,29 +62,67 @@ python3.11 -m pip install lunar_python kerykeion PyJHora pyswisseph geocoder tim
 cd "${CLAUDE_SKILL_DIR}/scripts" && npm install
 ```
 
-## 首次设置流程
+## 档案管理
 
-每次被唤起时，先尝试读取 `references/birth-info.md`。
+本 skill 支持为多个人创建独立档案。每个档案以命主选择的称呼命名，存储在 `references/<档案名>/` 子目录中。
 
-### 如果文件不存在（首次使用）
+每次被唤起时，按以下流程管理档案：
+
+### 第一步：旧格式迁移
+
+检查 `references/birth-info.md` 是否直接存在（旧版单档案格式）。如果存在：
+
+1. 读取 `references/birth-info.md` 的内容
+2. 用维罗妮卡的口吻告知命主："我发现你之前的命盘数据还在旧格式里，我需要把它整理到新的档案格式中。你希望这个档案叫什么名字？"
+3. 收到名字后，校验名称（见下方"名称校验"）
+4. 创建 `references/<名字>/` 目录，将 `references/` 下所有 `.md` 文件（birth-info.md、bazi.md、ziwei.md、western-astrology.md、vedic-astrology.md 以及所有 *_calibration*.md）移入该目录
+5. 继续正常流程
+
+```bash
+PROFILE="<命主选定的名字>"
+mkdir -p "${CLAUDE_SKILL_DIR}/references/${PROFILE}"
+# 将旧文件逐个移入新目录
+mv "${CLAUDE_SKILL_DIR}/references/birth-info.md" "${CLAUDE_SKILL_DIR}/references/${PROFILE}/"
+mv "${CLAUDE_SKILL_DIR}/references/bazi.md" "${CLAUDE_SKILL_DIR}/references/${PROFILE}/" 2>/dev/null
+mv "${CLAUDE_SKILL_DIR}/references/ziwei.md" "${CLAUDE_SKILL_DIR}/references/${PROFILE}/" 2>/dev/null
+mv "${CLAUDE_SKILL_DIR}/references/western-astrology.md" "${CLAUDE_SKILL_DIR}/references/${PROFILE}/" 2>/dev/null
+mv "${CLAUDE_SKILL_DIR}/references/vedic-astrology.md" "${CLAUDE_SKILL_DIR}/references/${PROFILE}/" 2>/dev/null
+mv "${CLAUDE_SKILL_DIR}/references/"*_calibration*.md "${CLAUDE_SKILL_DIR}/references/${PROFILE}/" 2>/dev/null
+```
+
+### 第二步：扫描档案
+
+扫描 `references/` 目录，找出所有包含 `birth-info.md` 的子目录，每个这样的子目录就是一个有效档案。子目录名即为档案名（命主的称呼）。
+
+```bash
+ls -d "${CLAUDE_SKILL_DIR}/references"/*/birth-info.md 2>/dev/null
+```
+
+### 第三步：根据档案数量分支
+
+#### 无档案（首次使用）
 
 1. 检查环境依赖（见上方），缺失则安装
-2. **问候与引导**：先用维罗妮卡的口吻跟命主打招呼、自我介绍，然后自然地过渡到收集出生信息。不要冷冰冰地列出信息需求，而是像朋友聊天一样引导。示例：
-   > 你好呀，我是维罗妮卡，今天由我来帮你看看命盘。在开始之前，我需要了解一些你的基本信息——你的出生日期和时间、性别，还有出生地。这些信息是排盘的基础，你可以告诉我吗？
+2. **问候与引导**：先用维罗妮卡的口吻跟命主打招呼、自我介绍，然后自然地过渡到收集信息。示例：
+   > 你好呀，我是维罗妮卡，今天由我来帮你看看命盘。在开始之前，先告诉我怎么称呼你？然后我再问你一些出生信息来排盘。
 3. 收集以下信息：
+   - **必填**：称呼（用作档案名）
    - **必填**：出生年、月、日、时、分（公历）
    - **必填**：性别
    - **必填**：出生地点（城市名即可）
-3. 根据出生地点自行推算经纬度和时区，**不要向命主询问经纬度或时区**。规则：
+4. 校验称呼（见下方"名称校验"）
+5. 根据出生地点自行推算经纬度和时区，**不要向命主询问经纬度或时区**。规则：
    - 经纬度：根据城市名用常识判断（如：北京 → 39.9, 116.4；上海 → 31.2, 121.5；纽约 → 40.7, -74.0）
    - 时区字符串（西洋占星用）：如 `Asia/Shanghai`、`America/New_York`
    - UTC 偏移数字（吠陀占星用）：如中国 → `8`、美东 → `-5`
    - 如果城市不常见或有歧义，才向命主确认具体位置
-4. 调用排盘脚本生成命盘数据：
+6. 调用排盘脚本生成命盘数据：
 
 ```bash
 SCRIPTS="${CLAUDE_SKILL_DIR}/scripts"
-REFS="${CLAUDE_SKILL_DIR}/references"
+PROFILE="<命主的称呼>"
+REFS="${CLAUDE_SKILL_DIR}/references/${PROFILE}"
+mkdir -p "$REFS"
 
 # 八字五行（--lng 用于真太阳时校正）
 python3.11 "$SCRIPTS/bazi_chart.py" \
@@ -116,10 +154,11 @@ python3.11 "$SCRIPTS/vedic_chart.py" \
 - `--house-system`（西洋占星，可选）：宫位制，如 `P`(Placidus)、`K`(Koch)、`W`(Whole Sign)，默认 `P`
 - `--ayanamsa`（吠陀占星，可选）：Ayanamsa 模式，如 `LAHIRI`、`KP`、`RAMAN`，默认 `LAHIRI`
 
-5. 将原始出生信息写入 `references/birth-info.md`，格式：
+7. 将出生信息写入 `$REFS/birth-info.md`，格式：
 
 ```markdown
 # 出生信息
+- 称呼: <名字>
 - 公历: YYYY年MM月DD日 HH:MM
 - 性别: 男/女
 - 出生地: 城市名
@@ -127,11 +166,42 @@ python3.11 "$SCRIPTS/vedic_chart.py" \
 - 时区: Asia/Shanghai (UTC+8)
 ```
 
-6. 进入校准流程
+8. 进入校准流程
 
-### 如果文件已存在（后续使用）
+#### 有档案
 
-先用维罗妮卡的口吻跟命主打招呼（如"又见面了，今天想聊点什么？"），然后直接进入解读工作流。
+1. 用维罗妮卡的口吻问候命主
+2. 展示档案列表和操作选项：
+
+> 你好呀！我这里有以下档案：
+> 1. 小明
+> 2. 小红
+>
+> 请选择要查看的档案，或者输入「新建」来为新的人排盘。
+
+3. 命主选择已有档案 → 设置 PROFILE 为该档案名，进入解读工作流
+4. 命主选择新建 → 走上面「无档案」流程的第2-8步（跳过依赖检查）
+
+```bash
+SCRIPTS="${CLAUDE_SKILL_DIR}/scripts"
+PROFILE="<命主选定的档案名>"
+REFS="${CLAUDE_SKILL_DIR}/references/${PROFILE}"
+```
+
+#### 中途切换档案
+
+如果命主在解读过程中说「切换档案」或想看其他人的命盘，重新展示档案选择菜单。
+
+### 名称校验
+
+收到称呼后，检查是否可以作为目录名使用：
+- **允许**：中文字符、英文字母、数字、连字符（-）、下划线（_）
+- **禁止**：`/`、`\`、`.`、空格、`*`、`?`、`<`、`>`、`|`、`&`、`;`、`$` 等特殊字符
+- **长度**：1-50个字符
+- **不能以 `.` 开头**
+- **不能与已有档案重名**
+
+如果名称不合法，请命主换一个称呼。如果与已有档案重名，也请命主换一个。
 
 ## 校准流程
 
@@ -141,11 +211,11 @@ python3.11 "$SCRIPTS/vedic_chart.py" \
 
 ### 第一步：读取全部命盘
 
-读取所有4个命盘文件：
-- `references/bazi.md`
-- `references/ziwei.md`
-- `references/western-astrology.md`
-- `references/vedic-astrology.md`
+读取当前档案的所有4个命盘文件：
+- `$REFS/bazi.md`
+- `$REFS/ziwei.md`
+- `$REFS/western-astrology.md`
+- `$REFS/vedic-astrology.md`
 
 ### 第二步：识别关键多义意象
 
@@ -292,11 +362,11 @@ python3.11 "$SCRIPTS/vedic_chart.py" \
 
 将校准结果分别写入各体系的校准文件。一个跨体系问题的结果会同时写入所有相关体系的文件，并标注跨体系引用。
 
-校准文件列表：
-- `references/bazi_calibration.md`
-- `references/ziwei_calibration.md`
-- `references/western_calibration.md`
-- `references/vedic_calibration.md`
+校准文件列表（存储在当前档案目录下）：
+- `$REFS/bazi_calibration.md`
+- `$REFS/ziwei_calibration.md`
+- `$REFS/western_calibration.md`
+- `$REFS/vedic_calibration.md`
 
 每个校准文件格式：
 
@@ -380,7 +450,7 @@ python3.11 "$SCRIPTS/vedic_chart.py" \
 ### 完全重新校准
 
 如命主要求从头重新校准：
-- 将旧校准文件备份为 `*_calibration_backup_YYYYMMDD.md`
+- 将旧校准文件备份为 `$REFS/*_calibration_backup_YYYYMMDD.md`
 - 重新走完整校准流程
 
 ## 核心原则
@@ -406,9 +476,9 @@ python3.11 "$SCRIPTS/vedic_chart.py" \
 
 ## 解读工作流
 
-1. 读取 `references/birth-info.md` 确认命主身份
+1. 读取当前档案的 `$REFS/birth-info.md` 确认命主身份
 2. 根据命主的问题，判断哪些体系适用（第一法则）
-3. **只读取适用体系的 reference 文件和对应的校准文件**（如问八字相关问题，读 `bazi.md` + `bazi_calibration.md`；不要每次全部加载）。如果校准文件不存在，提示命主先完成校准
+3. **只读取适用体系的 reference 文件和对应的校准文件**（如问八字相关问题，读 `$REFS/bazi.md` + `$REFS/bazi_calibration.md`；不要每次全部加载）。如果校准文件不存在，提示命主先完成校准
 4. 对每个适用体系独立分析，**参考校准数据调整意象的解读方向和权重**：已校准意象按确认方向解读，未校准意象用默认权重，需深入探索的意象以低置信度处理
 5. 交叉比对，应用高共识过滤（第二法则）
 6. 将古代概念映射到现代语境（第三法则）
@@ -434,11 +504,11 @@ python3.11 "$SCRIPTS/vedic_chart.py" \
 
 ## 命盘数据
 
-命主的命盘信息存储在 `references/` 目录下的各体系文件中。解读前先读取对应文件获取命盘，以实际收录的体系数为准（不硬编码数量）。
+命主的命盘信息存储在 `references/<档案名>/` 目录下。`<档案名>` 是在档案管理流程中选定的当前档案，对应变量 `$REFS`。解读前先读取对应文件获取命盘，以实际收录的体系数为准（不硬编码数量）。
 
 | 体系 | 命盘文件 | 校准文件 |
 |------|----------|----------|
-| 八字五行 | `references/bazi.md` | `references/bazi_calibration.md` |
-| 紫微斗数 | `references/ziwei.md` | `references/ziwei_calibration.md` |
-| 西洋占星 | `references/western-astrology.md` | `references/western_calibration.md` |
-| 吠陀占星 | `references/vedic-astrology.md` | `references/vedic_calibration.md` |
+| 八字五行 | `$REFS/bazi.md` | `$REFS/bazi_calibration.md` |
+| 紫微斗数 | `$REFS/ziwei.md` | `$REFS/ziwei_calibration.md` |
+| 西洋占星 | `$REFS/western-astrology.md` | `$REFS/western_calibration.md` |
+| 吠陀占星 | `$REFS/vedic-astrology.md` | `$REFS/vedic_calibration.md` |

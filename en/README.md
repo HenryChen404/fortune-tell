@@ -73,15 +73,16 @@ en/                        # Symlinked to .claude/skills/fortune-tell-experts/
 │   ├── requirements.txt   # Python deps
 │   └── package.json       # Node deps
 └── references/            # (git-ignored) Generated personal chart data
-    ├── birth-info.md      # Birth information
-    ├── bazi.md            # BaZi chart
-    ├── ziwei.md           # ZiWei chart
-    ├── western-astrology.md  # Western chart
-    ├── vedic-astrology.md    # Vedic chart
-    ├── bazi_calibration.md   # BaZi calibration data
-    ├── ziwei_calibration.md  # ZiWei calibration data
-    ├── western_calibration.md # Western calibration data
-    └── vedic_calibration.md   # Vedic calibration data
+    └── <profile_name>/    # One subdirectory per person
+        ├── birth-info.md      # Birth information
+        ├── bazi.md            # BaZi chart
+        ├── ziwei.md           # ZiWei chart
+        ├── western-astrology.md  # Western chart
+        ├── vedic-astrology.md    # Vedic chart
+        ├── bazi_calibration.md   # BaZi calibration data
+        ├── ziwei_calibration.md  # ZiWei calibration data
+        ├── western_calibration.md # Western calibration data
+        └── vedic_calibration.md   # Vedic calibration data
 ```
 
 ## License
