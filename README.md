@@ -6,7 +6,7 @@
 
 Four independent systems generate charts and interpret separately. Only conclusions where the majority converge get surfaced — like a panel of experts voting, not one person guessing.
 
-## Install / 安装
+## Install
 
 ```bash
 curl -sL https://raw.githubusercontent.com/HenryChen404/fortune-tell/main/install.sh | bash
