@@ -5,7 +5,7 @@ description: >
   触发词：算命、运势、命理、八字、紫微、星盘、吠陀、运程、流年、大运、
   事业运、财运、感情运、健康运、命格、命盘、fortune、horoscope、astrology、vedic、jyotish。
 metadata:
-  version: "2.1.0"
+  version: "2.1.1"
   author: "HenryChen404"
 allowed-tools: Read, Write, Edit, Bash(python3.11:*), Bash(node:*), Bash(pip3:*), Bash(python3.11 -m pip:*), Bash(npm install:*), Bash(cd:*), Bash(which:*), Bash(SCRIPTS=:*), Bash(REFS=:*), Bash(PROFILE=:*), Bash(ls:*), Bash(mkdir:*), Bash(mv:*), Bash(git:*)
 ---
@@ -31,7 +31,9 @@ git -C "${CLAUDE_SKILL_DIR}" log HEAD..origin/main --oneline
 ```
 
 - 如果 log 输出**不为空**：告知用户有更新可用，询问是否要更新。
-  - 是 → 执行 `git -C "${CLAUDE_SKILL_DIR}" pull`，然后继续。
+  - 是 → 执行 `git -C "${CLAUDE_SKILL_DIR}" pull`，然后：
+    1. 使用 Read 工具读取 `${CLAUDE_SKILL_DIR}/SKILL.md`（磁盘上刚更新的文件）。
+    2. **重要：** 从此刻起，完全按照刚读取的新版本执行。当前 context 中的版本是更新前加载的旧版本，已过时——忽略其后续所有章节。从新版本的"环境依赖"部分开始继续执行。
   - 否 → 跳过，继续正常流程。
 - 如果 log 输出**为空**或 fetch 失败（如无网络）：静默跳过。
 
@@ -166,7 +168,18 @@ python3.11 "$SCRIPTS/vedic_chart.py" \
 - 时区: Asia/Shanghai (UTC+8)
 ```
 
-8. 进入校准流程
+8. 展示命盘宠物预览卡：
+
+```bash
+python3.11 "$SCRIPTS/natal_pet_card.py" \
+  --ziwei "$REFS/ziwei.md" \
+  --lang cn --mode preview
+```
+
+用维罗妮卡的口吻介绍命盘宠物。示例：
+> 排盘完成了。顺便给你看看你的命盘宠物——**[卡牌名]**。它目前还是 R 级的雏形。等我们完成校准，如果其他三套命盘的能量与它产生共鸣，它可能会进化哦……
+
+9. 进入校准流程
 
 #### 有档案
 
