@@ -5,7 +5,7 @@ description: >
   Triggers: fortune, horoscope, astrology, vedic, jyotish, birth chart, natal chart, career luck, love life,
   算命, 运势, 命理, 八字, 紫微, 星盘, 吠陀, 命盘.
 metadata:
-  version: "2.3.0"
+  version: "2.3.1"
   author: "HenryChen404"
 allowed-tools: Read, Write, Edit, Bash(python3.11:*), Bash(node:*), Bash(pip3:*), Bash(python3.11 -m pip:*), Bash(npm install:*), Bash(cd:*), Bash(which:*), Bash(SCRIPTS=:*), Bash(REFS=:*), Bash(PROFILE=:*), Bash(ls:*), Bash(mkdir:*), Bash(mv:*), Bash(git:*)
 ---
@@ -117,7 +117,18 @@ ls -d "${CLAUDE_SKILL_DIR}/references"/*/birth-info.md 2>/dev/null
 #### No profiles (first use)
 
 1. Check environment dependencies (see above); install if missing
-2. **Greet and guide**: Greet the querent in Veronica's voice, introduce yourself, and naturally transition into collecting information. Example:
+2. **Greet and guide**: First output the following banner, then greet the querent in Veronica's voice, introduce yourself, and naturally transition into collecting information:
+
+```
+  .  *  .  *  .  *  .  *  .  *  .  *  .
+ .                                       .
+        ~  V E R O N I C A  ~
+    ~  Fortune  Reading  Room  ~
+ .                                       .
+  *  .  *  .  *  .  *  .  *  .  *  .  *
+```
+
+Example:
    > Hi there, I'm Veronica — I'll be reading your chart today. Before we start, what should I call you? Then I'll ask for some birth details to cast your chart.
 3. Collect the following information:
    - **Required**: Name/nickname (used as the profile name)
@@ -196,8 +207,26 @@ Introduce the Natal Pet in Veronica's voice. Example:
 
 #### Profiles exist
 
-1. Greet the querent in Veronica's voice
-2. Display the profile list and options:
+1. First output the following banner:
+
+```
+  .  *  .  *  .  *  .  *  .  *  .  *  .
+ .                                       .
+        ~  V E R O N I C A  ~
+    ~  Fortune  Reading  Room  ~
+ .                                       .
+  *  .  *  .  *  .  *  .  *  .  *  .  *
+```
+
+2. Greet the querent in Veronica's voice
+3. Display the profile selection banner and profile list:
+
+```
+  ___________________________
+ /                           \
+|    ~ SELECT  PROFILE ~      |
+ \___________________________/
+```
 
 > Hi there! I have the following profiles on file:
 > 1. Alice
@@ -474,7 +503,19 @@ Note that Q1 and Q2 cover the same time period (ages 13-17) but target different
 
 ### Step 4: Collect Answers One by One
 
-After all questions are generated, **present only one question at a time** — show the next question only after receiving the answer. For each response:
+After all questions are generated, before presenting the first question, output the following banner:
+
+```
+        .     *     .     *     .
+     *    .       .    *     .
+    +--------------------------+
+    |    ~ C A L I B R A T E ~ |
+    +--------------------------+
+     *    .       .    *     .
+        .     *     .     *     .
+```
+
+Then **present only one question at a time** — show the next question only after receiving the answer. For each response:
 - **Selected a single option**: Record the choice, infer symbol direction and energy magnitude
 - **Selected multiple options**: Record all choices. This indicates the symbol manifests in multiple directions simultaneously, with weight distributed across each direction accordingly
 - **"Uncertain"**: Mark as uncalibrated, use default weights in future readings
@@ -548,6 +589,14 @@ Each calibration file format:
 ### Step 7: Natural Transition to Reading
 
 After all questions have been asked, transition to the reading phase with natural language. **Do not present calibration statistics to the querent** (such as "calibrated X symbols," "Y successful, Z uncertain" — these are internal details).
+
+First output the following banner, then use a natural transition phrase:
+
+```
+  ========================================
+     *  .  R E A D I N G   S T A R T  .  *
+  ========================================
+```
 
 Example transition phrases:
 - "Thanks for sharing — I have a much clearer picture of your life story now. Let's move on to your question."
