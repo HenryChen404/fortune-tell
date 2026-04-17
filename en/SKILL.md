@@ -5,9 +5,9 @@ description: >
   Triggers: fortune, horoscope, astrology, vedic, jyotish, birth chart, natal chart, career luck, love life,
   算命, 运势, 命理, 八字, 紫微, 星盘, 吠陀, 命盘.
 metadata:
-  version: "2.3.1"
+  version: "2.4.0"
   author: "HenryChen404"
-allowed-tools: Read, Write, Edit, Bash(python3.11:*), Bash(node:*), Bash(pip3:*), Bash(python3.11 -m pip:*), Bash(npm install:*), Bash(cd:*), Bash(which:*), Bash(SCRIPTS=:*), Bash(REFS=:*), Bash(PROFILE=:*), Bash(ls:*), Bash(mkdir:*), Bash(mv:*), Bash(git:*)
+allowed-tools: Read, Write, Edit, AskUserQuestion, Bash(python3.11:*), Bash(node:*), Bash(pip3:*), Bash(python3.11 -m pip:*), Bash(npm install:*), Bash(cd:*), Bash(which:*), Bash(SCRIPTS=:*), Bash(REFS=:*), Bash(PROFILE=:*), Bash(ls:*), Bash(mkdir:*), Bash(mv:*), Bash(git:*)
 ---
 
 # Veronica's Fortune Reading Room
@@ -219,20 +219,17 @@ Introduce the Natal Pet in Veronica's voice. Example:
 ```
 
 2. Greet the querent in Veronica's voice
-3. Display the profile selection banner and profile list:
+3. Use the **AskUserQuestion** tool to present profile selection (structured UI):
 
-```
-  ___________________________
- /                           \
-|    ~ SELECT  PROFILE ~      |
- \___________________________/
-```
-
-> Hi there! I have the following profiles on file:
-> 1. Alice
-> 2. Bob
->
-> Which profile would you like to look at? Or say "new" to create a chart for someone new.
+   - Read each profile's `birth-info.md` to extract birth date and birthplace for the description
+   - Call AskUserQuestion with the following parameters:
+     - `question`: "Hi there! Which profile would you like to look at?"
+     - `header`: "Profile"
+     - `multiSelect`: false
+     - `options`: one option per profile (`label` = profile name, `description` = birth date + birthplace summary), **plus a final option** `label: "New profile"`, `description: "Create a chart for someone new"`
+     - AskUserQuestion requires at least 2 options, so "New profile" must be an explicit option — do not rely on the automatic "Other"
+     - If there are more than 3 profiles: show the 3 most recently used, set the 4th option to `label: "New/More"`, `description: "Create new profile or view more existing profiles"`. After selection, use "Other" for specifics
+   - Querent selects "Other" → treat as free-form input (e.g. specifying an unlisted profile name)
 
 3. Querent selects an existing profile → set PROFILE to that name
 4. Check if `$REFS/natal_pet.md` exists:
@@ -515,11 +512,23 @@ After all questions are generated, before presenting the first question, output 
         .     *     .     *     .
 ```
 
-Then **present only one question at a time** — show the next question only after receiving the answer. For each response:
+Then **present only one question at a time** — show the next question only after receiving the answer.
+
+**Presentation method:** Each calibration question is presented in two steps:
+1. First output the ASCII art sketch as plain text (for atmosphere)
+2. Then use the **AskUserQuestion** tool to collect the answer, with these parameters:
+   - `question`: The calibration question text (including time anchor and theme, e.g. "When you were 13-17 (2013-2017), how would you describe your relationship with authority figures?")
+   - `header`: "Calibrate Q1" (incrementing Q2, Q3...)
+   - `multiSelect`: true
+   - `options`: 2-4 direction options (`label` = "A"/"B"/"C"/"D", `description` = option description text)
+   - If the querent wants to select "Uncertain", "None of the above", or add notes, they can use the automatically provided "Other" option
+
+For each response:
 - **Selected a single option**: Record the choice, infer symbol direction and energy magnitude
 - **Selected multiple options**: Record all choices. This indicates the symbol manifests in multiple directions simultaneously, with weight distributed across each direction accordingly
-- **"Uncertain"**: Mark as uncalibrated, use default weights in future readings
-- **"None of the above"**: Enter the follow-up flow (Step 5)
+- **"Other" with "uncertain" or similar**: Mark as uncalibrated, use default weights in future readings
+- **"Other" with "none of the above" or similar**: Enter the follow-up flow (Step 5)
+- **"Other" with other content**: Treat as supplementary notes, record and use to assist calibration
 
 ### Step 5: Handle "None of the Above"
 

@@ -5,9 +5,9 @@ description: >
   触发词：算命、运势、命理、八字、紫微、星盘、吠陀、运程、流年、大运、
   事业运、财运、感情运、健康运、命格、命盘、fortune、horoscope、astrology、vedic、jyotish。
 metadata:
-  version: "2.3.1"
+  version: "2.4.0"
   author: "HenryChen404"
-allowed-tools: Read, Write, Edit, Bash(python3.11:*), Bash(node:*), Bash(pip3:*), Bash(python3.11 -m pip:*), Bash(npm install:*), Bash(cd:*), Bash(which:*), Bash(SCRIPTS=:*), Bash(REFS=:*), Bash(PROFILE=:*), Bash(ls:*), Bash(mkdir:*), Bash(mv:*), Bash(git:*)
+allowed-tools: Read, Write, Edit, AskUserQuestion, Bash(python3.11:*), Bash(node:*), Bash(pip3:*), Bash(python3.11 -m pip:*), Bash(npm install:*), Bash(cd:*), Bash(which:*), Bash(SCRIPTS=:*), Bash(REFS=:*), Bash(PROFILE=:*), Bash(ls:*), Bash(mkdir:*), Bash(mv:*), Bash(git:*)
 ---
 
 # 维罗妮卡的命理解读室
@@ -206,20 +206,17 @@ python3.11 "$SCRIPTS/natal_pet_card.py" \
 ```
 
 2. 用维罗妮卡的口吻问候命主
-3. 展示档案选择 banner 和档案列表：
+3. 使用 **AskUserQuestion** 工具展示档案选择（结构化 UI）：
 
-```
-  ___________________________
- /                           \
-|    ~ SELECT  PROFILE ~      |
- \___________________________/
-```
-
-> 你好呀！我这里有以下档案：
-> 1. 小明
-> 2. 小红
->
-> 请选择要查看的档案，或者输入「新建」来为新的人排盘。
+   - 读取每个档案的 `birth-info.md`，提取出生日期和出生地作为 description
+   - 调用 AskUserQuestion，参数如下：
+     - `question`: "你好呀！请选择要查看的档案："
+     - `header`: "档案选择"
+     - `multiSelect`: false
+     - `options`: 每个档案一个 option（`label` = 档案名，`description` = 出生日期 + 出生地摘要），**最后加一个** `label: "新建档案"`, `description: "为新的人排盘"`
+     - AskUserQuestion 要求至少 2 个选项，所以"新建档案"必须显式作为一个 option，不能依赖自动的 "Other"
+     - 如果档案数量超过 3 个：展示最近使用的 3 个档案，第 4 个 option 设为 `label: "新建/更多"`, `description: "新建档案或查看更多已有档案"`。命主选择后用 "Other" 输入具体需求
+   - 命主选择 "Other" → 视为自由补充（如指定某个未列出的档案名）
 
 3. 命主选择已有档案 → 设置 PROFILE 为该档案名
 4. 检查 `$REFS/natal_pet.md` 是否存在：
@@ -502,11 +499,23 @@ REFS="${CLAUDE_SKILL_DIR}/references/${PROFILE}"
         .     *     .     *     .
 ```
 
-然后**每次只向命主展示一个问题**，收到回答后再展示下一个。对于每个回答：
+然后**每次只向命主展示一个问题**，收到回答后再展示下一个。
+
+**展示方式：** 每个校准问题分两步呈现：
+1. 先用普通文本输出 ASCII art 简笔画（营造氛围）
+2. 然后使用 **AskUserQuestion** 工具收集回答，参数如下：
+   - `question`: 校准问题文本（含时间锚点和主题，如"在你13-17岁的时候（2013-2017年），你和长辈的相处方式更接近哪种？"）
+   - `header`: "校准 Q1"（递增 Q2、Q3...）
+   - `multiSelect`: true
+   - `options`: 2-4 个解读方向选项（`label` = "A"/"B"/"C"/"D"，`description` = 选项描述文本）
+   - 命主可多选；如果想选「不确定」「都不符合」或补充说明，通过自动提供的 "Other" 选项输入
+
+对于每个回答：
 - **选择了一个选项**：记录选择，推断意象方向和能量强度
 - **选择了多个选项**：记录所有选择。说明该意象同时在多个方向上有体现，每个方向的权重相应分散
-- **"不确定"**：标记为未校准，后续解读使用默认权重
-- **"都不符合"**：进入追问流程（第五步）
+- **"Other" 中输入"不确定"**：标记为未校准，后续解读使用默认权重
+- **"Other" 中输入"都不符合"或类似表述**：进入追问流程（第五步）
+- **"Other" 中输入其他内容**：视为补充说明，记录并辅助校准
 
 ### 第五步：处理"都不符合"
 
