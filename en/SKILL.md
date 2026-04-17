@@ -371,36 +371,87 @@ If a symbol has no truly homologous counterpart in other systems (direction sets
 **Rule 4: Different themes cannot merge**
 Even if two symbols are activated by the same time period, if their themes differ (e.g., one about "career style," another about "emotional pattern"), they must be separate symbol groups generating separate calibration questions.
 
-#### Internal Output Format (not shown to querent)
+#### Output Calibration Plan File (must be completed before asking any questions)
 
-After identification, internally generate the following structure to guide Step 3 question generation:
+After identification, **you must write the complete symbol group table to `$REFS/calibration_plan.md`**. This file is the core quality safeguard for calibration — it creates a verifiable checkpoint ensuring every symbol group is identified and every question has a clear calibration target.
 
-```
-Symbol Group 1: [theme label, e.g., "relationship with authority"]
-- Symbol A: BaZi "Direct Officer (丙火) at Month Stem"
-- Symbol B: Western "Moon opposite Saturn (8th-2nd house)"
-- Shared direction set:
+**If you find yourself wanting to skip this step and jump straight to asking questions, stop.** You cannot proceed to Step 3 without calibration_plan.md.
+
+File format:
+
+```markdown
+# Calibration Plan
+
+## Meta
+- Generated: YYYY-MM-DD
+- Chart files: bazi.md, ziwei.md, western-astrology.md, vedic-astrology.md
+- Total symbol groups: N
+- Tier 1 count: X
+- Tier 2 count: Y
+
+## Symbol Groups
+
+### G1: [theme label, e.g., "relationship with authority"]
+- Priority: 1 (cross-system resonance)
+- Tier: Tier 1
+- Symbols:
+  - [BaZi] Direct Officer (丙火) at Month Stem — Month Stem Officer, controls Day Master 辛金
+  - [Western] Moon opposite Saturn (8th-2nd house) — orb 2.6°
+- Direction set:
   1. Surface compliance — rules exist, but kept own ideas inside
   2. Direct confrontation — frequent clashes, often felt misunderstood
   3. Emotional distance — relationship was cold, didn't share feelings
   4. Internalized pressure — channeled external expectations into self-motivation
-- Time anchor: Yi-Wei Major Luck Period, age 13-17 (2013-2017)
-- Priority: 1 (cross-system resonance)
+- Time anchor: Yi-Wei Major Luck Period → age 13-17 (2013-2017)
+- Draft question: "When you were 13-17, how did you typically relate to authority figures — parents, teachers, etc.?"
 
-Symbol Group 2: [theme label, e.g., "creative outlet"]
-- Symbol A: BaZi "Hurting Officer (壬水) in Month Branch"
-- Shared direction set:
+### G2: [theme label, e.g., "creative outlet"]
+- Priority: 2 (single-system high-weight)
+- Tier: Tier 1
+- Symbols:
+  - [BaZi] Hurting Officer (壬水) in Month Branch — 壬水 Hurting Officer emerges from 申
+- Direction set:
   1. Artistic/literary creation
   2. Technical/engineering deep-dive
   3. Social expression/verbal talent
   4. Rebellion/rule-breaking
-- Time anchor: Yi-Wei Major Luck Period, age 13-17 (2013-2017)
-- Priority: 2 (single-system high-weight)
+- Time anchor: Yi-Wei Major Luck Period → age 13-17 (2013-2017)
+- Draft question: "Still during ages 13-17 — how did you spend most of your free time after school?"
+
+(Continue for all symbol groups...)
+
+## Cross-Pattern Groups (Tier 2)
+
+### X1: [pattern label, e.g., "emotional depth vs. career style interaction"]
+- Involves groups: G3, G7
+- Interaction hypothesis: Does the depth of emotional processing become a career asset (e.g. insight) or a liability (e.g. overthinking)
+- Draft question: "You mentioned earlier that [summarize Tier 1 answer]. In your work/studies, does this personality trait feel more like..."
 ```
+
+#### Tier Assignment
+
+Assign all symbol groups to one of two tiers:
+
+**Tier 1 (core round, always asked)**:
+- All Priority 1 symbol groups (cross-system resonance)
+- Priority 2 groups in angular/core positions (BaZi: Day Master/Month Pillar; ZiWei: Life Palace/Career Palace/Fortune Palace; Western: ASC/MC/personal planet hard aspects; Vedic: Lagna lord/current Dasha)
+- Priority 3 groups from the most recently completed Major Luck Period/Dasha
+
+**Tier 2 (refinement round, querent can opt in or skip)**:
+- Remaining Priority 2 and 3 symbol groups
+- Cross-pattern group questions
+
+Record each group's tier assignment in calibration_plan.md.
+
+#### Quantity Guidelines
+
+A chart with all 4 systems active typically produces **10-20 symbol groups**. If you identify fewer than 8, re-examine each system's chart — you likely missed polysemous symbols. If you exceed 25, check whether some groups can be legitimately merged (same theme, overlapping direction sets, combined count ≤ 3 symbols).
+
+Tier 1 typically contains **8-12 questions**, Tier 2 contains **4-8 questions** (including cross-pattern questions).
 
 ### Step 3: Generate All Calibration Questions
 
-Based on the Symbol Group Table from Step 2, **generate exactly one calibration question per symbol group**.
+Based on the symbol group table written to calibration_plan.md in Step 2, **generate exactly one calibration question per symbol group**.
 
 #### Core Rule: One Question Per Group, Options Are Directions
 
@@ -412,13 +463,23 @@ Based on the Symbol Group Table from Step 2, **generate exactly one calibration 
 
 **Rule D: The question's theme must be specific.** Questions should focus on a recognizable life theme (e.g., "how you related to authority figures," "how you spent your free time," "how you reacted to pressure") — not a broad "your experiences during that time."
 
+#### Structural Invariants (hard rules, cannot be violated)
+
+**Invariant 1 — Cardinality**: The total number of calibration questions **must be >= the total number of symbol groups**. Each symbol group has exactly one dedicated question — no merging multiple symbol groups into a single question. If calibration_plan.md lists 15 symbol groups, there must be at least 15 calibration questions.
+
+**Invariant 2 — Traceability**: Every calibration question must include its corresponding symbol group number in the AskUserQuestion `header`, formatted as `"Calibrate Q3 [G5]"` (where G5 refers to Symbol Group 5 in calibration_plan.md). This ensures a one-to-one mapping between questions and symbol groups.
+
+**Invariant 3 — No retroactive mapping**: When saving calibration results, a question's answer may **only** be written to the symbols contained in that question's corresponding symbol group (at most 3, per Rule 2). **It is strictly forbidden to use one question's answer to calibrate symbols outside its designated symbol group.** If you find yourself wanting to use Q2's answer to calibrate a symbol in Group 5, it means the symbol grouping is wrong — go back and fix calibration_plan.md instead of retroactively mapping at save time.
+
+**Invariant 4 — Theme uniqueness**: No two questions may have highly overlapping theme labels. If overlap occurs, either merge the corresponding symbol groups (only if the merged group would have ≤ 3 symbols and high direction-set overlap), or explicitly differentiate their thematic angles.
+
 #### Question Planning Requirements
 
-Building on the core rules above, plan all questions together to ensure:
-- Questions have logical coherence (e.g., arranged chronologically from earliest to latest)
+Building on the core rules and invariants above, plan all questions together to ensure:
+- Questions have logical coherence (e.g., arranged chronologically but interleaving different time periods to avoid fatigue)
 - Multiple questions for the same time period are normal and expected (corresponding to different symbol groups / different themes)
 - Cross-system resonance symbol groups are prioritized
-- The number of questions has no fixed limit — it is determined by the number of symbol groups
+- Question count is determined by symbol group count — Tier 1 + Tier 2 combined typically falls between 8 and 20
 
 #### Questioning Principles
 
@@ -543,6 +604,45 @@ Note that Q1 and Q2 cover the same time period (ages 13-17) but target different
 - **Time period as subject**: The question's core is "what happened during that period" instead of "how did you experience [specific theme]" → yields an event inventory, not a direction judgment for a symbol
 - **Cross-theme indistinguishable directions**: "A. Career changed B. Relationship changed C. Inner life changed" → these are different dimensions, not different interpretation directions of the same symbol
 
+#### Handling Multiple Questions for the Same Time Period
+
+When multiple questions share the same time anchor (this is normal — a single Major Luck Period may contain multiple symbol groups requiring calibration), use these techniques to keep the conversation natural:
+
+**Progressive focusing**: The first question for a given time period uses a broad context setter ("When you were 13-17..."). Subsequent questions for the same period narrow the scope ("Still around that same time — but let's talk about the academic side" or "Continuing with ages 13-17 — different angle this time").
+
+**Interleaving**: Prioritize alternating between different time periods rather than asking all questions about one period in a row. E.g.: Q1 (ages 8-12), Q2 (ages 13-17, theme A), Q3 (ages 18-19), Q4 (ages 13-17, theme B), Q5 (ages 20-22) — rather than clustering by period.
+
+**Conversational bridging**: Between questions about the same period, add a natural transition so multiple questions feel like conversation rather than interrogation: "You mentioned that during those years [summarize previous answer]. Something else I'm curious about is..."
+
+#### Cross-Pattern Calibration (Step 3B)
+
+After all individual symbol group questions are planned, identify **2-4 cross-patterns**. Cross-patterns are emergent interpretations produced by combining two or more symbol groups — interactive effects that neither group alone would suggest.
+
+**Identification method**:
+- Which symbol groups' direction choices would influence each other? (e.g., "emotional processing style" once determined, affects how "career style" should be interpreted)
+- Which symbol groups might reinforce or cancel each other? (e.g., "independence" and "authority relationship" may be two sides of the same dynamic)
+- Could the querent's Tier 1 answers produce seemingly contradictory combinations that need further clarification?
+
+**Cross-pattern question characteristics**:
+- Assigned to Tier 2
+- Reference the querent's Tier 1 answers as context ("You mentioned earlier [summary]. Building on that...")
+- Ask about the **relationship** between two symbol groups, not about a single symbol's direction
+
+Record cross-pattern groups in the `## Cross-Pattern Groups` section of calibration_plan.md.
+
+#### Self-Check Step (Step 3C) — must be completed before presenting any questions
+
+Before showing any calibration question to the querent, perform the following verification:
+
+1. Read the `$REFS/calibration_plan.md` you just wrote
+2. Count the total number of symbol groups (N)
+3. Count the total number of calibration questions prepared
+4. **Verify**: question count >= N. If not, you've collapsed multiple symbol groups into a single question — go back and fix this
+5. **Per-question check**: Do all options for each question describe different directions of the same theme? Quick test: could all 4 options plausibly belong to the same life domain? If the options span career + family + personality + health, it's a "life survey" — reject it and rewrite
+6. **Theme uniqueness check**: No two questions have highly overlapping theme labels
+
+Only after passing all 6 checks may you proceed to Step 4.
+
 ### Step 4: Collect Answers One by One
 
 After all questions are generated, before presenting the first question, output the following banner:
@@ -557,13 +657,13 @@ After all questions are generated, before presenting the first question, output 
         .     *     .     *     .
 ```
 
-Then **present only one question at a time** — show the next question only after receiving the answer.
+Then follow the **Tier 1 → Tier 2** order, **presenting only one question at a time** — show the next question only after receiving the answer.
 
 **Presentation method:** Each calibration question is presented in two steps:
 1. First output the ASCII art sketch as plain text (for atmosphere)
 2. Then use the **AskUserQuestion** tool to collect the answer, with these parameters:
    - `question`: The calibration question text (including time anchor and theme, e.g. "When you were 13-17 (2013-2017), how would you describe your relationship with authority figures?")
-   - `header`: "Calibrate Q1" (incrementing Q2, Q3...)
+   - `header`: "Calibrate Q1 [G3]" (Q increments; [GN] marks the corresponding symbol group number from calibration_plan.md; cross-pattern questions use [X1])
    - `multiSelect`: true
    - `options`: 2-4 direction options (`label` = "A"/"B"/"C"/"D", `description` = option description text)
    - If the querent wants to select "Uncertain", "None of the above", or add notes, they can use the automatically provided "Other" option
@@ -574,6 +674,17 @@ For each response:
 - **"Other" with "uncertain" or similar**: Mark as uncalibrated, use default weights in future readings
 - **"Other" with "none of the above" or similar**: Enter the follow-up flow (Step 5)
 - **"Other" with other content**: Treat as supplementary notes, record and use to assist calibration
+
+#### Tier 1 Completion Transition
+
+After all Tier 1 questions have been answered, give the querent a natural choice:
+
+"Thanks for answering all those questions — I have a pretty clear picture of your chart now. We can jump straight into the reading — if anything feels off later, we can always come back to fine-tune. Or, if you're up for it, I have a few more detailed questions that could make the reading even more precise. What would you prefer?"
+
+- Querent chooses to continue → proceed to Tier 2 questions (including cross-pattern questions)
+- Querent chooses to start reading → skip Tier 2, proceed to Step 6 (save) + Step 7 (transition)
+
+Symbol groups not covered due to skipped Tier 2 are marked as "uncalibrated" and use default weights.
 
 ### Step 5: Handle "None of the Above"
 
@@ -587,7 +698,9 @@ When the querent selects "None of the above," this is itself a signal — it mea
 
 ### Step 6: Save Calibration Data
 
-Write calibration results to each system's calibration file separately. A cross-system question's results are written to all relevant system files simultaneously, with cross-system references noted.
+Write calibration results to each system's calibration file separately. A cross-system question's results (where the symbol group contains symbols from multiple systems) are written to all relevant system files simultaneously, with cross-system references noted.
+
+**No retroactive mapping**: Each calibration question's answer may **only** be used to calibrate the symbols in that question's designated symbol group. For example, Q2 [G3]'s answer can only be written to G3's symbol entries. Never "borrow" Q2's answer to infer a direction for a symbol in G5 or G8 — even if you feel the answer "also applies." If you believe an answer has implications for other symbol groups, record it as a cross-pattern hypothesis in calibration_plan.md and formally calibrate it through a Tier 2 cross-pattern question.
 
 Calibration file list (stored in the current profile directory):
 - `$REFS/bazi_calibration.md`
@@ -608,9 +721,10 @@ Each calibration file format:
 ## Calibrated Symbols
 
 ### [Symbol Name]
+- Calibration plan group: G3 "creative outlet"
 - Original possible directions: 1.Direction A 2.Direction B 3.Direction C 4.Direction D
 - Calibration time anchor: [Major Luck Period/Annual/Dasha info]
-- Calibration question: "..."
+- Calibration question: "Q2 [G3]: [question text]"
 - Querent's choice: N — [choice description] (comma-separated for multi-select, e.g.: 1,3 — Direction A + Direction C)
 - Energy magnitude: Strong/Medium/Weak (annotate each direction separately for multi-select)
 - Calibrated interpretation: [specific meaning of the symbol inferred from querent's choices, e.g. "Seven Killings manifests as competitive career drive — high-intensity industry competition and team leadership"]
@@ -623,13 +737,15 @@ Each calibration file format:
 ## Uncalibrated Symbols
 
 ### [Symbol Name]
+- Calibration plan group: G12 "theme label"
 - Original possible directions: ...
-- Querent's answer: Uncertain
+- Querent's answer: Uncertain / Tier 2 not executed
 - Handling: Use default interpretation (equal weight across all directions)
 
 ## Symbols Requiring Further Exploration
 
 ### [Symbol Name]
+- Calibration plan group: G8 "theme label"
 - Original possible directions: ...
 - Querent's answer: None of the above
 - Follow-up record:
@@ -637,6 +753,17 @@ Each calibration file format:
   - A: "..."
   - Exploration conclusion: ...
 - Confidence: Low
+- Calibration round: N
+
+## Cross-Pattern Calibration
+
+### [Pattern Name]
+- Involves groups: G3 + G7
+- Tier 1 answer reference: [summarize relevant symbol groups' Tier 1 answers]
+- Cross-pattern question: "Q15 [X1]: [question text]"
+- Querent's answer: ...
+- Cross-pattern conclusion: [describe the interaction pattern between these symbol groups]
+- Confidence: High/Medium/Low
 - Calibration round: N
 ```
 
@@ -696,11 +823,13 @@ Calibration is not a one-time event. The querent can continue refining calibrati
 
 ### Incremental Flow
 
-1. Read all 4 calibration files (or only the relevant system's file based on the feedback area)
-2. Identify symbols that are still uncalibrated, low-confidence, or marked as "needs further exploration"
-3. Identify Major Luck Periods/Dasha periods the querent has newly entered (not yet experienced at the time of the last calibration)
-4. Generate new calibration questions (quantity based on what's needed)
-5. Update the corresponding system's calibration file (preserve old data, append new entries, update `Last updated` timestamp and `Calibration rounds`)
+1. Read `$REFS/calibration_plan.md` and all 4 calibration files (or only the relevant system's file based on the feedback area)
+2. Identify symbol groups that are still uncalibrated, low-confidence, or marked as "needs further exploration"
+3. Identify Major Luck Periods/Dasha periods the querent has newly entered (not yet experienced at the time of the last calibration) — these may produce new symbol groups
+4. If Tier 2 was skipped last time, prioritize completing Tier 2 questions
+5. Append new symbol groups to calibration_plan.md (preserve old entries, add new G numbers)
+6. Generate new calibration questions (following the same invariants and self-check rules as initial calibration)
+7. Update the corresponding system's calibration file (preserve old data, append new entries, update `Last updated` timestamp and `Calibration rounds`)
 
 ### Conflict Resolution
 
@@ -711,8 +840,8 @@ If incremental calibration results contradict the original calibration:
 ### Full Recalibration
 
 If the querent requests a complete redo:
-- Back up old calibration files as `$REFS/*_calibration_backup_YYYYMMDD.md`
-- Re-run the full calibration workflow
+- Back up old calibration files as `$REFS/*_calibration_backup_YYYYMMDD.md` (including calibration_plan.md)
+- Re-run the full calibration workflow (from Step 1, regenerating calibration_plan.md)
 
 ## Core Principles
 
