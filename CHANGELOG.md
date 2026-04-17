@@ -1,5 +1,26 @@
 # Changelog
 
+## 3.0.0
+
+- 校准系统大改版：从"生活普查"转为"预测验证"，对齐专业命理师的验盘实践
+  - 校准范式转换：呈现多个预测方向让命主选择哪些准确，而非询问"发生了什么"
+  - 新增理论能量评估：各体系按命盘客观指标（八字四得法/紫微庙旺陷/西洋容许度/吠陀星座尊贵度）判定强/中/弱
+  - 校准文件格式重构：删除叙事段落（`校准后解读方向`/`对命主的影响`/`命主补充`），改为结构化参数（`方向集`/`确认方向`/`校准状态`/`理论能量`/`校准能量`）
+  - 新增校准状态体系：confirmed / revised / uncertain / contradicted / tier2_skipped
+  - 新增矛盾意象处理（contradicted）：理论强但校准未确认时，不简单下调，区分过去/当前/未来采用不同策略
+  - 新增校准数据利用规则 U1-U6：能量→篇幅语气、置信度→措辞确定性、未校准处理、方向应用、跨体系一致性、矛盾处理
+  - 增量校准优先处理 contradicted 状态意象
+  - 旧格式校准文件自动检测与迁移提示
+- Calibration system overhaul: from "life survey" to "prediction validation," aligned with professional chart verification practices
+  - Paradigm shift: present multiple prediction directions for querent to confirm, instead of asking "what happened"
+  - New theoretical energy assessment: per-system objective criteria (BaZi Four Obtainments / ZiWei star brightness / Western aspect orbs / Vedic sign dignity) → Strong/Medium/Weak
+  - Calibration file format restructured: removed narrative fields (`Calibrated interpretation`/`Impact on querent`/`Querent's notes`), replaced with structured parameters (`Direction set`/`Confirmed direction`/`Calibration state`/`Theoretical energy`/`Calibration energy`)
+  - New calibration state system: confirmed / revised / uncertain / contradicted / tier2_skipped
+  - New contradicted symbol handling: when theory says "strong" but calibration can't confirm, don't simply downgrade — use different strategies for past/present/future readings
+  - New utilization rules U1-U6: energy→prominence/tone, confidence→language certainty, uncalibrated handling, direction application, cross-system agreement, contradiction handling
+  - Incremental calibration prioritizes contradicted symbols
+  - Old format calibration files auto-detected with migration prompt
+
 ## 2.3.0
 
 - 命盘宠物卡 ASCII Art 全面细化：侧视图 + 特征比例夸张 + 内部结构线
