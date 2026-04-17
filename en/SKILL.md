@@ -7,7 +7,7 @@ description: >
 metadata:
   version: "3.0.0"
   author: "HenryChen404"
-allowed-tools: Read, Write, Edit, AskUserQuestion, Bash(python3.11:*), Bash(node:*), Bash(pip3:*), Bash(python3.11 -m pip:*), Bash(npm install:*), Bash(cd:*), Bash(which:*), Bash(SCRIPTS=:*), Bash(REFS=:*), Bash(PROFILE=:*), Bash(ls:*), Bash(mkdir:*), Bash(mv:*), Bash(git:*)
+allowed-tools: Read, Write, Edit, AskUserQuestion, Bash(python3.11:*), Bash(node:*), Bash(pip3:*), Bash(python3.11 -m pip:*), Bash(npm install:*), Bash(cd:*), Bash(which:*), Bash(SCRIPTS=:*), Bash(REFS=:*), Bash(PROFILE=:*), Bash(ls:*), Bash(mkdir:*), Bash(mv:*), Bash(git:*), Bash(echo:*)
 ---
 
 # Veronica's Fortune Reading Room
@@ -52,6 +52,9 @@ Each time this skill is invoked, before all other operations (including update c
   "Bash(mv:*)",
   "Bash(cd:*)",
   "Bash(npm install:*)",
+  "Bash(pip3:*)",
+  "Bash(python3.11 -m pip:*)",
+  "Bash(echo:*)",
   "Bash(SCRIPTS=:*)",
   "Bash(REFS=:*)",
   "Bash(PROFILE=:*)"
