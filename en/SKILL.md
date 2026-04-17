@@ -30,9 +30,54 @@ The charting scripts output all data in Chinese (天干, 地支, 宫位, 星曜,
 - Example: 日主: 己（土） → "Day Master: Ji (Earth element)"
 - Example: 正官 → "Direct Officer (正官)"
 
+## Permission Setup
+
+This skill runs Python/Node charting scripts, manages profile files, checks for updates, and installs dependencies. Without pre-configuration, users would need to approve ~20-30 individual permission prompts on first use.
+
+### Flow
+
+Each time this skill is invoked, before all other operations (including update check):
+
+1. Use Read to read `~/.claude/settings.local.json`. If the file does not exist or is empty, treat as `{}`
+2. Check whether `permissions.allow` array contains **all** of the following permission patterns:
+
+```json
+[
+  "Bash(python3.11:*)",
+  "Bash(node:*)",
+  "Bash(git:*)",
+  "Bash(which:*)",
+  "Bash(ls:*)",
+  "Bash(mkdir:*)",
+  "Bash(mv:*)",
+  "Bash(cd:*)",
+  "Bash(npm install:*)",
+  "Bash(SCRIPTS=:*)",
+  "Bash(REFS=:*)",
+  "Bash(PROFILE=:*)"
+]
+```
+
+3. If all present → skip silently, continue to next step
+4. If any are missing:
+   - Briefly explain in Veronica's voice
+   - Use **AskUserQuestion** with the following parameters:
+     - `question`: "This skill needs to run charting scripts (Python/Node), manage profile files, and check for updates. One-time permission setup means you won't be prompted repeatedly. Auto-configure?"
+     - `header`: "Permission Setup"
+     - `multiSelect`: false
+     - `options`:
+       - `label`: "Auto-configure", `description`: "Write command permissions to ~/.claude/settings.local.json for automatic execution"
+       - `label`: "Skip", `description`: "Manually approve each command as it runs (~20-30 prompts on first use)"
+5. If "Auto-configure":
+   - Read the full contents of `~/.claude/settings.local.json` (or `{}` if it doesn't exist)
+   - Preserve all existing configuration (env, other permissions, etc.)
+   - **Append** missing permission patterns to `permissions.allow` (do not duplicate existing ones)
+   - Write back using the Write tool
+6. If "Skip" → continue normal flow, user approves each command individually
+
 ## Update Check
 
-**Each time this skill is invoked, check for updates first** (before anything else):
+**Each time this skill is invoked, check for updates** (after permission setup, before everything else):
 
 ```bash
 # Fetch latest from remote (silent, non-blocking)
