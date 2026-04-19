@@ -115,6 +115,14 @@ Each time the skill is invoked, ensure the data root exists:
 mkdir -p ~/fortune-tell-data/profiles
 ```
 
+### Bash Command Prefix Rules
+
+Every Bash command **must begin** with a prefix declared in `allowed-tools` (e.g., `SCRIPTS=`, `REFS=`, `PROFILE=`, `ls`, `mkdir`, `mv`, `python3.11`, `node`, `git`, etc.). **Do not** invent unlisted variable names (e.g., `DATA_DIR`, `BASE_DIR`, `OUTPUT`) at the start of a command — this triggers unnecessary permission prompts.
+
+- Use `~/fortune-tell-data` as a hardcoded literal; do not assign it to an intermediate variable
+- Only use the three variables defined in this document: `SCRIPTS`, `PROFILE`, `REFS`
+- Each Bash call must start with an allowed prefix; do not chain unlisted assignments with `&&`
+
 ## Environment Dependencies
 
 Before first use, confirm the following dependencies are installed. **Each time the skill is invoked, first scan `~/fortune-tell-data/profiles/` for profile subdirectories; if no profiles exist (first use), check dependencies before asking for birth information.**
@@ -148,34 +156,41 @@ This skill supports creating independent profiles for multiple people. Each prof
 
 Each time the skill is invoked, follow this flow to manage profiles:
 
-### Step 0: Legacy Path Migration
+<!-- MIGRATION_START -->
+### Step 0: Legacy Data Migration (one-time, self-deletes after completion)
+
+Execute the following migrations in order; each step only runs if its condition is met:
+
+#### 0a. Legacy Path Migration
 
 Check whether `${CLAUDE_SKILL_DIR}/references/` contains any `.md` files or subdirectories (old versions stored data inside the skill directory). If so:
 
 1. In Veronica's voice, tell the querent: "I found your previous data in the old location. Let me move it to the new unified directory."
-2. Move all files and subdirectories from `${CLAUDE_SKILL_DIR}/references/` into `~/fortune-tell-data/profiles/`
-3. Continue with the normal flow
+2. Move all files and subdirectories into `~/fortune-tell-data/profiles/`
 
 ```bash
 mkdir -p ~/fortune-tell-data/profiles
-# Move old data (subdirectories and loose files)
 mv "${CLAUDE_SKILL_DIR}/references/"* ~/fortune-tell-data/profiles/ 2>/dev/null
 ```
 
-### Step 1: Legacy Format Migration
+3. Create a symlink for forward compatibility with older versions:
+
+```bash
+ln -sfn ~/fortune-tell-data/profiles "${CLAUDE_SKILL_DIR}/references"
+```
+
+#### 0b. Legacy Format Migration (loose files → subdirectory)
 
 Check whether `~/fortune-tell-data/profiles/birth-info.md` exists directly (old single-profile format). If it does:
 
 1. Read the contents of `~/fortune-tell-data/profiles/birth-info.md`
 2. In Veronica's voice, tell the querent: "I found your previous chart data in an older format. I need to organize it into the new profile system. What name would you like for this profile?"
 3. After receiving the name, validate it (see "Name Validation" below)
-4. Create `~/fortune-tell-data/profiles/<name>/` and move all loose `.md` files from `~/fortune-tell-data/profiles/` into it
-5. Continue with the normal flow
+4. Create the subdirectory and move loose files:
 
 ```bash
 PROFILE="<querent's chosen name>"
 mkdir -p ~/fortune-tell-data/profiles/${PROFILE}
-# Move old files into the new profile directory
 mv ~/fortune-tell-data/profiles/birth-info.md ~/fortune-tell-data/profiles/${PROFILE}/
 mv ~/fortune-tell-data/profiles/bazi.md ~/fortune-tell-data/profiles/${PROFILE}/ 2>/dev/null
 mv ~/fortune-tell-data/profiles/ziwei.md ~/fortune-tell-data/profiles/${PROFILE}/ 2>/dev/null
@@ -184,7 +199,20 @@ mv ~/fortune-tell-data/profiles/vedic-astrology.md ~/fortune-tell-data/profiles/
 mv ~/fortune-tell-data/profiles/*_calibration*.md ~/fortune-tell-data/profiles/${PROFILE}/ 2>/dev/null
 ```
 
-### Step 2: Scan Profiles
+#### 0c. Verification & Self-Cleanup
+
+After migration completes (or if neither 0a nor 0b was triggered), verify:
+
+1. `~/fortune-tell-data/profiles/` directory exists
+2. `${CLAUDE_SKILL_DIR}/references/` contains no loose `.md` files (symlink or empty directory is fine)
+3. `~/fortune-tell-data/profiles/birth-info.md` does not exist (loose files have been archived)
+
+All three pass → use the **Edit** tool to delete everything in this SKILL.md from `<!-- MIGRATION_START -->` to `<!-- MIGRATION_END -->` (inclusive). Continue with subsequent steps after deletion.
+
+If verification fails → do not delete; retry on next invocation.
+<!-- MIGRATION_END -->
+
+### Step 1: Scan Profiles
 
 Scan `~/fortune-tell-data/profiles/` for subdirectories containing a `birth-info.md` file. Each such subdirectory is a valid profile. The subdirectory name is the profile name (the querent's chosen name).
 
@@ -192,7 +220,7 @@ Scan `~/fortune-tell-data/profiles/` for subdirectories containing a `birth-info
 ls -d ~/fortune-tell-data/profiles/*/birth-info.md 2>/dev/null
 ```
 
-### Step 3: Branch by Profile Count
+### Step 2: Branch by Profile Count
 
 #### No profiles (first use)
 

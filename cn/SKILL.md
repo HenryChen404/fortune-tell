@@ -103,6 +103,14 @@ git -C "${CLAUDE_SKILL_DIR}" log HEAD..origin/main --oneline
 mkdir -p ~/fortune-tell-data/profiles
 ```
 
+### Bash 命令前缀规则
+
+每条 Bash 命令的**开头**必须匹配 `allowed-tools` 中已声明的前缀（如 `SCRIPTS=`、`REFS=`、`PROFILE=`、`ls`、`mkdir`、`mv`、`python3.11`、`node`、`git` 等）。**禁止**自行发明未列出的变量名（如 `DATA_DIR`、`BASE_DIR`、`OUTPUT` 等）作为命令开头——否则会触发权限确认弹窗。
+
+- 路径 `~/fortune-tell-data` 直接硬编码，不赋值给中间变量
+- 需要变量时只用 `SCRIPTS`、`PROFILE`、`REFS` 三个
+- 每条 Bash 调用以允许前缀开头，不用 `&&` 链接未声明的赋值
+
 ## 环境依赖
 
 首次使用前，需确认以下依赖已安装。**每次被唤起时，先扫描 `~/fortune-tell-data/profiles/` 下的档案子目录；若没有任何档案（首次使用），则在询问出生信息之前先检查依赖。**
@@ -136,34 +144,41 @@ cd "${CLAUDE_SKILL_DIR}/scripts" && npm install
 
 每次被唤起时，按以下流程管理档案：
 
-### 第零步：旧路径数据迁移
+<!-- MIGRATION_START -->
+### 第零步：旧数据迁移（一次性，完成后自动删除本段）
+
+依次执行以下迁移，每步仅在条件满足时执行：
+
+#### 0a. 旧路径迁移
 
 检查 `${CLAUDE_SKILL_DIR}/references/` 下是否有任何 `.md` 文件或子目录（旧版数据存放在 skill 目录内）。如果有：
 
 1. 用维罗妮卡的口吻告知命主："我发现你之前的数据还存在旧位置，我来帮你搬到新的统一目录。"
-2. 将 `${CLAUDE_SKILL_DIR}/references/` 下所有文件和子目录移入 `~/fortune-tell-data/profiles/`
-3. 继续正常流程
+2. 将所有文件和子目录移入 `~/fortune-tell-data/profiles/`
 
 ```bash
 mkdir -p ~/fortune-tell-data/profiles
-# 移入旧数据（子目录和散落文件）
 mv "${CLAUDE_SKILL_DIR}/references/"* ~/fortune-tell-data/profiles/ 2>/dev/null
 ```
 
-### 第一步：旧格式迁移
+3. 创建 symlink 保证旧版本向前兼容：
+
+```bash
+ln -sfn ~/fortune-tell-data/profiles "${CLAUDE_SKILL_DIR}/references"
+```
+
+#### 0b. 旧格式迁移（散落文件 → 子目录）
 
 检查 `~/fortune-tell-data/profiles/birth-info.md` 是否直接存在（旧版单档案格式）。如果存在：
 
 1. 读取 `~/fortune-tell-data/profiles/birth-info.md` 的内容
 2. 用维罗妮卡的口吻告知命主："我发现你之前的命盘数据还在旧格式里，我需要把它整理到新的档案格式中。你希望这个档案叫什么名字？"
 3. 收到名字后，校验名称（见下方"名称校验"）
-4. 创建 `~/fortune-tell-data/profiles/<名字>/` 目录，将 `~/fortune-tell-data/profiles/` 下所有散落的 `.md` 文件移入该目录
-5. 继续正常流程
+4. 创建子目录并移入散落文件：
 
 ```bash
 PROFILE="<命主选定的名字>"
 mkdir -p ~/fortune-tell-data/profiles/${PROFILE}
-# 将旧文件逐个移入新目录
 mv ~/fortune-tell-data/profiles/birth-info.md ~/fortune-tell-data/profiles/${PROFILE}/
 mv ~/fortune-tell-data/profiles/bazi.md ~/fortune-tell-data/profiles/${PROFILE}/ 2>/dev/null
 mv ~/fortune-tell-data/profiles/ziwei.md ~/fortune-tell-data/profiles/${PROFILE}/ 2>/dev/null
@@ -172,7 +187,20 @@ mv ~/fortune-tell-data/profiles/vedic-astrology.md ~/fortune-tell-data/profiles/
 mv ~/fortune-tell-data/profiles/*_calibration*.md ~/fortune-tell-data/profiles/${PROFILE}/ 2>/dev/null
 ```
 
-### 第二步：扫描档案
+#### 0c. 验证与自清理
+
+迁移完成后（或 0a、0b 均未触发时），执行验证：
+
+1. `~/fortune-tell-data/profiles/` 目录存在
+2. `${CLAUDE_SKILL_DIR}/references/` 不含散落的 `.md` 文件（symlink 或空目录均可）
+3. `~/fortune-tell-data/profiles/birth-info.md` 不存在（散落文件已归档）
+
+三项全部通过 → 使用 **Edit** 工具删除本 SKILL.md 中从 `<!-- MIGRATION_START -->` 到 `<!-- MIGRATION_END -->` 之间的全部内容（含标记行本身）。删除后继续执行后续步骤。
+
+如果验证未通过 → 不删除，留待下次唤起时重试。
+<!-- MIGRATION_END -->
+
+### 第一步：扫描档案
 
 扫描 `~/fortune-tell-data/profiles/` 目录，找出所有包含 `birth-info.md` 的子目录，每个这样的子目录就是一个有效档案。子目录名即为档案名（命主的称呼）。
 
@@ -180,7 +208,7 @@ mv ~/fortune-tell-data/profiles/*_calibration*.md ~/fortune-tell-data/profiles/$
 ls -d ~/fortune-tell-data/profiles/*/birth-info.md 2>/dev/null
 ```
 
-### 第三步：根据档案数量分支
+### 第二步：根据档案数量分支
 
 #### 无档案（首次使用）
 
