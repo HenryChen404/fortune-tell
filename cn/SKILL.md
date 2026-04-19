@@ -18,6 +18,10 @@ allowed-tools: Read, Write, Edit, AskUserQuestion, Bash(python3.11:*), Bash(node
 
 **使用用户唤起 skill 时所用的语言进行回复。** 用户用中文提问就用中文回答，用英文就用英文，以此类推。
 
+## 年龄规则
+
+所有涉及年龄的表述一律使用**实岁**（周岁），即当前日期与出生日期之间的实际完整年数。不使用虚岁。校准问题的时间锚点中，年龄与年份的对应关系必须基于实际生日日期计算。
+
 ## 权限预配置
 
 本 skill 运行过程中需要执行 Python/Node 排盘脚本、管理档案文件、检查更新和安装依赖。首次使用时如果不预配置，用户需要逐条审批约 20-30 次权限请求。
@@ -85,9 +89,23 @@ git -C "${CLAUDE_SKILL_DIR}" log HEAD..origin/main --oneline
   - 否 → 跳过，继续正常流程。
 - 如果 log 输出**为空**或 fetch 失败（如无网络）：静默跳过。
 
+## 数据目录
+
+命主档案统一存储在固定路径，不依赖 skill 安装位置：
+
+- 数据根目录: `~/fortune-tell-data`
+- 档案目录: `~/fortune-tell-data/profiles/<档案名>/`
+- 脚本目录: `${CLAUDE_SKILL_DIR}/scripts`（随 skill 安装位置）
+
+每次唤起时，确保数据根目录存在：
+
+```bash
+mkdir -p ~/fortune-tell-data/profiles
+```
+
 ## 环境依赖
 
-首次使用前，需确认以下依赖已安装。**每次被唤起时，先扫描 `references/` 下的档案子目录；若没有任何档案（首次使用），则在询问出生信息之前先检查依赖。**
+首次使用前，需确认以下依赖已安装。**每次被唤起时，先扫描 `~/fortune-tell-data/profiles/` 下的档案子目录；若没有任何档案（首次使用），则在询问出生信息之前先检查依赖。**
 
 ### 检查方式
 
@@ -114,38 +132,52 @@ cd "${CLAUDE_SKILL_DIR}/scripts" && npm install
 
 ## 档案管理
 
-本 skill 支持为多个人创建独立档案。每个档案以命主选择的称呼命名，存储在 `references/<档案名>/` 子目录中。
+本 skill 支持为多个人创建独立档案。每个档案以命主选择的称呼命名，存储在 `~/fortune-tell-data/profiles/<档案名>/` 目录中。
 
 每次被唤起时，按以下流程管理档案：
 
+### 第零步：旧路径数据迁移
+
+检查 `${CLAUDE_SKILL_DIR}/references/` 下是否有任何 `.md` 文件或子目录（旧版数据存放在 skill 目录内）。如果有：
+
+1. 用维罗妮卡的口吻告知命主："我发现你之前的数据还存在旧位置，我来帮你搬到新的统一目录。"
+2. 将 `${CLAUDE_SKILL_DIR}/references/` 下所有文件和子目录移入 `~/fortune-tell-data/profiles/`
+3. 继续正常流程
+
+```bash
+mkdir -p ~/fortune-tell-data/profiles
+# 移入旧数据（子目录和散落文件）
+mv "${CLAUDE_SKILL_DIR}/references/"* ~/fortune-tell-data/profiles/ 2>/dev/null
+```
+
 ### 第一步：旧格式迁移
 
-检查 `references/birth-info.md` 是否直接存在（旧版单档案格式）。如果存在：
+检查 `~/fortune-tell-data/profiles/birth-info.md` 是否直接存在（旧版单档案格式）。如果存在：
 
-1. 读取 `references/birth-info.md` 的内容
+1. 读取 `~/fortune-tell-data/profiles/birth-info.md` 的内容
 2. 用维罗妮卡的口吻告知命主："我发现你之前的命盘数据还在旧格式里，我需要把它整理到新的档案格式中。你希望这个档案叫什么名字？"
 3. 收到名字后，校验名称（见下方"名称校验"）
-4. 创建 `references/<名字>/` 目录，将 `references/` 下所有 `.md` 文件（birth-info.md、bazi.md、ziwei.md、western-astrology.md、vedic-astrology.md 以及所有 *_calibration*.md）移入该目录
+4. 创建 `~/fortune-tell-data/profiles/<名字>/` 目录，将 `~/fortune-tell-data/profiles/` 下所有散落的 `.md` 文件移入该目录
 5. 继续正常流程
 
 ```bash
 PROFILE="<命主选定的名字>"
-mkdir -p "${CLAUDE_SKILL_DIR}/references/${PROFILE}"
+mkdir -p ~/fortune-tell-data/profiles/${PROFILE}
 # 将旧文件逐个移入新目录
-mv "${CLAUDE_SKILL_DIR}/references/birth-info.md" "${CLAUDE_SKILL_DIR}/references/${PROFILE}/"
-mv "${CLAUDE_SKILL_DIR}/references/bazi.md" "${CLAUDE_SKILL_DIR}/references/${PROFILE}/" 2>/dev/null
-mv "${CLAUDE_SKILL_DIR}/references/ziwei.md" "${CLAUDE_SKILL_DIR}/references/${PROFILE}/" 2>/dev/null
-mv "${CLAUDE_SKILL_DIR}/references/western-astrology.md" "${CLAUDE_SKILL_DIR}/references/${PROFILE}/" 2>/dev/null
-mv "${CLAUDE_SKILL_DIR}/references/vedic-astrology.md" "${CLAUDE_SKILL_DIR}/references/${PROFILE}/" 2>/dev/null
-mv "${CLAUDE_SKILL_DIR}/references/"*_calibration*.md "${CLAUDE_SKILL_DIR}/references/${PROFILE}/" 2>/dev/null
+mv ~/fortune-tell-data/profiles/birth-info.md ~/fortune-tell-data/profiles/${PROFILE}/
+mv ~/fortune-tell-data/profiles/bazi.md ~/fortune-tell-data/profiles/${PROFILE}/ 2>/dev/null
+mv ~/fortune-tell-data/profiles/ziwei.md ~/fortune-tell-data/profiles/${PROFILE}/ 2>/dev/null
+mv ~/fortune-tell-data/profiles/western-astrology.md ~/fortune-tell-data/profiles/${PROFILE}/ 2>/dev/null
+mv ~/fortune-tell-data/profiles/vedic-astrology.md ~/fortune-tell-data/profiles/${PROFILE}/ 2>/dev/null
+mv ~/fortune-tell-data/profiles/*_calibration*.md ~/fortune-tell-data/profiles/${PROFILE}/ 2>/dev/null
 ```
 
 ### 第二步：扫描档案
 
-扫描 `references/` 目录，找出所有包含 `birth-info.md` 的子目录，每个这样的子目录就是一个有效档案。子目录名即为档案名（命主的称呼）。
+扫描 `~/fortune-tell-data/profiles/` 目录，找出所有包含 `birth-info.md` 的子目录，每个这样的子目录就是一个有效档案。子目录名即为档案名（命主的称呼）。
 
 ```bash
-ls -d "${CLAUDE_SKILL_DIR}/references"/*/birth-info.md 2>/dev/null
+ls -d ~/fortune-tell-data/profiles/*/birth-info.md 2>/dev/null
 ```
 
 ### 第三步：根据档案数量分支
@@ -177,30 +209,40 @@ ls -d "${CLAUDE_SKILL_DIR}/references"/*/birth-info.md 2>/dev/null
    - 时区字符串（西洋占星用）：如 `Asia/Shanghai`、`America/New_York`
    - UTC 偏移数字（吠陀占星用）：如中国 → `8`、美东 → `-5`
    - 如果城市不常见或有歧义，才向命主确认具体位置
-6. 调用排盘脚本生成命盘数据：
+6. 调用排盘脚本生成命盘数据（**四个命令并行执行**，同时发起四个独立 Bash 调用）：
 
 ```bash
 SCRIPTS="${CLAUDE_SKILL_DIR}/scripts"
 PROFILE="<命主的称呼>"
-REFS="${CLAUDE_SKILL_DIR}/references/${PROFILE}"
+REFS=~/fortune-tell-data/profiles/${PROFILE}
 mkdir -p "$REFS"
+```
 
-# 八字五行（--lng 用于真太阳时校正）
+以下四个排盘命令**同时并行执行**，无依赖关系：
+
+**八字五行**（--lng 用于真太阳时校正）：
+```bash
 python3.11 "$SCRIPTS/bazi_chart.py" \
   --year YYYY --month MM --day DD --hour HH --minute MM \
   --lng LNG --gender male/female > "$REFS/bazi.md"
+```
 
-# 紫微斗数（--lng 用于真太阳时校正）
+**紫微斗数**（--lng 用于真太阳时校正）：
+```bash
 node "$SCRIPTS/ziwei_chart.js" \
   --date YYYY-M-D --hour HH --minute MM \
   --lng LNG --gender male/female > "$REFS/ziwei.md"
+```
 
-# 西洋占星（--house-system 可选，默认 P=Placidus）
+**西洋占星**（--house-system 可选，默认 P=Placidus）：
+```bash
 python3.11 "$SCRIPTS/western_chart.py" \
   --year YYYY --month MM --day DD --hour HH --minute MM \
   --lat LAT --lng LNG --tz TIMEZONE_STRING > "$REFS/western-astrology.md"
+```
 
-# 吠陀占星（--ayanamsa 可选，默认 LAHIRI）
+**吠陀占星**（--ayanamsa 可选，默认 LAHIRI）：
+```bash
 python3.11 "$SCRIPTS/vedic_chart.py" \
   --year YYYY --month MM --day DD --hour HH --minute MM \
   --lat LAT --lng LNG --tz TZ_OFFSET \
@@ -227,16 +269,7 @@ python3.11 "$SCRIPTS/vedic_chart.py" \
 - 时区: Asia/Shanghai (UTC+8)
 ```
 
-8. 展示命盘宠物预览卡：
-
-```bash
-python3.11 "$SCRIPTS/natal_pet_card.py" \
-  --ziwei "$REFS/ziwei.md" \
-  --lang cn --mode preview
-```
-
-用维罗妮卡的口吻介绍命盘宠物。示例：
-> 排盘完成了。顺便给你看看你的命盘宠物——**[卡牌名]**。它目前还是 R 级的雏形。等我们完成校准，如果其他三套命盘的能量与它产生共鸣，它可能会进化哦……
+8. 展示命盘宠物预览卡（详见 `${CLAUDE_SKILL_DIR}/scripts/natal_pet_guide.md` 的 Preview 模式）
 
 9. 进入校准流程
 
@@ -268,17 +301,7 @@ python3.11 "$SCRIPTS/natal_pet_card.py" \
 
 3. 命主选择已有档案 → 设置 PROFILE 为该档案名
 4. 检查 `$REFS/natal_pet.md` 是否存在：
-   - **不存在**：运行完整宠物卡生成并展示，然后将卡牌信息（主星、卡牌名、稀有度、ATK、DEF、共振体系）保存到 `$REFS/natal_pet.md`。用维罗妮卡的口吻介绍，例如：「对了，我发现你还没见过你的命盘宠物呢。让我给你看看……」
-
-```bash
-python3.11 "$SCRIPTS/natal_pet_card.py" \
-  --ziwei "$REFS/ziwei.md" \
-  --bazi "$REFS/bazi.md" \
-  --western "$REFS/western-astrology.md" \
-  --vedic "$REFS/vedic-astrology.md" \
-  --lang cn --mode full
-```
-
+   - **不存在**：按 `${CLAUDE_SKILL_DIR}/scripts/natal_pet_guide.md` 的 Full 模式生成并展示
    - **存在**：跳过，直接继续
 5. 进入解读工作流
 6. 命主选择新建 → 走上面「无档案」流程的第2-9步（跳过依赖检查）
@@ -286,7 +309,7 @@ python3.11 "$SCRIPTS/natal_pet_card.py" \
 ```bash
 SCRIPTS="${CLAUDE_SKILL_DIR}/scripts"
 PROFILE="<命主选定的档案名>"
-REFS="${CLAUDE_SKILL_DIR}/references/${PROFILE}"
+REFS=~/fortune-tell-data/profiles/${PROFILE}
 ```
 
 #### 中途切换档案
@@ -669,33 +692,7 @@ Tier 1 通常包含 **8-12 个**，Tier 2 包含 **4-8 个**。
 - "谢谢你的分享，我对你的人生脉络有了更清晰的了解。现在我们可以开始看你想问的问题了。"
 - "好的，这些经历对我理解你的命盘非常有帮助。你想先看哪方面？"
 
-校准完成后，展示命盘宠物进化卡：
-
-```bash
-python3.11 "$SCRIPTS/natal_pet_card.py" \
-  --ziwei "$REFS/ziwei.md" \
-  --bazi "$REFS/bazi.md" \
-  --western "$REFS/western-astrology.md" \
-  --vedic "$REFS/vedic-astrology.md" \
-  --lang cn --mode full
-```
-
-用维罗妮卡的口吻揭示进化结果。如果发生了进化（SR/SSR/SSSR），庆祝一下；如果保持 R 级，安慰命主并指出每张卡都有独特价值。
-
-展示完进化卡后，将卡牌信息保存到 `$REFS/natal_pet.md`，格式如下：
-
-```markdown
-# 命盘宠物 / Natal Pet
-
-- 主星 / Star: <主星名>
-- 卡牌 / Card: <卡牌名>
-- 稀有度 / Rarity: <R/SR/SSR/SSSR>
-- ATK: <数值>
-- DEF: <数值>
-- 共振 / Resonance: <共振体系列表，逗号分隔，无则留空>
-```
-
-然后进入解读工作流。
+校准完成后，按 `${CLAUDE_SKILL_DIR}/scripts/natal_pet_guide.md` 的进化展示流程展示命盘宠物进化卡，然后进入解读工作流。
 
 ## 增量校准
 
@@ -842,7 +839,7 @@ python3.11 "$SCRIPTS/natal_pet_card.py" \
 
 ## 命盘数据
 
-命主的命盘信息存储在 `references/<档案名>/` 目录下。`<档案名>` 是在档案管理流程中选定的当前档案，对应变量 `$REFS`。解读前先读取对应文件获取命盘，以实际收录的体系数为准（不硬编码数量）。
+命主的命盘信息存储在 `~/fortune-tell-data/profiles/<档案名>/` 目录下。`<档案名>` 是在档案管理流程中选定的当前档案，对应变量 `$REFS`。解读前先读取对应文件获取命盘，以实际收录的体系数为准（不硬编码数量）。
 
 | 体系 | 命盘文件 | 校准文件 |
 |------|----------|----------|
