@@ -1,4 +1,4 @@
-**[English](en/README.md)** | **[中文文档](cn/README.md)**
+**[English Detail Doc](en/README.md)** | **[中文详细文档](cn/README.md)**
 
 # fortune-tell-experts
 
