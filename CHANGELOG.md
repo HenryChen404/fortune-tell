@@ -1,5 +1,32 @@
 # Changelog
 
+## 3.1.0
+
+- 校准规划重构：以时间段为主轴 + 断定式提问
+  - 第二步拆分为 2a(识别原局意象) → 2b(识别时间段) → 2c(交互分析+筛选+合并)
+  - 新增时间段识别规则：八字大运/紫微大限/吠陀Dasha/西洋慢行星行运+推运
+  - 新增交互分析：原局意象 × 时期能量的显著交互筛选 + 方向约束 + 同主题合并
+  - 校准规划从意象为主轴改为时间段为主轴，编号从 B1/Z1 改为全局 P1/P2
+  - 提问从"以下哪些发生过"（自报告）改为"以下是我的预测，哪些准确"（断定验盘）
+  - 预测用陈述句断定，不用疑问句询问
+  - 校准文件格式更新：per-(意象×时期) 记录，含交互摘要
+  - 置信度判定更新：跨时期一致性可提升置信度
+  - U4/U5/U6 利用规则适配新结构
+  - 增量校准适配：新走过的时期自然产生新校准条目
+  - 旧格式检测标志更新（v3 backup）
+- Calibration restructure: time-period-centric + definitive predictions
+  - Step 2 split into 2a(identify natal symbols) → 2b(identify time periods) → 2c(interaction analysis + filter + merge)
+  - New time period identification: BaZi MLP / ZiWei Decadal / Vedic Dasha / Western slow transits + progressions
+  - New interaction analysis: natal symbol × period energy significant interaction filtering + direction constraint + same-theme merging
+  - Calibration plan reorganized from symbol-centric to time-period-centric, IDs from B1/Z1 to global P1/P2
+  - Questions changed from "which of these happened?" (self-report) to "here are my predictions, which are accurate?" (practitioner verification)
+  - Predictions use declarative statements, not interrogative
+  - Calibration file format updated: per-(symbol×period) records with interaction summaries
+  - Confidence criteria updated: cross-period consistency can boost confidence
+  - U4/U5/U6 utilization rules adapted for new structure
+  - Incremental calibration adapted: newly walked periods naturally produce new entries
+  - Old format detection markers updated (v3 backup)
+
 ## 3.0.0
 
 - 校准系统大改版：从"生活普查"转为"预测验证"，对齐专业命理师的验盘实践

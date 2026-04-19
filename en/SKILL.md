@@ -5,7 +5,7 @@ description: >
   Triggers: fortune, horoscope, astrology, vedic, jyotish, birth chart, natal chart, career luck, love life,
   算命, 运势, 命理, 八字, 紫微, 星盘, 吠陀, 命盘.
 metadata:
-  version: "3.0.0"
+  version: "3.1.0"
   author: "HenryChen404"
 allowed-tools: Read, Write, Edit, AskUserQuestion, Bash(python3.11:*), Bash(node:*), Bash(pip3:*), Bash(python3.11 -m pip:*), Bash(npm install:*), Bash(cd:*), Bash(which:*), Bash(SCRIPTS=:*), Bash(REFS=:*), Bash(PROFILE=:*), Bash(ls:*), Bash(mkdir:*), Bash(mv:*), Bash(git:*), Bash(echo:*)
 ---
@@ -384,56 +384,99 @@ Read all 4 chart files for the current profile:
 - `$REFS/western-astrology.md`
 - `$REFS/vedic-astrology.md`
 
-### Step 2: Identify Key Polysemous Symbols
+### Step 2: Identify Symbols, Time Periods, and Interaction Analysis
 
-Scan all four charts and identify the following types of symbols:
+This step has three sub-steps: first identify natal symbols, then list time periods, then analyze interactions, filter, and merge to produce the calibration plan.
 
-**Priority 1: Cross-system resonance symbols**
-Symbols appearing across multiple systems with similar themes but different possible interpretation directions. For example:
-- BaZi "Seven Killings (七杀)" + ZiWei "Seven Killings Star" + Western "strong Mars aspects" → all point to "power/conflict" but the specific direction (career competition vs physical danger vs relationship control vs natural authority) needs calibration
-- BaZi "Eating God/Hurting Officer (食伤)" + ZiWei "Tian Tong/Tian Liang" + Western "strong Neptune aspects" → could point to creativity or escapism
+#### 2a. Identify Natal Symbols
 
-**Priority 2: Single-system high-weight polysemous symbols**
-Symbols that occupy a core position within one system but have multiple interpretation directions: Life Palace main star's Four Transformations, Day Master's Ten God pattern, Ascendant ruler's house placement and aspects, Lagna lord's condition, etc.
+Scan each system's chart and identify core metaphysical elements with multiple possible interpretation directions.
 
-**Priority 3: Time-sensitive symbols**
-Symbols activated during specific Major Luck Period/Dasha periods that the querent has already lived through (available for retrospective verification)
+**Symbol**: A single core element with multiple interpretation directions.
+**Symbol group**: A combination of symbols within the same system that has a special pairing relationship, producing meanings beyond the individual symbols.
 
-#### Scanning Points for Each System
+**Scanning points per system:**
 
-**BaZi**: Day Master strength (borderline Five Elements statistics), prominent Ten Gods (appearing 2+ times or in the Month Pillar stem), Major Luck Period transitions, Annual Influence clashes/combinations
+**BaZi**: Day Master strength (borderline Five Elements statistics), prominent Ten Gods (appearing 2+ times or in the Month Pillar stem)
+Symbol groups: Seven Killings + Ram Blade, Hurting Officer + Direct Officer, Eating God + Direct Seal, etc.
 
-**ZiWei**: Life Palace main star + brightness, Four Transformations (especially the polysemous nature of Ji/忌), star brightness in detriment, palace conflicts, Decadal Period palaces
+**ZiWei**: Life Palace main star + brightness, Four Transformations (especially Ji polysemy), star brightness in detriment
+Symbol groups: Sun-Moon Reversal, Fu-Xiang Court Assembly, Kill-Break-Wolf combination, etc.
 
-**Western**: Hard aspects (squares/oppositions involving personal planets), planets in 12th/8th/6th houses, retrograde planets, stelliums, North Node
+**Western**: Hard aspects (squares/oppositions involving personal planets), planets in 12th/8th/6th houses, retrograde planets, North Node
+Symbol groups: T-Square, Grand Trine, Grand Cross, Stellium, Yod, etc.
 
-**Vedic**: Lagna lord condition, Rahu-Ketu axis, Moon Nakshatra, Rasi vs Navamsa differences, Dasha transition points
+**Vedic**: Lagna lord condition, Rahu-Ketu axis, Moon Nakshatra
+Symbol groups: Gajakesari Yoga, Chandra-Mangal Yoga, Rahu-Moon conjunction, Sasa Yoga, etc.
 
-#### Build Symbol Groups
+Each symbol/group is annotated with:
+- **Theoretical energy** (Strong/Medium/Weak), per the criteria below
+- **Direction set** (2-4 possible interpretation directions)
 
-After identifying polysemous symbols, organize them into **symbol groups**. Each symbol group becomes the internal target for one calibration question.
+| System | Strong | Medium | Weak |
+|--------|--------|--------|------|
+| **BaZi** | Month/Day stem visible; element count ≥3; ten-god appears 2+ times | Year/Hour stem visible; element count 1-2 | Only in hidden stems; element count 0 (missing) |
+| **ZiWei** | Bright/Resplendent + Lu or Quan transformation | Good/Neutral; or Bright but no transformation | Fallen; or Neutral + Ji transformation |
+| **Western** | Orb ≤2° + angular house (1/4/7/10) | Orb 2-5°; or ≤2° but succedent/cadent | Orb >5°; or retrograde + cadent |
+| **Vedic** | Own sign/exalted + D1=D9 concordance | Friendly/neutral sign | Debilitated/enemy sign |
 
-**Rule 1: Homologous grouping**
-Group symbols from different systems into the same group ONLY if they satisfy both conditions:
-- Condition A: Same thematic core (e.g., all point to "relationship with authority," "expression of creativity," "emotional processing pattern," etc.)
-- Condition B: Highly overlapping interpretation direction sets (i.e., a single life-experience description can meaningfully distinguish between the same directions for all symbols in the group)
+ID convention: B=BaZi, Z=ZiWei, W=Western, V=Vedic, incrementing within each system. Symbol groups are marked with "(group)" after the name.
 
-**Rule 2: Maximum 3 symbols per group**
-Beyond 3 symbols, the intersection of direction sets typically degenerates into overly broad descriptions. Split into multiple groups rather than force-fitting.
+#### 2b. Identify Time Periods
 
-**Rule 3: Single-system symbols can stand alone**
-If a symbol has no truly homologous counterpart in other systems (direction sets don't overlap), it should be its own group. Do not force cross-system pairing for the sake of it.
+List all time periods the querent has lived through from birth to present:
 
-**Rule 4: Different themes cannot merge**
-Even if two symbols are activated by the same time period, if their themes differ (e.g., one about "career style," another about "emotional pattern"), they must be separate symbol groups generating separate calibration questions.
+| System | Period division method |
+|--------|----------------------|
+| **BaZi** | Each **Major Luck Period** walked through (~10 years each), including current |
+| **ZiWei** | Each **Decadal Period** walked through (~10 years each), including current |
+| **Vedic** | Each **Mahadasha** walked through (variable length), including current; key Bhuktis may be subdivided |
+| **Western** | Two overlapping systems: ①**Slow planet transit cycles** — divided by landmark transits (Saturn sign change, Saturn return, Jupiter sign change, etc.); ②**Progression cycles** — divided by progressed Moon sign change, progressed Sun sign change, etc. Use whichever produces meaningful segments |
 
-#### Output Calibration Plan File (must be completed before asking any questions)
+Output: each system's time period list, with start/end ages and calendar years.
 
-After identification, **you must write the complete symbol group table to `$REFS/calibration_plan.md`**. This file is the core quality safeguard for calibration — it creates a verifiable checkpoint ensuring every symbol group is identified and every question has a clear calibration target.
+#### 2c. Interaction Analysis, Filtering, and Merging
+
+For each **(natal symbol × time period)** combination, execute three steps:
+
+**Step 1: Filter — only significant interactions**
+
+Determine whether the period's energy has a significant interaction with the natal symbol. Skip combinations without significant interaction.
+
+| System | Significant interaction criteria |
+|--------|-------------------------------|
+| **BaZi** | Major Luck Period stem/branch has a generating/controlling/clashing/combining relationship with the symbol (e.g., period stem controls Day Master, period branch combines/clashes with a natal pillar, period triggers Ten God changes) |
+| **ZiWei** | Decadal Period enters the palace where the symbol resides; or Decadal Four Transformations fly into/out of that palace; or Decadal palace forms a three-sided/four-sided relationship with the symbol's palace |
+| **Western** | Slow planet transit forms a major aspect (conjunction/square/opposition/trine, orb ≤3°) with the natal planet/aspect; or progressed personal planet triggers the natal aspect |
+| **Vedic** | Dasha lord has a sign/house/aspect relationship with the symbol's planet; or Dasha lord IS the symbol's planet; or Dasha lord occupies the house of the symbol |
+
+No significant interaction → skip, no entry generated.
+
+**Step 2: Derive specific prediction**
+
+For each (symbol × period) that passes filtering, analyze how the period energy constrains the symbol's direction set, and derive **one specific event prediction**:
+
+1. The natal symbol has direction set [A, B, C, D]
+2. Analyze how the period's energy characteristics interact with the natal symbol — which direction is most likely activated in this period
+3. Select the most likely direction, combined with the period context, and convert to **one specific, verifiable event prediction** (not a personality description)
+
+Example:
+- Natal symbol "Day Master Xin Metal strong" has directions including "stubborn/inflexible" and "refined aesthetics"
+- In Yi-Wei Major Luck Period (Yi Wood Indirect Wealth controls Xin Metal) → the "stubbornness meeting resistance" direction is more likely activated
+- Prediction: "During that period, you had noticeable friction or conflicts with people around you because you insisted on your own ideas"
+
+**Step 3: Group by period and merge**
+
+Within the same time period, if multiple symbols' predictions point to similar themes, merge into one comprehensive prediction:
+- **Merge condition**: same period + same life theme (e.g., both point to "family upheaval" or "conflict with authority")
+- Merged entries list all source symbols
+- Predictions with different themes remain separate
+
+#### Output Calibration Plan File
+
+After interaction analysis, **you must write the complete results to `$REFS/calibration_plan.md`**.
 
 **If you find yourself wanting to skip this step and jump straight to asking questions, stop.** You cannot proceed to Step 3 without calibration_plan.md.
-
-File format:
 
 ```markdown
 # Calibration Plan
@@ -441,201 +484,90 @@ File format:
 ## Meta
 - Generated: YYYY-MM-DD
 - Chart files: bazi.md, ziwei.md, western-astrology.md, vedic-astrology.md
-- Total symbol groups: N
-- Tier 1 count: X
-- Tier 2 count: Y
 
-## Symbol Groups
+## Natal Symbol Inventory
 
-### G1: [theme label, e.g., "relationship with authority"]
-- Priority: 1 (cross-system resonance)
+### BaZi
+- B1: [symbol name] (Theoretical energy: Strong/Medium/Weak, Direction set: [brief list])
+- B2: [symbol group name] (group) (Theoretical energy: Strong/Medium/Weak, Direction set: [brief list])
+...
+
+### ZiWei
+- Z1: [symbol name] (Theoretical energy: Strong/Medium/Weak, Direction set: [brief list])
+...
+
+### Western
+- W1: [symbol name] (Theoretical energy: Strong/Medium/Weak, Direction set: [brief list])
+...
+
+### Vedic
+- V1: [symbol name] (Theoretical energy: Strong/Medium/Weak, Direction set: [brief list])
+...
+
+## Calibration Entries (by time period)
+
+### Period 1: age X-Y (YYYY-YYYY)
+
+#### P1: [prediction theme label, e.g., "conflict with authority"]
 - Tier: Tier 1
-- Symbols:
-  - [BaZi] Direct Officer (丙火) at Month Stem — Theoretical energy: Medium (month stem visible but not in season)
-  - [Western] Moon opposite Saturn (8th-2nd house) — Theoretical energy: Strong (orb 2.6°, angular house)
-- Direction set:
-  1. Surface compliance — rules exist, but kept own ideas inside
-  2. Direct confrontation — frequent clashes, often felt misunderstood
-  3. Emotional distance — relationship was cold, didn't share feelings
-  4. Internalized pressure — channeled external expectations into self-motivation
-- Time anchor: Yi-Wei Major Luck Period → age 13-17 (2013-2017)
-- Draft prediction: "Thinking about ages 13-17, regarding your relationship with authority figures, which of these descriptions feel accurate?"
+- Sources:
+  - [BaZi] B2(Hurting Officer meets Officer) × Yi-Wei MLP → Yi Wood activates Hurting Officer, Officer clash intensifies
+  - [Western] W2(Moon opposite Saturn) × Saturn transit through 2nd house → pressure axis activated
+- Prediction: During that period, you had an intense confrontation with a teacher or authority figure
 
-### G2: [theme label, e.g., "creative outlet"]
-- Priority: 2 (single-system high-weight)
-- Tier: Tier 1
-- Symbols:
-  - [BaZi] Hurting Officer (壬水) in Month Branch — Theoretical energy: Medium (壬水 emerges from 申)
-- Direction set:
-  1. Artistic/literary creation
-  2. Technical/engineering deep-dive
-  3. Social expression/verbal talent
-  4. Rebellion/rule-breaking
-- Time anchor: Yi-Wei Major Luck Period → age 13-17 (2013-2017)
-- Draft prediction: "Still during that period — how did you mainly spend your free time?"
+#### P2: [prediction theme label, e.g., "family environment change"]
+- Tier: Tier 2
+- Sources:
+  - [ZiWei] Z3(Migration Palace Ju Men + Lu) × Siblings Decadal → Decadal migration palace activated
+- Prediction: During those years, your family moved or you transferred to a new school
 
-(Continue for all symbol groups...)
+### Period 2: age X-Y (YYYY-YYYY)
 
-## Cross-Pattern Groups (Tier 2)
+#### P3: [prediction theme label]
+...
 
-### X1: [pattern label, e.g., "emotional depth vs. career style interaction"]
-- Involves groups: G3, G7
-- Interaction hypothesis: Does the depth of emotional processing become a career asset (e.g. insight) or a liability (e.g. overthinking)
-- Draft question: "You mentioned earlier that [summarize Tier 1 answer]. In your work/studies, does this personality trait feel more like..."
+### Period 3: age X-Y (YYYY-YYYY, current)
+
+#### P4: [prediction theme label]
+...
 ```
 
-#### Theoretical Energy Assessment
-
-In calibration_plan.md, every symbol **must be annotated with its theoretical energy** (Strong/Medium/Weak). Energy is determined by the chart itself; assessment criteria per system:
-
-| System | Strong | Medium | Weak |
-|--------|--------|--------|------|
-| **BaZi** | Month/Day stem visible; element count ≥3; ten-god appears 2+ times | Year/Hour stem visible; element count 1-2 | Only in hidden stems; element count 0 (missing) |
-| **ZiWei** | Bright/Resplendent (庙/旺) + Lu or Quan transformation | Good/Neutral (得/平); or Bright but no transformation | Fallen (陷); or Neutral + Ji transformation |
-| **Western** | Orb ≤2° + angular house (1/4/7/10) | Orb 2-5°; or ≤2° but succedent/cadent | Orb >5°; or retrograde + cadent |
-| **Vedic** | Own sign/exalted + D1=D9 concordance | Friendly/neutral sign | Debilitated/enemy sign |
-
-These criteria align with professional practice: BaZi's Four Obtainments (得令/得地/得生/得助), ZiWei's star brightness system, Western's orb + dignity, Vedic's sign dignity.
+ID convention: P = Prediction, incrementing globally. Source format: `[System] SymbolID(name) × period name → interaction summary`.
 
 #### Tier Assignment
 
-Assign all symbol groups to one of two tiers:
-
 **Tier 1 (core round, always asked)**:
-- All Priority 1 symbol groups (cross-system resonance)
-- Priority 2 groups in angular/core positions (BaZi: Day Master/Month Pillar; ZiWei: Life Palace/Career Palace/Fortune Palace; Western: ASC/MC/personal planet hard aspects; Vedic: Lagna lord/current Dasha)
-- Priority 3 groups from the most recently completed Major Luck Period/Dasha
+- Predictions for the current period (current Major Luck Period/Decadal/Dasha)
+- Predictions for the most recently completed period
+- Merged predictions with sources from ≥ 2 systems (high cross-validation value)
 
 **Tier 2 (refinement round, querent can opt in or skip)**:
-- Remaining Priority 2 and 3 symbol groups
-- Cross-pattern group questions
+- Predictions for earlier periods
+- Single-system source predictions
+- Niche/specialized predictions
 
-Record each group's tier assignment in calibration_plan.md.
+Record each entry's tier in calibration_plan.md.
 
 #### Quantity Guidelines
 
-A chart with all 4 systems active typically produces **10-20 symbol groups**. If you identify fewer than 8, re-examine each system's chart — you likely missed polysemous symbols. If you exceed 25, check whether some groups can be legitimately merged (same theme, overlapping direction sets, combined count ≤ 3 symbols).
+After filtering and merging, total calibration entries typically fall within **10-20**. Tier 1 typically contains **6-12**, Tier 2 contains **4-8**.
 
-Tier 1 typically contains **8-12 questions**, Tier 2 contains **4-8 questions** (including cross-pattern questions).
+If over 25, check whether filtering was too loose or merging insufficient. If fewer than 8, check for missed significant interactions.
 
-### Step 3: Generate All Calibration Predictions
+#### Verify Plan
 
-Based on the symbol group table written to calibration_plan.md in Step 2, **generate exactly one set of predictions per symbol group**. Calibration is fundamentally prediction validation: you make predictions from the chart, and the querent selects which predictions are accurate.
+After writing calibration_plan.md, quick-check:
+1. Every prediction has a clear (symbol × period) interaction derivation
+2. Every prediction is a specific verifiable event, not a personality description
+3. Source annotations are complete (system, symbol ID, period, interaction summary)
+4. Total count is between 8 and 25
+5. No two predictions have highly overlapping themes (overlap → should merge)
 
-#### Core Rule: One Prediction Set Per Group, Options Are Directions
+### Step 3: Present Predictions by Time Period, Calibrate, and Save
 
-**Rule A: One prediction set targets one symbol group.** A single prediction set must not cover multiple symbol groups with different themes. If two symbol groups happen to map to the same time period but have different themes, they must be two separate prediction sets.
+Based on the calibration entries in calibration_plan.md, present predictions to the querent by time period, collect confirmations, and save results immediately. After each time period's questions are answered, write results to the corresponding system's calibration file.
 
-**Rule B: Options are predictions based on the symbol group's interpretation directions.** Each option is a concrete prediction you make based on one direction — describing the behavioral/emotional pattern the querent likely experienced during the relevant time period for that theme. The distinctions between options correspond to different "manifestation paths" of the same theme, not changes across different life domains.
-
-**Rule C: Time period is an anchor, not the organizing principle.** The time period appears in the preamble ("Thinking about ages 13-17...") to help the querent locate memories, but the core is about validating predictions for a specific theme, not "what happened during that period."
-
-**Rule D: The prediction's theme must be specific.** Predictions should focus on a recognizable life theme (e.g., "how you related to authority figures," "how you spent your free time," "how you reacted to pressure") — not a broad "your experiences during that time."
-
-#### Structural Invariants (hard rules, cannot be violated)
-
-**Invariant 1 — Cardinality**: The total number of calibration questions **must be >= the total number of symbol groups**. Each symbol group has exactly one dedicated question — no merging multiple symbol groups into a single question. If calibration_plan.md lists 15 symbol groups, there must be at least 15 calibration questions.
-
-**Invariant 2 — Traceability**: Every calibration question must include its corresponding symbol group number in the AskUserQuestion `header`, formatted as `"Calibrate Q3 [G5]"` (where G5 refers to Symbol Group 5 in calibration_plan.md). This ensures a one-to-one mapping between questions and symbol groups.
-
-**Invariant 3 — No retroactive mapping**: When saving calibration results, a question's answer may **only** be written to the symbols contained in that question's corresponding symbol group (at most 3, per Rule 2). **It is strictly forbidden to use one question's answer to calibrate symbols outside its designated symbol group.** If you find yourself wanting to use Q2's answer to calibrate a symbol in Group 5, it means the symbol grouping is wrong — go back and fix calibration_plan.md instead of retroactively mapping at save time.
-
-**Invariant 4 — Theme uniqueness**: No two questions may have highly overlapping theme labels. If overlap occurs, either merge the corresponding symbol groups (only if the merged group would have ≤ 3 symbols and high direction-set overlap), or explicitly differentiate their thematic angles.
-
-#### Question Planning Requirements
-
-Building on the core rules and invariants above, plan all questions together to ensure:
-- Questions have logical coherence (e.g., arranged chronologically but interleaving different time periods to avoid fatigue)
-- Multiple questions for the same time period are normal and expected (corresponding to different symbol groups / different themes)
-- Cross-system resonance symbol groups are prioritized
-- Question count is determined by symbol group count — Tier 1 + Tier 2 combined typically falls between 8 and 20
-
-#### Questioning Principles
-
-**Principle 1: Zero terminology, prediction tone**
-- Predictions must **contain no metaphysical terminology**: no "Major Luck Period," "Dasha," "Annual Influence," "transit," "Seven Killings," "Saturn," etc. The querent does not need to know the source symbols behind the predictions
-- Time periods are expressed only in **age + calendar years**, e.g., "When you were 25-30 (around 2015-2020)"
-- Use a prediction tone, like a practitioner presenting their judgment for validation: "Regarding [theme], which of these descriptions are closer to your experience?"
-- Options should not imply value judgments: avoid "breakthrough" vs "setback" framing; instead, describe different manifestation patterns of the same theme with equal weight
-
-**Principle 2: Randomized option content assignment**
-- Labels must always be in sequential order (A, B, C, D), but the **content assigned to each label** must be randomized — do not always place the most likely option at A
-- Across different questions, similar domains (e.g., career, relationships) should appear in varying positions to avoid the querent anchoring on "the first option is always the most accurate"
-
-**Principle 3: Gamification**
-- Below each question and its options, draw a pure ASCII art sketch related to the question's time period or theme
-- **Use only ASCII characters** (`-` `|` `/` `\` `_` `^` `*` `.` `~` `o` `=` `+` `(` `)` `<` `>` letters, digits, etc.), **no emoji or Unicode special symbols**
-- Draw **concrete figures** related to life scenarios — people, buildings, mountains, airplanes, hearts, trees, etc. — not abstract borders or decorative frames
-- Different questions should have varied sketches reflecting the life scenario relevant to that question
-
-#### Prediction Format Requirements
-
-Each prediction set must satisfy:
-
-1. **Anchored to a specific time period**: Internally mapped to Major Luck Period/Annual Influence/Dasha, but only show the querent age and calendar years
-2. **Provide 2-4 prediction directions**: Each option is a concrete prediction you make based on one interpretation direction of the symbol group, describing the behavioral/emotional pattern the querent likely experienced during the relevant time period for that theme. The distinctions between options must be "different manifestations of the same thing," not "changes across different life areas"
-3. **Multi-select supported**: The querent may choose multiple options (a symbol can manifest in multiple directions simultaneously). Use wording like "which of the following match your experience? (select all that apply)"
-4. **Option content randomly assigned**: Labels stay in A/B/C/D order, but the content assigned to each label is randomized — do not sort by likelihood
-5. **Include "Uncertain" and "None of the above" options** (via AskUserQuestion's Other option)
-6. **Allow free-text supplement for every question**
-7. **Include a pure ASCII art sketch**
-8. **Theme focus**: The preamble must clearly name a specific life theme (e.g., "how you related to authority figures," "how you spent your free time," "how you handled pressure") — not a generic "your experiences during that period"
-
-**Question types to avoid:**
-- Exposing terminology: "During your Jia-Wu Major Luck Period..." → the querent doesn't need to know what a Major Luck Period is
-- Implying direction: "Was that a stressful period for you?" → the question itself implies a negative experience
-- Too abstract: "What kind of personality do you think you have?" → cannot calibrate specific symbols
-- No time anchor: "Have you ever had a career setback?" → cannot locate which time cycle's energy
-- Indistinguishable options: "A. Career developed B. Career progressed" → same thing
-- Value-laden framing: "A. Achieved great success B. Suffered a major setback" → not neutral
-- Fixed ordering: career option always first across all questions → creates anchoring effect
-- **Life survey pattern**: "During that period, which apply? A. Moved cities B. Family changes C. Did well at school D. Personality shifted" → each option covers a different life domain, cannot discriminate any specific symbol's direction. **This is the #1 pattern to avoid**
-- **One question, many themes**: Options spanning career, relationships, health, relocation in a single question → one answer gets used to "calibrate" multiple unrelated symbols simultaneously, each calibration is low-precision guesswork
-- **Time period as subject**: The question's core is "what happened during that period" instead of "how did you experience [specific theme]" → yields an event inventory, not a direction judgment for a symbol
-- **Cross-theme indistinguishable directions**: "A. Career changed B. Relationship changed C. Inner life changed" → these are different dimensions, not different interpretation directions of the same symbol
-
-#### Handling Multiple Questions for the Same Time Period
-
-When multiple questions share the same time anchor (this is normal — a single Major Luck Period may contain multiple symbol groups requiring calibration), use these techniques to keep the conversation natural:
-
-**Progressive focusing**: The first question for a given time period uses a broad context setter ("When you were 13-17..."). Subsequent questions for the same period narrow the scope ("Still around that same time — but let's talk about the academic side" or "Continuing with ages 13-17 — different angle this time").
-
-**Interleaving**: Prioritize alternating between different time periods rather than asking all questions about one period in a row. E.g.: Q1 (ages 8-12), Q2 (ages 13-17, theme A), Q3 (ages 18-19), Q4 (ages 13-17, theme B), Q5 (ages 20-22) — rather than clustering by period.
-
-**Conversational bridging**: Between questions about the same period, add a natural transition so multiple questions feel like conversation rather than interrogation: "You mentioned that during those years [summarize previous answer]. Something else I'm curious about is..."
-
-#### Cross-Pattern Calibration (Step 3B)
-
-After all individual symbol group questions are planned, identify **2-4 cross-patterns**. Cross-patterns are emergent interpretations produced by combining two or more symbol groups — interactive effects that neither group alone would suggest.
-
-**Identification method**:
-- Which symbol groups' direction choices would influence each other? (e.g., "emotional processing style" once determined, affects how "career style" should be interpreted)
-- Which symbol groups might reinforce or cancel each other? (e.g., "independence" and "authority relationship" may be two sides of the same dynamic)
-- Could the querent's Tier 1 answers produce seemingly contradictory combinations that need further clarification?
-
-**Cross-pattern question characteristics**:
-- Assigned to Tier 2
-- Reference the querent's Tier 1 answers as context ("You mentioned earlier [summary]. Building on that...")
-- Ask about the **relationship** between two symbol groups, not about a single symbol's direction
-
-Record cross-pattern groups in the `## Cross-Pattern Groups` section of calibration_plan.md.
-
-#### Self-Check Step (Step 3C) — must be completed before presenting any questions
-
-Before showing any calibration question to the querent, perform the following verification:
-
-1. Read the `$REFS/calibration_plan.md` you just wrote
-2. Count the total number of symbol groups (N)
-3. Count the total number of calibration questions prepared
-4. **Verify**: question count >= N. If not, you've collapsed multiple symbol groups into a single question — go back and fix this
-5. **Per-question check**: Do all options for each question describe different directions of the same theme? Quick test: could all 4 options plausibly belong to the same life domain? If the options span career + family + personality + health, it's a "life survey" — reject it and rewrite
-6. **Theme uniqueness check**: No two questions have highly overlapping theme labels
-
-Only after passing all 6 checks may you proceed to Step 4.
-
-### Step 4: Collect Answers One by One
-
-After all questions are generated, before presenting the first question, output the following banner:
+Before presenting the first question, output the following banner:
 
 ```
         .     *     .     *     .
@@ -647,28 +579,133 @@ After all questions are generated, before presenting the first question, output 
         .     *     .     *     .
 ```
 
-Then follow the **Tier 1 → Tier 2** order, **presenting only one question at a time** — show the next question only after receiving the answer.
+Then follow the **Tier 1 → Tier 2** order. Predictions from the same time period are grouped together. Different time periods are interleaved to avoid asking about the same era repeatedly.
 
-**Presentation method:** Each calibration question is presented in two steps:
-1. First output the ASCII art sketch as plain text (for atmosphere)
-2. Then use the **AskUserQuestion** tool to collect the answer, with these parameters:
-   - `question`: The calibration question text (including time anchor and theme, e.g. "When you were 13-17 (2013-2017), how would you describe your relationship with authority figures?")
-   - `header`: "Calibrate Q1 [G3]" (Q increments; [GN] marks the corresponding symbol group number from calibration_plan.md; cross-pattern questions use [X1])
-   - `multiSelect`: true
-   - `options`: 2-4 direction options (`label` = "A"/"B"/"C"/"D", `description` = option description text)
-   - If the querent wants to select "Uncertain", "None of the above", or add notes, they can use the automatically provided "Other" option
+#### 3a. Presentation: Definitive Predictions
 
-For each response, determine the calibration state and energy adjustment:
+Calibration aligns with professional practitioners' **chart verification** practice: the practitioner makes **definitive predictions** about the querent's past based on the chart, and the querent simply confirms whether each prediction is accurate.
 
-| Querent's choice | Calibration state | Energy handling |
-|-----------------|-------------------|-----------------|
-| Selected 1 direction | `confirmed` | Maintain theoretical energy, direction locked |
-| Selected multiple directions | `confirmed` | Total energy unchanged, per-direction weight split equally by selection count |
+Each time period's predictions are presented as follows:
+
+1. First output an ASCII art sketch (related to the time period or theme, ASCII characters only — no emoji or Unicode)
+2. Introduce the time period with natural language
+3. Use **AskUserQuestion** to present all predictions for that period:
+
+```
+header: "Calibrate Q1 [Period: age 8-17]"
+question: "Thinking back to when you were 8-17 (2008-2017) — here are my predictions based on your chart. Which ones are accurate?"
+multiSelect: true
+options:
+  - label: "A", description: "P1's prediction content"
+  - label: "B", description: "P2's prediction content"
+  - label: "C", description: "P3's prediction content"
+```
+
+- Selected = "this prediction is accurate"
+- Not selected = "not accurate or not applicable"
+- "Other" = additional notes / none are accurate / uncertain
+
+**Each option is an independent prediction** — derived from different symbols' interactions within that time period, not different directions of the same theme. The practitioner makes definitive calls; the querent validates.
+
+#### Prediction Content Rules
+
+**Predict specific events, not personality traits (the most important rule)**
+
+- Each prediction describes an **objectively verifiable event or behavior**
+- Good predictions: can be answered with "happened / didn't happen"
+- Bad predictions: can only be answered with "do you feel like you're this kind of person"
+
+**Right vs. wrong examples:**
+
+| Symbol × Period | Wrong (personality/feeling) | Right (event prediction) |
+|----------------|---------------------------|--------------------------|
+| Hurting Officer meets Officer × Yi-Wei MLP | "You tend to clash with authority" | "During that period, you had an intense confrontation with a teacher or boss" |
+| Migration Palace Ji × Siblings Decadal | "You feel anxious about changing environments" | "During those years, you moved homes, transferred schools, or relocated to an unfamiliar city" |
+| Moon-Pluto conjunction × Pluto transit 8H | "Your emotions run deep" | "During that period, your family experienced a major upheaval (death of a relative, parents separating, etc.)" |
+| Rahu in 7H × Rahu Dasha | "You feel insecure in relationships" | "During that period, you experienced a relationship that started or ended abruptly" |
+
+Note: correct predictions use **declarative statements** ("You experienced..."), not questions ("Did you experience...?"). The practitioner is making predictions, not asking.
+
+**Common chart verification event types** (material for generating predictions):
+- **Family**: parental health changes, separation/divorce, moving, financial changes, death of a relative
+- **Education/Career**: advancement/failure, school transfer, job change, promotion, dismissal, starting a business, certification
+- **Relationships**: starting/ending a relationship, marriage, breakup/divorce, meeting an important person, falling out with someone
+- **Health**: injury, surgery, hospitalization, onset of a chronic condition
+- **Environment**: relocating to another city, going abroad, shifting from group to solo living (or vice versa)
+- **Financial**: earning income independently for the first time, significant financial loss, unexpected windfall
+
+**Zero terminology**
+- Predictions must **contain no metaphysical terminology**: no "Major Luck Period," "Dasha," "Annual Influence," "transit," "Seven Killings," "Saturn," etc.
+- Time periods expressed only in **age + calendar years**
+
+**Randomized option content**
+- Labels in A, B, C, D order, but **content randomly assigned** — don't put the most likely one at A
+
+**ASCII art**
+- Each question group includes a pure ASCII art sketch depicting **concrete life scenarios** (people, buildings, mountains, airplanes, hearts, trees, etc.) — not abstract borders or frames
+- **Use only ASCII characters** (`-` `|` `/` `\` `_` `^` `*` `.` `~` `o` `=` `+` `(` `)` `<` `>` letters, digits, etc.), **no emoji or Unicode special symbols**
+
+**Prediction types to avoid:**
+- Exposing terminology: "During your Jia-Wu Major Luck Period..."
+- Personality description: "You are an introverted person"
+- Feeling description: "You felt a lot of pressure"
+- No time anchor: "Have you ever had a career setback?"
+- Insufficient assertion: "You might possibly have experienced..." → should be "You experienced..."
+
+#### Handling Too Many Predictions for One Period
+
+If a time period has more than 4 predictions, split into multiple groups:
+- 2-4 predictions per group
+- Group by different life domains (e.g., "let's look at family first," "now about academics")
+- Each group uses its own AskUserQuestion call
+
+#### 3b. Calibration Judgment
+
+Based on the querent's selections, determine each prediction's calibration status:
+
+| Querent's action | Calibration status | Handling |
+|-----------------|-------------------|----------|
+| Selected the prediction | `confirmed` | The interaction direction is confirmed; source symbol's calibration energy maintains theoretical value |
+| Did not select | `contradicted` | The interaction direction was not confirmed |
 | "Other" with "uncertain" | `uncertain` | Don't adjust theoretical energy, set confidence to low |
-| "Other" with "none of the above" | Enter follow-up (Step 5) | After resolution → `revised`; unresolvable → `contradicted` |
+| "Other" with "none are accurate" | Enter follow-up | After resolution → `revised`; unresolvable → `contradicted` |
 | "Other" with other content | Use in conversation to assist judgment | **Do not persist to calibration file** |
 
-**Key: Only direction numbers and energy levels are saved in calibration files. The querent's specific life events, supplementary notes, and other personal information are NOT written to calibration files.**
+**Handling "none are accurate":**
+1. Confirm whether the querent actually experienced significant changes during that period
+2. Open-ended follow-up: "What was the most memorable change or event during that period?"
+3. Re-evaluate the interaction analysis direction based on the querent's answer
+4. If the querent says "nothing particularly happened": the energy may be weak or the interaction analysis may be off
+5. Follow up for a maximum of 2 rounds. If still undetermined, mark as `contradicted`
+
+#### 3c. Immediate Save
+
+Each question group's calibration results are **immediately written** to the corresponding system's calibration file:
+
+- File doesn't exist → use Write to create, with meta header + first entry
+- File exists → use Edit to append new entries at the end of `## Calibrated Entries`, and update `Last updated` date
+- **Only record**: prediction content, calibration result, confidence, source symbol and interaction summary
+- **Do not record**: the querent's specific answers, personal event descriptions
+
+Calibration file list:
+- `$REFS/bazi_calibration.md`
+- `$REFS/ziwei_calibration.md`
+- `$REFS/western_calibration.md`
+- `$REFS/vedic_calibration.md`
+
+Each entry format:
+
+```markdown
+### P[N]: [prediction theme label]
+- Time period: age X-Y (YYYY-YYYY)
+- Source symbol: [SymbolID](symbol name) × [period name]
+- Interaction summary: [brief interaction analysis]
+- Prediction: [specific prediction content]
+- Calibration result: confirmed / revised / contradicted
+- Confidence: [High/Medium/Low]
+```
+
+**Merged entry saving**: If a prediction's sources involve symbols from multiple systems (from Step 2 merging), write the result to all involved systems' calibration files. The `Source symbol` field lists all sources.
 
 #### Tier 1 Completion Transition
 
@@ -676,34 +713,19 @@ After all Tier 1 questions have been answered, give the querent a natural choice
 
 "Thanks for answering all those questions — I have a pretty clear picture of your chart now. We can jump straight into the reading — if anything feels off later, we can always come back to fine-tune. Or, if you're up for it, I have a few more detailed questions that could make the reading even more precise. What would you prefer?"
 
-- Querent chooses to continue → proceed to Tier 2 questions (including cross-pattern questions)
-- Querent chooses to start reading → skip Tier 2, proceed to Step 6 (save) + Step 7 (transition)
+- Querent chooses to continue → proceed to Tier 2 questions
+- Querent chooses to start reading → skip Tier 2, proceed to Step 4
 
-Symbol groups not covered due to skipped Tier 2 are marked as "uncalibrated" and use default weights.
+Entries not covered due to skipped Tier 2 are marked as "uncalibrated" and use default weights.
 
-### Step 5: Handle "None of the Above"
+### Step 4: Calibration Wrap-up
 
-When the querent selects "None of the above," this is itself a signal — it means the proposed directions are likely wrong and other possibilities need to be explored:
+Since calibration results are saved immediately in Step 3, this step only handles wrap-up:
 
-1. Confirm whether the querent actually experienced significant changes during that period (the options may have been too narrow)
-2. Open-ended follow-up: "What was the most memorable change or event during that period?"
-3. Re-evaluate the symbol's interpretation direction based on the querent's answer
-4. If the querent says "nothing particularly happened": consider that the symbol's energy magnitude may be weak, or the time period mapping may be off
-5. Follow up for a maximum of 2 rounds. If still undetermined, mark as "needs further exploration" and treat with low confidence in future readings
+1. Scan calibration_plan.md and append all Tier 2 entries that were not asked to each system's calibration file under `## Uncalibrated Entries`
+2. Update each calibration file's meta (`Calibration rounds` +1, `Last updated` to today)
 
-### Step 6: Save Calibration Data
-
-Write calibration results to each system's calibration file separately. **Calibration files are structured parameter tables — they contain no narrative paragraphs or querent personal events.** Specific interpretive text for readings is generated in real-time by the reading workflow, not pre-written in calibration files.
-
-**No retroactive mapping**: Each calibration question's answer may **only** be used to calibrate the symbols in that question's designated symbol group. If you believe an answer has implications for other symbol groups, formally calibrate it through a Tier 2 cross-pattern question.
-
-Calibration file list (stored in the current profile directory):
-- `$REFS/bazi_calibration.md`
-- `$REFS/ziwei_calibration.md`
-- `$REFS/western_calibration.md`
-- `$REFS/vedic_calibration.md`
-
-Each calibration file format:
+Full calibration file format:
 
 ```markdown
 # [System Name] Calibration Data
@@ -713,77 +735,41 @@ Each calibration file format:
 - Last updated: YYYY-MM-DD
 - Calibration rounds: N
 
-## Calibrated Symbols
+## Calibrated Entries
 
-### [Symbol Name]
-- Symbol group: G[N] "theme label"
-- Theoretical energy: [Strong/Medium/Weak] ([basis])
-- Direction set:
-  1. [direction label]
-  2. [direction label]
-  3. [direction label]
-  4. [direction label]
-- Confirmed direction: [number(s), e.g. "2" or "1,3"]
-- Calibration state: confirmed / revised
-- Calibration energy: [Strong/Medium/Weak] (note reason if different from theoretical)
+### P[N]: [prediction theme label]
+- Time period: age X-Y (YYYY-YYYY)
+- Source symbol: [SymbolID](symbol name) × [period name]
+- Interaction summary: [brief interaction analysis]
+- Prediction: [specific prediction content]
+- Calibration result: confirmed / revised / contradicted
 - Confidence: [High/Medium/Low]
-- Cross-system: [other symbol IDs in same group, e.g. "SYM-western-2" or "none"]
-- Calibration question: Q[N]
-- Calibration round: [N]
 
-## Uncalibrated Symbols
+## Uncalibrated Entries
 
-### [Symbol Name]
-- Symbol group: G[N] "theme label"
-- Theoretical energy: [Strong/Medium/Weak]
-- Direction set: [same as above]
-- Calibration state: uncertain / tier2_skipped
-- Handling: Use theoretical energy, equal weight across all directions
-
-## Contradicted Symbols
-
-### [Symbol Name]
-- Symbol group: G[N] "theme label"
-- Theoretical energy: [Strong/Medium/Weak]
-- Direction set: [same as above]
-- Calibration state: contradicted
-- Handling: Do not downgrade theoretical energy; apply Rule U6 during readings (trust querent for past, be conservative for future)
-- Incremental calibration priority: high
-- Calibration round: [N]
-
-## Cross-Pattern Calibration
-
-### [Pattern Name]
-- Involves groups: G[N] + G[M]
-- Interaction conclusion: reinforcing / cancelling / independent
-- Confidence: [High/Medium/Low]
-- Calibration question: Q[N]
-- Calibration round: [N]
+### P[N]: [prediction theme label]
+- Time period: age X-Y (YYYY-YYYY)
+- Source symbol: [SymbolID](symbol name) × [period name]
+- Prediction: [specific prediction content]
+- Calibration status: tier2_skipped
+- Handling: Use theoretical energy, interaction direction not locked
 ```
-
-**Key differences from old format:**
-- **Removed** `Calibrated interpretation` (narrative paragraph) → generated in real-time during readings
-- **Removed** `Impact on querent` (pre-written reading) → generated in real-time during readings
-- **Removed** `Querent's notes` (user events) → used in conversation but not persisted
-- **Added** `Theoretical energy` + `Calibration energy` dual-track system
-- **Added** `Calibration state` (confirmed/revised/uncertain/contradicted/tier2_skipped)
-- **Added** `Contradicted Symbols` section (theory strong but calibration unconfirmed)
 
 #### Old Format Detection and Migration
 
-If calibration files are found to contain `Calibrated interpretation` or `Impact on querent` fields (old format markers), prompt the querent that recalibration is needed for the new version. Back up old files as `*_calibration_v2_backup.md`.
+If calibration files contain `Confirmed direction`, `Calibrated interpretation`, or `Impact on querent` fields (old format markers), prompt the querent that recalibration is needed for the new version. Back up old files as `*_calibration_v3_backup.md`.
 
 #### Confidence Determination Criteria
 
 | Confidence | Conditions |
 |-----------|------------|
-| **High** | Querent clearly selected 1-2 directions, and cross-system symbols in the same group agree on direction |
-| **Medium** | Querent selected many directions (3+), or cross-system directions only partially agree, or single-system only |
-| **Low** | `revised` (resolved after follow-up), `uncertain` (unsure), or cross-system directions contradict |
+| **High** | Prediction directly confirmed (confirmed); or same source symbol confirmed across multiple time periods |
+| **Medium** | Prediction confirmed but source symbol's theoretical energy is Weak; or single-period single-system source |
+| **Low** | `revised` (corrected after follow-up), `uncertain` (unsure), `contradicted` (prediction inaccurate) |
 
-### Step 7: Natural Transition to Reading
+### Step 5: Natural Transition to Reading
 
-After all questions have been asked, transition to the reading phase with natural language. **Do not present calibration statistics to the querent** (such as "calibrated X symbols," "Y successful, Z uncertain" — these are internal details).
+After all questions have been asked, transition to the reading phase with natural language. **Do not present calibration statistics to the querent** (such as "calibrated X predictions," "Y accurate, Z inaccurate" — these are internal details).
 
 First output the following banner, then use a natural transition phrase:
 
@@ -811,20 +797,20 @@ Calibration is not a one-time event. The querent can continue refining calibrati
 
 ### Incremental Flow
 
-1. Read `$REFS/calibration_plan.md` and all 4 calibration files (or only the relevant system's file based on the feedback area)
-2. Prioritize `contradicted` symbols (theory strong but calibration unconfirmed) — retry with different time anchors or question angles
-3. Identify `uncertain` and `tier2_skipped` symbols
-4. Identify Major Luck Periods/Dasha periods the querent has newly entered (not yet experienced at the time of the last calibration) — these may produce new symbol groups
+1. Read `$REFS/calibration_plan.md` and the relevant system's calibration files
+2. Prioritize `contradicted` entries — retry with a different time period's interaction analysis or adjust the prediction direction
+3. Identify `uncertain` and `tier2_skipped` entries
+4. Identify Major Luck Periods/Decadal Periods/Dasha periods the querent has newly entered (not yet experienced at last calibration) — perform new interaction analysis with natal symbols to generate new calibration entries
 5. If Tier 2 was skipped last time, prioritize completing Tier 2 questions
-6. Append new symbol groups to calibration_plan.md (preserve old entries, add new G numbers)
-7. Generate new calibration predictions (following the same invariants and self-check rules as initial calibration)
-8. Update the corresponding system's calibration file (preserve old data, append new entries, update `Last updated` timestamp and `Calibration rounds`)
+6. Append new entries to calibration_plan.md under the appropriate time period (preserve old entries, use incrementing P numbers)
+7. Present predictions, calibrate, and save per Step 3 flow
+8. Update `Last updated` timestamp and `Calibration rounds`
 
 ### Conflict Resolution
 
-If incremental calibration results contradict the original calibration:
-- Do not silently overwrite; present the conflict to the querent: "Previous calibration for [symbol] pointed to [direction A], but this new data suggests [direction B]. Which feels more accurate?"
-- Update after the querent's confirmation (preserve history)
+If incremental calibration results contradict original calibration (same source symbol gets opposite results in different periods):
+- This is normal — the same symbol can manifest differently across periods
+- If re-calibrating the same symbol in the same period produces different results: present the conflict to the querent, update after confirmation (preserve history)
 
 ### Full Recalibration
 
@@ -859,7 +845,9 @@ Calibration files are structured parameter tables. The following rules define ho
 
 ### Rule U1: Energy → Reading Prominence and Tone
 
-| Calibration energy | Reading behavior |
+The source symbol's theoretical energy determines the reading's prominence and tone. If the same symbol is calibrated across multiple periods, use the theoretical energy itself (theoretical energy is determined by the natal chart and doesn't change with periods).
+
+| Theoretical energy | Reading behavior |
 |-------------------|------------------|
 | **Strong** | Core finding, expand in 2-3 sentences. Confident tone: "This energy is very prominent in your chart..." |
 | **Medium** | Supporting information, 1-2 sentences. Neutral tone: "Your chart suggests a certain tendency in this area..." |
@@ -873,21 +861,26 @@ Calibration files are structured parameter tables. The following rules define ho
 | **Medium** | Moderate qualification: "Based on what we have so far...", "This part of your chart suggests..." |
 | **Low** | Exploratory: "There's an interesting signal, but I'm not fully sure yet...", "This direction is possible..." |
 
-### Rule U3: Handling Uncalibrated Symbols
+### Rule U3: Handling Uncalibrated Entries
 
-- Use theoretical energy (no adjustment)
+- Use the source symbol's theoretical energy (no adjustment)
 - Treat all as medium confidence, use moderately certain phrasing
 - If theoretical energy is strong: include in reading but note "this direction hasn't been verified yet"
 - If theoretical energy is medium/weak: mention only when directly relevant to the querent's question
 
-### Rule U4: Direction Application
+### Rule U4: Calibration Result Application
 
-- **Single direction confirmed (confirmed, 1 direction)**: Read entirely along that direction, don't mention other possible directions
-- **Multiple directions confirmed (confirmed, multiple directions)**: Present as a blended reading, split weight equally by number of confirmed directions, lead with the primary direction
-- **Revised direction (revised)**: Use the revised direction but force low confidence
-- **Uncalibrated (uncertain / tier2_skipped)**: Use theoretical energy, present all directions with equal weight
+- **Confirmed prediction**: The interaction direction is used in readings with high weight. Read along the confirmed direction
+- **Revised prediction**: Use the revised direction but force low confidence
+- **Contradicted prediction**: The interaction direction is deprioritized; apply Rule U6
+- **Uncalibrated (tier2_skipped)**: Use theoretical energy, interaction direction not locked
+- **Same symbol calibrated across multiple periods**: Synthesize results from multiple periods to understand the symbol. If confirmed across multiple periods, confidence increases; if results are inconsistent, it means the symbol's manifestation varies by period — discuss by period during readings
 
 ### Rule U5: Cross-System Agreement × Calibration State
+
+When reading, compare calibration results across systems for the same theme. In the new structure, merged entries naturally contain cross-system sources — if a merged entry's prediction is confirmed, all source systems' agreement is automatically validated.
+
+For non-merged entries, manual cross-comparison is still needed:
 
 | System agreement | Calibration state | Handling |
 |-----------------|-------------------|----------|
@@ -900,14 +893,15 @@ Calibration files are structured parameter tables. The following rules define ho
 
 ### Rule U6: Handling Theory-Calibration Contradictions (contradicted state)
 
-When theoretical energy from the chart is "strong" but calibration could not confirm it, the contradiction itself is a significant signal:
+When theoretical energy from the chart is "strong" but the calibration prediction was not confirmed, the contradiction itself is a significant signal. Note: a symbol's prediction being contradicted in one period doesn't invalidate the symbol overall — it may be confirmed in other periods.
 
 | Reading scenario | Handling |
 |-----------------|----------|
 | **Reading the past** | Trust the querent's experience. Do not use theory to force-explain something the querent didn't experience |
 | **Reading the present** | Present the contradiction: "There's a [theme] energy in your chart that's theoretically quite strong, but based on our earlier exploration it hasn't been very apparent. It may be operating in subtle ways, or it may not have fully activated yet" |
 | **Predicting the future** | Be conservative: "There's a theoretical signal pointing toward [direction], but since the past didn't clearly confirm it, I'm cautious about this one. If in the future you notice [specific manifestation], we can revisit" |
-| **Incremental calibration** | Mark as high-priority target, retry with different time anchors or question angles next calibration |
+| **Partially confirmed + partially contradicted across periods** | The symbol's manifestation is period-dependent. During reading, note: this energy was clearly present during [period A], but not prominently during [period B]; whether it reactivates in the future depends on the new period's energy environment |
+| **Incremental calibration** | Mark as high-priority target, retry with different period interaction analysis next calibration |
 
 ## Reading Workflow
 
@@ -915,10 +909,11 @@ When theoretical energy from the chart is "strong" but calibration could not con
 2. Based on the querent's question, determine which systems apply (Rule 1)
 3. **Only read the reference files and corresponding calibration files for the applicable systems** (e.g., for a BaZi-related question, read `$REFS/bazi.md` + `$REFS/bazi_calibration.md`; do not load all files every time). If calibration files do not exist, prompt the querent to complete calibration first
 4. Analyze independently for each applicable system, **strictly applying utilization rules U1-U6 to calibration data**:
-   - Check `Confirmed direction` → read along that direction (Rule U4)
-   - Check `Calibration energy` → determine prominence and tone (Rule U1)
+   - Check `Calibration result` → apply confirmed/contradicted direction (Rule U4)
+   - Check source symbol's `Theoretical energy` → determine prominence and tone (Rule U1)
    - Check `Confidence` → determine language certainty (Rule U2)
-   - Check `Calibration state` → if `contradicted`, apply Rule U6; if `uncertain`/`tier2_skipped`, apply Rule U3
+   - Check `Calibration result` → if `contradicted`, apply Rule U6; if `tier2_skipped`, apply Rule U3
+   - When the same symbol has calibration records across multiple periods → synthesize (Rule U4)
 5. Cross-compare and apply the majority agreement filter (Rule 2) + cross-system agreement rule (Rule U5). If all systems completely diverge on a sub-question, honestly tell the querent that no reliable conclusion can be drawn
 6. Map ancient concepts to modern context (Rule 3)
 7. Output the final reading
