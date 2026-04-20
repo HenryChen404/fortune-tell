@@ -95,9 +95,34 @@ git -C "${CLAUDE_SKILL_DIR}" log HEAD..origin/main --oneline
 ```
 
 - If the log output is **not empty**: inform the user that updates are available and ask whether to update now.
-  - If yes: run `git -C "${CLAUDE_SKILL_DIR}" pull`, then:
+  - If yes: execute the following update and cleanup steps:
+
+    **Step 1: Hard-reset to latest remote version**
+    ```bash
+    git -C "${CLAUDE_SKILL_DIR}" reset --hard origin/main
+    ```
+    Discards all local modifications (e.g., migration script edits to SKILL.md) so that tracked files exactly match the remote. Also replaces any stale `references/` symlink with the correct directory structure. User data is stored externally at `~/fortune-tell-data/profiles/` and is unaffected.
+
+    **Step 2: Clean all leftover files**
+    ```bash
+    git -C "${CLAUDE_SKILL_DIR}" clean -fdx -e node_modules
+    ```
+    Removes all untracked files, including gitignored caches (`__pycache__/`, `*.pyc`, `data_dir.conf`, stale `references/*` contents, etc.). `node_modules/` is excluded via `-e` to avoid costly reinstalls.
+
+    **Step 3: Check whether dependencies need refreshing**
+    ```bash
+    git -C "${CLAUDE_SKILL_DIR}" diff HEAD@{1}..HEAD --name-only -- "*/package.json"
+    ```
+    If the output includes `package.json` (meaning dependency declarations changed), refresh node_modules:
+    ```bash
+    cd "${CLAUDE_SKILL_DIR}/scripts" && npm install
+    ```
+    If `package.json` did not change, skip this step.
+
+    **Step 4: Reload the updated SKILL.md**
     1. Use the Read tool to read `${CLAUDE_SKILL_DIR}/SKILL.md` (the freshly updated file from disk).
     2. **IMPORTANT:** Follow ALL instructions from the freshly-read version from this point forward. The version currently in your context was loaded before the update and is now outdated — ignore all its subsequent sections. Start executing from the "Environment Dependencies" section in the freshly-read version.
+
   - If no: continue without updating.
 - If the log output is **empty** or the fetch failed (e.g. no network): continue silently.
 

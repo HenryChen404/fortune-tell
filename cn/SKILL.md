@@ -83,9 +83,34 @@ git -C "${CLAUDE_SKILL_DIR}" log HEAD..origin/main --oneline
 ```
 
 - 如果 log 输出**不为空**：告知用户有更新可用，询问是否要更新。
-  - 是 → 执行 `git -C "${CLAUDE_SKILL_DIR}" pull`，然后：
+  - 是 → 按以下步骤执行更新和清理：
+
+    **步骤 1：硬重置到远程最新版本**
+    ```bash
+    git -C "${CLAUDE_SKILL_DIR}" reset --hard origin/main
+    ```
+    丢弃所有本地修改（如迁移脚本对 SKILL.md 的编辑），让跟踪文件完全匹配远程。同时将旧版的 `references/` symlink 恢复为正确的目录结构。用户数据存储在 `~/fortune-tell-data/profiles/`，不受影响。
+
+    **步骤 2：清理所有残留文件**
+    ```bash
+    git -C "${CLAUDE_SKILL_DIR}" clean -fdx -e node_modules
+    ```
+    删除所有未被跟踪的文件，包括 gitignore 中的缓存文件（`__pycache__/`、`*.pyc`、`data_dir.conf`、旧 `references/*` 内容等）。`node_modules/` 通过 `-e` 排除保留以避免每次重装。
+
+    **步骤 3：检查依赖是否需要刷新**
+    ```bash
+    git -C "${CLAUDE_SKILL_DIR}" diff HEAD@{1}..HEAD --name-only -- "*/package.json"
+    ```
+    如果输出包含 `package.json`（说明依赖声明有变化），则刷新 node_modules：
+    ```bash
+    cd "${CLAUDE_SKILL_DIR}/scripts" && npm install
+    ```
+    如果 `package.json` 未变化，跳过此步。
+
+    **步骤 4：重新加载更新后的 SKILL.md**
     1. 使用 Read 工具读取 `${CLAUDE_SKILL_DIR}/SKILL.md`（磁盘上刚更新的文件）。
     2. **重要：** 从此刻起，完全按照刚读取的新版本执行。当前 context 中的版本是更新前加载的旧版本，已过时——忽略其后续所有章节。从新版本的"环境依赖"部分开始继续执行。
+
   - 否 → 跳过，继续正常流程。
 - 如果 log 输出**为空**或 fetch 失败（如无网络）：静默跳过。
 
