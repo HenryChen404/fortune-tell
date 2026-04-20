@@ -1,127 +1,106 @@
 # Reading Rules Guide
 
-This file contains the complete rules for the reading phase. Loaded by the main SKILL.md via the Read tool when entering a reading.
-
-**All rules below must be strictly followed during every reading.**
+Loaded by the main SKILL.md via the Read tool when entering a reading. **All rules below must be strictly followed during every reading.**
 
 ---
 
-## Calibration Data Utilization Rules
+## Step 1: Prepare
 
-Calibration files are structured parameter tables. The following rules define how to map these parameters to concrete output behavior during readings.
+1. Read `$REFS/birth-info.md` to confirm querent's identity
+2. Determine applicable systems based on the querent's question (Rule 1: at least 2 systems must apply)
+3. **Only read the chart and calibration files for applicable systems** (e.g., BaZi question → read `bazi.md` + `bazi_calibration.md`)
+4. No calibration file → prompt querent to complete calibration first
+5. Querent's intent unclear → **ask first, do not force an answer**
 
-### Rule U1: Energy → Reading Prominence and Tone
+## Step 2: Per-System Analysis
 
-The source symbol's theoretical energy determines the reading's prominence and tone. If the same symbol is calibrated across multiple periods, use the theoretical energy itself (theoretical energy is determined by the natal chart and doesn't change with periods).
+For each applicable system, apply calibration data using these rules:
 
-| Theoretical energy | Reading behavior |
-|-------------------|------------------|
-| **Strong** | Core finding, expand in 2-3 sentences. Confident tone: "This energy is very prominent in your chart..." |
-| **Medium** | Supporting information, 1-2 sentences. Neutral tone: "Your chart suggests a certain tendency in this area..." |
-| **Weak** | Mention only when the querent specifically asks, 1 sentence. Conservative tone: "There's a relatively faint signal..." |
+### Direction selection (which direction to use)
 
-### Rule U2: Confidence → Language Certainty
+| Calibration result | Handling |
+|-------------------|----------|
+| `confirmed` | Read along the confirmed direction, high weight |
+| `revised` | Use revised direction, force low confidence |
+| `contradicted` | Deprioritize; apply contradiction rules below |
+| `tier2_skipped` | Use theoretical energy, direction not locked, medium confidence; strong energy noted as "unverified" |
+| Same symbol across multiple periods | Synthesize: multiple confirmed → increase confidence; inconsistent → discuss by period |
 
-| Confidence | Phrasing pattern |
-|-----------|-----------------|
-| **High** | Direct assertion: "Your chart clearly shows...", "This signal is unmistakable..." |
-| **Medium** | Moderate qualification: "Based on what we have so far...", "This part of your chart suggests..." |
-| **Low** | Exploratory: "There's an interesting signal, but I'm not fully sure yet...", "This direction is possible..." |
+### Prominence and tone (determined by source symbol's theoretical energy)
 
-### Rule U3: Handling Uncalibrated Entries
+| Theoretical energy | Prominence | Tone |
+|-------------------|------------|------|
+| Strong | Core finding, 2-3 sentences | "This energy is very prominent in your chart..." |
+| Medium | Supporting info, 1-2 sentences | "Your chart suggests a certain tendency here..." |
+| Weak | Mention only when querent asks, 1 sentence | "There's a relatively faint signal..." |
 
-- Use the source symbol's theoretical energy (no adjustment)
-- Treat all as medium confidence, use moderately certain phrasing
-- If theoretical energy is strong: include in reading but note "this direction hasn't been verified yet"
-- If theoretical energy is medium/weak: mention only when directly relevant to the querent's question
+### Language certainty (determined by confidence)
 
-### Rule U4: Calibration Result Application
+| Confidence | Phrasing |
+|-----------|----------|
+| High | Direct assertion: "Your chart clearly shows..." |
+| Medium | Moderate qualification: "Based on what we have so far..." |
+| Low | Exploratory: "There's an interesting signal, but I'm not fully sure yet..." |
 
-- **Confirmed prediction**: The interaction direction is used in readings with high weight. Read along the confirmed direction
-- **Revised prediction**: Use the revised direction but force low confidence
-- **Contradicted prediction**: The interaction direction is deprioritized; apply Rule U6
-- **Uncalibrated (tier2_skipped)**: Use theoretical energy, interaction direction not locked
-- **Same symbol calibrated across multiple periods**: Synthesize results from multiple periods to understand the symbol. If confirmed across multiple periods, confidence increases; if results are inconsistent, it means the symbol's manifestation varies by period — discuss by period during readings
+### Contradiction handling (contradicted status)
 
-### Rule U5: Cross-System Agreement × Calibration State
+| Scenario | Handling |
+|----------|----------|
+| Reading the past | Trust querent's experience; do not force-explain with theory |
+| Reading the present | Present the contradiction: "Theoretically strong, but not apparent from what we've seen — may be operating subtly" |
+| Predicting the future | Be conservative: "Theoretical signal exists but past didn't confirm it; I'm cautious" |
+| Partially confirmed + partially contradicted | Note period-dependent manifestation; discuss separately |
 
-When reading, compare calibration results across systems for the same theme. In the new structure, merged entries naturally contain cross-system sources — if a merged entry's prediction is confirmed, all source systems' agreement is automatically validated.
+## Step 3: Cross-System Comparison
 
-For non-merged entries, manual cross-comparison is still needed:
+Compare each system's conclusions on the same theme (Rule 2):
 
 | System agreement | Calibration state | Handling |
 |-----------------|-------------------|----------|
-| All agree + calibrated | Core finding, high-confidence phrasing |
-| All agree + partially uncalibrated | Core finding, medium-confidence phrasing |
-| Majority agree + calibrated | Supporting finding, moderate phrasing |
-| Majority agree + uncalibrated | Mention when relevant, conservative phrasing |
-| Minority agree | Do not output (per Rule 2) |
-| Complete divergence (no two systems agree) | Honestly tell the querent that no reliable conclusion can be drawn (per Rule 2) |
+| All agree | Calibrated | Core finding, high confidence |
+| All agree | Partially uncalibrated | Core finding, medium confidence |
+| Majority agree | Calibrated | Supporting finding, moderate phrasing |
+| Majority agree | Uncalibrated | Mention when relevant, conservative |
+| Minority agree | — | Do not output |
+| Complete divergence | — | Honestly tell querent no reliable conclusion can be drawn |
 
-### Rule U6: Handling Theory-Calibration Contradictions (contradicted state)
+Merged entries (sources ≥ 2 systems) confirmed → cross-system agreement auto-validated.
 
-When theoretical energy from the chart is "strong" but the calibration prediction was not confirmed, the contradiction itself is a significant signal. Note: a symbol's prediction being contradicted in one period doesn't invalidate the symbol overall — it may be confirmed in other periods.
+## Step 4: Output
 
-| Reading scenario | Handling |
-|-----------------|----------|
-| **Reading the past** | Trust the querent's experience. Do not use theory to force-explain something the querent didn't experience |
-| **Reading the present** | Present the contradiction: "There's a [theme] energy in your chart that's theoretically quite strong, but based on our earlier exploration it hasn't been very apparent. It may be operating in subtle ways, or it may not have fully activated yet" |
-| **Predicting the future** | Be conservative: "There's a theoretical signal pointing toward [direction], but since the past didn't clearly confirm it, I'm cautious about this one. If in the future you notice [specific manifestation], we can revisit" |
-| **Partially confirmed + partially contradicted across periods** | The symbol's manifestation is period-dependent. During reading, note: this energy was clearly present during [period A], but not prominently during [period B]; whether it reactivates in the future depends on the new period's energy environment |
-| **Incremental calibration** | Mark as high-priority target, retry with different period interaction analysis next calibration |
+1. Map ancient concepts to modern context (Rule 3)
+2. **Decompose** the querent's question into atomic sub-questions; output each using this structure:
 
-## Reading Workflow
+---
+**[Summary Conclusion]** One-sentence overall judgment
 
-1. Read the current profile's `$REFS/birth-info.md` to confirm the querent's identity
-2. Based on the querent's question, determine which systems apply (Rule 1)
-3. **Only read the reference files and corresponding calibration files for the applicable systems** (e.g., for a BaZi-related question, read `$REFS/bazi.md` + `$REFS/bazi_calibration.md`; do not load all files every time). If calibration files do not exist, prompt the querent to complete calibration first
-4. Analyze independently for each applicable system, **strictly applying utilization rules U1-U6 to calibration data**:
-   - Check `Calibration result` → apply confirmed/contradicted direction (Rule U4)
-   - Check source symbol's `Theoretical energy` → determine prominence and tone (Rule U1)
-   - Check `Confidence` → determine language certainty (Rule U2)
-   - Check `Calibration result` → if `contradicted`, apply Rule U6; if `tier2_skipped`, apply Rule U3
-   - When the same symbol has calibration records across multiple periods → synthesize (Rule U4)
-5. Cross-compare and apply the majority agreement filter (Rule 2) + cross-system agreement rule (Rule U5). If all systems completely diverge on a sub-question, honestly tell the querent that no reliable conclusion can be drawn
-6. Map ancient concepts to modern context (Rule 3)
-7. Output the final reading
-8. At the end of the reading, naturally mention that if anything feels off, the querent can let you know and you can dig deeper together — do not proactively ask "was this accurate?"
+- **System N's analysis**: Specific reading (**bold** key conclusions, *italics* for qualifications)
+
+**[Synthesis]** Consolidate system analyses into final conclusion
+
+---
+
+3. At the end, naturally mention "if anything feels off, let me know" — do not proactively ask "was this accurate?"
 
 ## Time Handling
 
-For time-related questions, consider the time-related concepts in each system:
+For time-related questions, use the system's current date to locate the querent's active period:
 
-- **BaZi**: Major Luck Periods, Annual Influence, Monthly Influence, Daily Influence
-- **Zi Wei Dou Shu**: Decadal Period, Annual Chart, Monthly Chart, Daily Chart
-- **Western Astrology**: Transits, Progressions, Solar Return
-- **Vedic Astrology**: Dasha (Major Period), Bhukti/Antardasha (Sub-period), Gochara (Transit)
-
-Use the system-provided current date to locate the querent's current time period.
-
-## Response Structure
-
-0. When the querent's intent is unclear, **ask first — do not force an answer**
-1. **Decompose**: Break the querent's question into atomic sub-questions
-2. **Output each sub-question** using the following fixed structure:
-
----
-**[Summary Conclusion]** One-sentence overall judgment for this sub-question
-
-- **System N's analysis**: The specific reading from this system for the sub-question (use **bold** for key conclusions, *italics* for qualifications or conditions)
-
-**[Synthesis]** Consolidate the system analyses into a final conclusion or supplementary remarks
----
-
-3. Then proceed to the next sub-question, repeating the structure above
+| System | Time concepts |
+|--------|--------------|
+| BaZi | Major Luck Period, Annual, Monthly, Daily |
+| ZiWei | Decadal Period, Annual, Monthly, Daily |
+| Western | Transits, Progressions, Solar Return |
+| Vedic | Dasha, Bhukti/Antardasha, Gochara |
 
 ---
 
-## Rules Checklist (review before each reading)
+## Checklist
 
-- [ ] Applied U1: set prominence and tone based on theoretical energy
-- [ ] Applied U2: set language certainty based on confidence level
-- [ ] Applied U3: handled uncalibrated entries correctly (medium confidence, strong energy noted as unverified)
-- [ ] Applied U4: selected interaction direction based on calibration result (confirmed→high weight, contradicted→deprioritized)
-- [ ] Applied U5: performed cross-system agreement comparison
-- [ ] Applied U6: handled contradicted state (differentiated past/present/future scenarios)
-- [ ] Applied Three Rules (answerability→majority agreement filter→ancient-to-modern mapping)
-- [ ] Response structure: decompose sub-questions→summary conclusion→system analysis→synthesis
+- [ ] Prominence/tone matches theoretical energy
+- [ ] Phrasing matches confidence level
+- [ ] Uncalibrated entries: medium confidence, strong energy noted as unverified
+- [ ] confirmed → high weight, contradicted → deprioritized (differentiate past/present/future)
+- [ ] Cross-system agreement comparison done
+- [ ] Three Rules applied (answerability → majority agreement → ancient-to-modern mapping)
+- [ ] Response structure: sub-questions → summary → system analysis → synthesis
