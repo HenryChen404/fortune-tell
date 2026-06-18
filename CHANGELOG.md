@@ -1,5 +1,48 @@
 # Changelog
 
+## 4.0.0
+
+- 验盘系统重构：从"方向锁定"升级为"四场景验盘模型"，对齐真实命理师的定盘实践
+  - 新增四层验盘：①命盘是否正确（时辰校正）②具体应验在哪个象（显化形式锁定）③命主人生基准线（强度调整）④模型确认（定盘）
+  - 新增 Phase 0 排盘预检：夏令时检测（1986-1991）、时辰边界检测（±15分钟）、公历/农历确认
+  - 预测格式改为"拆象多选"：同一原局象的多种显化形式拆为独立选项，命主多选同时获取"象是否应验"和"具体应验在哪个形式"两层信息
+  - 三轮反馈收集：①快速筛查（multi-select）→ ②逐条自然对话追问未选中选项 → ③条件触发时辰校正（收集重大事件 → 相邻时辰重排 → 反推 → 存疑从弱）
+  - 新增验盘状态 `confirmed_form`（象对事不同 → 锁定显化形式）和 `confirmed_scaled`（方向对程度不同 → 调整基准线）
+  - 新增命主基准线：显化倾向、强度基线、主要应验领域、六亲缓冲四个维度，带量化判定规则
+  - 解盘规则配套更新：新增基准线读取和应用规则、基准线修正表、新验盘状态处理
+  - AskUserQuestion 适配：每组 2-4 选项（工具硬限制），>4 按生活领域拆分子组
+  - Tier 严格分离：Tier 2 始终在 Tier 1 全部完成后呈现
+  - 追问上限：每条未选中选项最多 2 轮，之后标记 uncertain
+  - 旧格式迁移：v4 `revised` 映射为 `confirmed_form`，备份为 v5
+- Verification system overhaul: from "direction locking" to "four-scenario verification model," aligned with real-world chart verification practices
+  - Four layers of verification: ①Is the chart correct? (time correction) ②Which specific manifestation? (form locking) ③Querent's life baseline (magnitude adjustment) ④Model confirmation (chart validation)
+  - New Phase 0 pre-check: DST detection (1986-1991), hour boundary detection (±15min), calendar confirmation
+  - Prediction format changed to "split-symbol multi-select": each natal indicator's possible manifestation forms become independent options, multi-select captures both "did the energy manifest?" and "which specific form?" simultaneously
+  - Three-round feedback: ①Quick scan (multi-select) → ②Natural conversation follow-up on every unselected option → ③Conditional time correction (collect major events → re-chart adjacent hours → reverse-engineer → uncertain-defaults-to-weak)
+  - New verification statuses: `confirmed_form` (right energy, different event → lock manifestation form) and `confirmed_scaled` (right direction, different magnitude → adjust baseline)
+  - New querent baseline: manifestation tendency, magnitude baseline, primary domains, family buffering — with quantified determination rules
+  - Reading guide updated: baseline reading/application rules, baseline correction table, new status handling
+  - AskUserQuestion compliance: 2-4 options per group (tool hard limit), >4 split into sub-groups by life domain
+  - Strict Tier separation: Tier 2 always presented after all Tier 1 is complete
+  - Follow-up cap: max 2 rounds per unselected option, then mark uncertain
+  - Old format migration: v4 `revised` maps to `confirmed_form`, backup as v5
+
+## 3.3.0
+
+- 术语专业化：全面替换为命理行业标准术语
+  - 校准 → 验盘（定盘/验盘），意象 → 原局象，意象组 → 格局组合
+  - 识别意象 → 取象，方向集 → 象义，理论能量 → 先天强弱
+  - 解读 → 解盘，交互分析 → 推运断事，显著交互 → 显著激发
+  - 推导预测 → 断应期，交互摘要 → 激发摘要
+  - 排盘命令增加系统专属术语注释（立四柱/安星布盘/起本命盘/Jyotish Chart）
+  - 英文版对齐：calibration→chart verification, symbol→natal indicator, energy→innate strength, reading→chart delineation
+- Terminology professionalization: upgraded to industry-standard Chinese metaphysics terms
+  - calibration → chart verification (验盘), symbol → natal indicator (原局象), symbol group → chart pattern (格局组合)
+  - identify symbols → extract indicators (取象), direction set → symbol meanings (象义), theoretical energy → innate strength (先天强弱)
+  - reading → chart delineation (解盘), interaction analysis → transit analysis (推运断事), significant interaction → significant activation (显著激发)
+  - derive prediction → determine timing (断应期), interaction summary → activation summary (激发摘要)
+  - Charting commands annotated with system-specific terms (立四柱/安星布盘/Natal Chart/Jyotish Chart)
+
 ## 3.1.0
 
 - 校准规划重构：以时间段为主轴 + 断定式提问

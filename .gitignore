@@ -17,3 +17,6 @@ CHANGELOG.md
 # Python
 __pycache__/
 *.pyc
+
+# Test logs
+*.log.md

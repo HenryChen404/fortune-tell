@@ -37,16 +37,16 @@ Auto-detects system language (Chinese → cn, otherwise → en). Dependencies ar
 
 Update: `cd ~/.fortune-tell && git pull`
 
-## Calibration System
+## Chart Verification System
 
-After the first chart generation, the system automatically enters a calibration phase. Many symbols in natal charts (e.g., Seven Killings, Sun in the 12th House, Rahu-Ketu axis) are polysemous — the same symbol can manifest in completely different ways for different people. Calibration solves this through retrospective verification:
+After the first chart generation, the system automatically enters a chart verification phase. Many natal indicators in natal charts (e.g., Seven Killings, Sun in the 12th House, Rahu-Ketu axis) are polysemous — the same indicator can manifest in completely different ways for different people. Chart verification solves this through retrospective verification:
 
-1. **Read all charts** and identify cross-system resonance symbols and single-system polysemous symbols
+1. **Read all charts** and identify cross-system resonance natal indicators and single-system polysemous natal indicators
 2. **Dynamically generate questions**, each anchored to a specific Major Luck Period/Annual Influence/Dasha time period, with 2-4 verifiable options
-3. **Collect answers** — supports "Uncertain" (marked as uncalibrated) and "None of the above" (triggers follow-up questions exploring new directions); every question allows free-text supplements
-4. **Save calibration data** to each system's independent calibration file (`bazi_calibration.md`, etc.); a cross-system question's results are written to all relevant system files simultaneously
+3. **Collect answers** — supports "Uncertain" (marked as unverified) and "None of the above" (triggers follow-up questions exploring new directions); every question allows free-text supplements
+4. **Save verification data** to each system's independent verification file (`bazi_calibration.md`, etc.); a cross-system question's results are written to all relevant system files simultaneously
 
-Calibration is not one-time — if a reading feels off, you can always request incremental calibration.
+Chart verification is not one-time — if a reading feels off, you can always request incremental verification.
 
 ## Natal Pet
 
@@ -54,7 +54,7 @@ After chart generation, the system assigns a Yu-Gi-Oh! style ASCII Art card base
 
 The card is revealed in two steps:
 1. **After charting**: An R-level preview card (art masked with `?`, ATK/DEF hidden)
-2. **After calibration**: Cross-system resonance scan — how many of BaZi, Western, and Vedic charts resonate with your Life Palace star determines the evolution level (R → SR → SSR → SSSR)
+2. **After verification**: Cross-system resonance scan — how many of BaZi, Western, and Vedic charts resonate with your Life Palace star determines the evolution level (R → SR → SSR → SSSR)
 
 ATK/DEF are dynamically calculated from chart data. Cards render in ANSI terminal colors with different visual effects per rarity.
 
@@ -90,10 +90,10 @@ en/                        # Symlinked to .claude/skills/fortune-tell-experts/
         ├── ziwei.md           # ZiWei chart
         ├── western-astrology.md  # Western chart
         ├── vedic-astrology.md    # Vedic chart
-        ├── bazi_calibration.md   # BaZi calibration data
-        ├── ziwei_calibration.md  # ZiWei calibration data
-        ├── western_calibration.md # Western calibration data
-        └── vedic_calibration.md   # Vedic calibration data
+        ├── bazi_calibration.md   # BaZi verification data
+        ├── ziwei_calibration.md  # ZiWei verification data
+        ├── western_calibration.md # Western verification data
+        └── vedic_calibration.md   # Vedic verification data
 ```
 
 ## License
