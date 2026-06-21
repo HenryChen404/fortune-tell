@@ -1,0 +1,837 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "created": "2026-06-21",
+    "description": "Fortune-tell blind test benchmark. Contains birth data, chart file paths, predictions, and scoring for 60 celebrities across Round 1 and Round 2.",
+    "prediction_window": "2025-06 to 2026-06",
+    "scoring_method": "AgentProcessBench: +1 MATCH, 0 PARTIAL, -1 MISMATCH",
+    "skill_file": "reading_guide.md",
+    "chart_scripts": {
+      "bazi": "scripts/bazi_chart.py --year --month --day --hour --minute --lng --tz --gender",
+      "ziwei": "scripts/ziwei_chart.js --date YYYY-M-D --hour --minute --lng --tz --gender",
+      "western": "scripts/western_chart.py --year --month --day --hour --minute --lat --lng --tz"
+    },
+    "chart_files_dir": "blind_test_charts/"
+  },
+  "round1": {
+    "skill_version": "pre-modifications (original reading_guide.md, 148 lines)",
+    "aggregate": {
+      "total_dimensions": 95,
+      "match": 37,
+      "partial": 46,
+      "mismatch": 12,
+      "match_rate": 0.389,
+      "mismatch_rate": 0.126,
+      "partial_rate": 0.484,
+      "weighted_score": 0.26
+    },
+    "celebrities": [
+      {
+        "number": 1,
+        "name": "LeBron James",
+        "birth": { "date": "1984-12-30", "time": "16:04", "tz": "EST (UTC-5)", "place": "Akron, OH, USA", "lat": 41.0814, "lng": -81.519, "gender": "M" },
+        "charts": { "bazi": "LeBron_James_bazi.md", "ziwei": "LeBron_James_ziwei.md", "western": "LeBron_James_western.md" },
+        "predictions": [
+          { "dimension": "事业", "polarity": "POSITIVE", "confidence": "★★★★", "summary": "面临重大职业决定——退役/转型的最后一舞阶段，但2026事业仍有高光" },
+          { "dimension": "财务", "polarity": "POSITIVE", "confidence": "★★★★", "summary": "武曲化科在财帛=财务利好" },
+          { "dimension": "感情/家庭", "polarity": "TURBULENT", "confidence": "★★★", "summary": "太阳化忌在子女=子女事务有压力" },
+          { "dimension": "健康", "polarity": "NEGATIVE", "confidence": "★★★", "summary": "大运末期+Mars合MC=高负荷，关注伤病" }
+        ],
+        "weighted_score": 0.60
+      },
+      {
+        "number": 2,
+        "name": "Dwayne Johnson",
+        "birth": { "date": "1972-05-02", "time": "18:02", "tz": "PDT (UTC-7)", "place": "San Leandro, CA, USA", "lat": 37.7249, "lng": -122.156, "gender": "M" },
+        "charts": { "bazi": "Dwayne_Johnson_bazi.md", "ziwei": "Dwayne_Johnson_ziwei.md", "western": "Dwayne_Johnson_western.md" },
+        "predictions": [
+          { "dimension": "事业", "polarity": "NEGATIVE", "confidence": "★★★", "summary": "武曲化忌在官禄+大限也在官禄=事业明显阻碍。预测：项目失败、票房不佳、或商业合作问题" },
+          { "dimension": "财务", "polarity": "TURBULENT", "confidence": "★★★", "summary": "正财年但官禄忌=赚钱渠道受阻" },
+          { "dimension": "感情/家庭", "polarity": "POSITIVE", "confidence": "★★★★", "summary": "左辅化科在夫妻=伴侣关系正面" }
+        ],
+        "weighted_score": -0.67
+      },
+      {
+        "number": 3,
+        "name": "Miley Cyrus",
+        "birth": { "date": "1992-11-23", "time": "16:19", "tz": "CST (UTC-6)", "place": "Nashville, TN, USA", "lat": 36.1659, "lng": -86.7844, "gender": "F" },
+        "charts": { "bazi": "Miley_Cyrus_bazi.md", "ziwei": "Miley_Cyrus_ziwei.md", "western": "Miley_Cyrus_western.md" },
+        "predictions": [
+          { "dimension": "感情", "polarity": "TURBULENT", "confidence": "★★★★", "summary": "感情变动——新恋情、分手、或关系转型" },
+          { "dimension": "事业", "polarity": "POSITIVE", "confidence": "★★★★", "summary": "重要作品或行业认可" },
+          { "dimension": "健康", "polarity": "NEGATIVE", "confidence": "★★★", "summary": "无火无土命局遇火年=注意过度兴奋或炎症" }
+        ],
+        "weighted_score": null,
+        "note": "Individual score not in top/bottom tier; only aggregate available"
+      },
+      {
+        "number": 4,
+        "name": "Jennifer Lawrence",
+        "birth": { "date": "1990-08-15", "time": "15:20", "tz": "EDT (UTC-4)", "place": "Louisville, KY, USA", "lat": 38.2542, "lng": -85.7594, "gender": "F" },
+        "charts": { "bazi": "Jennifer_Lawrence_bazi.md", "ziwei": "Jennifer_Lawrence_ziwei.md", "western": "Jennifer_Lawrence_western.md" },
+        "predictions": [
+          { "dimension": "感情/家庭", "polarity": "POSITIVE", "confidence": "★★★★★", "summary": "可能有生育消息（怀孕或二胎）" },
+          { "dimension": "事业", "polarity": "POSITIVE", "confidence": "★★★★", "summary": "重要电影项目或回归公众视野" },
+          { "dimension": "财务", "polarity": "NEGATIVE", "confidence": "★★★", "summary": "天同化忌在财帛=小压力" }
+        ],
+        "weighted_score": null
+      },
+      {
+        "number": 5,
+        "name": "Timothée Chalamet",
+        "birth": { "date": "1995-12-27", "time": "21:16", "tz": "EST (UTC-5)", "place": "Manhattan, NY, USA", "lat": 40.7767, "lng": -73.9713, "gender": "M" },
+        "charts": { "bazi": "Timothee_Chalamet_bazi.md", "ziwei": "Timothee_Chalamet_ziwei.md", "western": "Timothee_Chalamet_western.md" },
+        "predictions": [
+          { "dimension": "感情", "polarity": "TURBULENT", "confidence": "★★★★", "summary": "高调恋情带来公众压力，关系中有挑战" },
+          { "dimension": "事业", "polarity": "POSITIVE", "confidence": "★★★★★", "summary": "重大电影上映或获奖。高产期" }
+        ],
+        "weighted_score": 0.67
+      },
+      {
+        "number": 6,
+        "name": "Serena Williams",
+        "birth": { "date": "1981-09-26", "time": "20:28", "tz": "EDT (UTC-4)", "place": "Saginaw, MI, USA", "lat": 43.4195, "lng": -83.9508, "gender": "F" },
+        "charts": { "bazi": "Serena_Williams_bazi.md", "ziwei": "Serena_Williams_ziwei.md", "western": "Serena_Williams_western.md" },
+        "predictions": [
+          { "dimension": "事业", "polarity": "POSITIVE", "confidence": "★★★★", "summary": "退役后商业事业新阶段——新项目启动或投资成功" },
+          { "dimension": "感情", "polarity": "POSITIVE", "confidence": "★★★★", "summary": "巨门化禄在夫妻=婚姻沟通顺畅" },
+          { "dimension": "健康", "polarity": "NEGATIVE", "confidence": "★★★", "summary": "6宫集中=健康需长期关注" }
+        ],
+        "weighted_score": -0.67
+      },
+      {
+        "number": 7,
+        "name": "Drake",
+        "birth": { "date": "1986-10-24", "time": "02:31", "tz": "EDT (UTC-4)", "place": "Toronto, ON, Canada", "lat": 43.6532, "lng": -79.3832, "gender": "M" },
+        "charts": { "bazi": "Drake_bazi.md", "ziwei": "Drake_ziwei.md", "western": "Drake_western.md" },
+        "predictions": [
+          { "dimension": "事业/法律", "polarity": "TURBULENT", "confidence": "★★★", "summary": "伤官见官=冲突/官司信号。可能涉及争议、法律纠纷" },
+          { "dimension": "财务", "polarity": "NEGATIVE", "confidence": "★★★", "summary": "田宅破军+地劫=资产可能有损失" }
+        ],
+        "weighted_score": null
+      },
+      {
+        "number": 8,
+        "name": "Katy Perry",
+        "birth": { "date": "1984-10-25", "time": "07:58", "tz": "PDT (UTC-7)", "place": "Santa Barbara, CA, USA", "lat": 34.4208, "lng": -119.6982, "gender": "F" },
+        "charts": { "bazi": "Katy_Perry_bazi.md", "ziwei": "Katy_Perry_ziwei.md", "western": "Katy_Perry_western.md" },
+        "predictions": [
+          { "dimension": "财务", "polarity": "POSITIVE", "confidence": "★★★★★", "summary": "财务极活跃。大型商业交易、投资、或品牌合作" },
+          { "dimension": "事业", "polarity": "TURBULENT", "confidence": "★★★★", "summary": "事业方向根本性转型，从台前表演向商业/品牌转变" },
+          { "dimension": "感情", "polarity": "NEGATIVE", "confidence": "★★★", "summary": "Moon conjunct Saturn=感情严肃/沉重" }
+        ],
+        "weighted_score": null
+      },
+      {
+        "number": 9,
+        "name": "Beyoncé",
+        "birth": { "date": "1981-09-04", "time": "21:47", "tz": "CDT (UTC-5)", "place": "Houston, TX, USA", "lat": 29.7632, "lng": -95.3633, "gender": "F" },
+        "charts": { "bazi": "Beyonce_bazi.md", "ziwei": "Beyonce_ziwei.md", "western": "Beyonce_western.md" },
+        "predictions": [
+          { "dimension": "事业", "polarity": "POSITIVE", "confidence": "★★★★★", "summary": "重大作品发布、巡演、或行业突破。创作高峰" },
+          { "dimension": "感情", "polarity": "TURBULENT", "confidence": "★★★", "summary": "家庭内部可能有意外或关系调整" }
+        ],
+        "weighted_score": 0.67
+      },
+      {
+        "number": 10,
+        "name": "Sydney Sweeney",
+        "birth": { "date": "1997-09-12", "time": "12:42", "tz": "PDT (UTC-7)", "place": "Spokane, WA, USA", "lat": 47.6588, "lng": -117.426, "gender": "F" },
+        "charts": { "bazi": "Sydney_Sweeney_bazi.md", "ziwei": "Sydney_Sweeney_ziwei.md", "western": "Sydney_Sweeney_western.md" },
+        "predictions": [
+          { "dimension": "事业", "polarity": "POSITIVE", "confidence": "★★★★★", "summary": "事业持续上升，重大角色或项目" },
+          { "dimension": "感情/心理", "polarity": "NEGATIVE", "confidence": "★★★", "summary": "外表光鲜但内心有焦虑" },
+          { "dimension": "财务", "polarity": "POSITIVE", "confidence": "★★★★", "summary": "正财大运+Moon Cap 2H=稳定收入" }
+        ],
+        "weighted_score": null
+      },
+      {
+        "number": 11,
+        "name": "Simone Biles",
+        "birth": { "date": "1997-03-14", "time": "06:02", "tz": "EST (UTC-5)", "place": "Columbus, OH, USA", "lat": 39.9612, "lng": -82.9988, "gender": "F" },
+        "charts": { "bazi": "Simone_Biles_bazi.md", "ziwei": "Simone_Biles_ziwei.md", "western": "Simone_Biles_western.md" },
+        "predictions": [
+          { "dimension": "事业", "polarity": "POSITIVE", "confidence": "★★★★", "summary": "竞技表现仍高水平，但可能面临外界争议或批评" },
+          { "dimension": "感情", "polarity": "POSITIVE", "confidence": "★★★★", "summary": "感情可能有重要进展，婚姻相关消息" },
+          { "dimension": "健康", "polarity": "NEGATIVE", "confidence": "★★★", "summary": "木极旺无金，火年泄木过度→注意疲劳" }
+        ],
+        "weighted_score": null
+      },
+      {
+        "number": 12,
+        "name": "Travis Kelce",
+        "birth": { "date": "1989-10-05", "time": "05:49", "tz": "EDT (UTC-4)", "place": "Westlake, OH, USA", "lat": 41.4553, "lng": -81.9179, "gender": "M" },
+        "charts": { "bazi": "Travis_Kelce_bazi.md", "ziwei": "Travis_Kelce_ziwei.md", "western": "Travis_Kelce_western.md" },
+        "predictions": [
+          { "dimension": "感情", "polarity": "NEGATIVE", "confidence": "★★★", "summary": "感情受压，婚姻讨论多但进展不一定顺利" },
+          { "dimension": "事业", "polarity": "POSITIVE", "confidence": "★★★★", "summary": "运动事业仍高位，但可能开始考虑转型" },
+          { "dimension": "健康", "polarity": "NEGATIVE", "confidence": "★★★", "summary": "37-38岁运动员需关注关节" }
+        ],
+        "weighted_score": -0.33
+      },
+      {
+        "number": 13,
+        "name": "Finneas O'Connell",
+        "birth": { "date": "1997-07-30", "time": "23:21", "tz": "PDT (UTC-7)", "place": "Los Angeles, CA, USA", "lat": 34.0522, "lng": -118.2437, "gender": "M" },
+        "charts": { "bazi": "Finneas_OConnell_bazi.md", "ziwei": "Finneas_OConnell_ziwei.md", "western": "Finneas_OConnell_western.md" },
+        "predictions": [
+          { "dimension": "感情/婚姻", "polarity": "POSITIVE", "confidence": "★★★★★", "summary": "极强正面信号。高度可能有婚姻重大事件——订婚或结婚" },
+          { "dimension": "事业", "polarity": "POSITIVE", "confidence": "★★★★", "summary": "音乐有新作品，可能开辟独立方向" },
+          { "dimension": "财务", "polarity": "POSITIVE", "confidence": "★★★★", "summary": "2026正财年+双偏财=多渠道收入" }
+        ],
+        "weighted_score": 1.00
+      },
+      {
+        "number": 14,
+        "name": "Gigi Hadid",
+        "birth": { "date": "1995-04-23", "time": "06:26", "tz": "PDT (UTC-7)", "place": "Los Angeles, CA, USA", "lat": 34.0522, "lng": -118.2437, "gender": "F" },
+        "charts": { "bazi": "Gigi_Hadid_bazi.md", "ziwei": "Gigi_Hadid_ziwei.md", "western": "Gigi_Hadid_western.md" },
+        "predictions": [
+          { "dimension": "事业", "polarity": "POSITIVE", "confidence": "★★★★", "summary": "时尚/品牌事业稳定发展，新合作项目" },
+          { "dimension": "感情", "polarity": "TURBULENT", "confidence": "★★★", "summary": "感情平稳，不太可能有剧变" },
+          { "dimension": "财务", "polarity": "POSITIVE", "confidence": "★★★★", "summary": "天机化禄+天梁化权在田宅=房产/家族资产有利好" }
+        ],
+        "weighted_score": 0.67
+      },
+      {
+        "number": 15,
+        "name": "Kylie Jenner",
+        "birth": { "date": "1997-08-10", "time": "17:25", "tz": "PDT (UTC-7)", "place": "Los Angeles, CA, USA", "lat": 34.0522, "lng": -118.2437, "gender": "F" },
+        "charts": { "bazi": "Kylie_Jenner_bazi.md", "ziwei": "Kylie_Jenner_ziwei.md", "western": "Kylie_Jenner_western.md" },
+        "predictions": [
+          { "dimension": "事业", "polarity": "NEGATIVE", "confidence": "★★★", "summary": "可能遭遇争议、负面报道或品牌危机" },
+          { "dimension": "感情", "polarity": "TURBULENT", "confidence": "★★★★", "summary": "感情有新动态但不一定是稳定长期关系" },
+          { "dimension": "健康", "polarity": "NEGATIVE", "confidence": "★★★", "summary": "甲木极弱被三金围攻=注意肝脏和神经系统" }
+        ],
+        "weighted_score": -0.33
+      },
+      {
+        "number": 16,
+        "name": "Barack Obama",
+        "birth": { "date": "1961-08-04", "time": "19:24", "tz": "HST (UTC-10)", "place": "Honolulu, HI, USA", "lat": 21.3069, "lng": -157.8583, "gender": "M" },
+        "charts": { "bazi": "Barack_Obama_bazi.md", "ziwei": "Barack_Obama_ziwei.md", "western": "Barack_Obama_western.md" },
+        "predictions": [
+          { "dimension": "公众影响", "polarity": "POSITIVE", "confidence": "★★★★", "summary": "公共领域有重要发言、出版或政策影响" },
+          { "dimension": "财务", "polarity": "POSITIVE", "confidence": "★★★★", "summary": "武曲庙大限+文曲科在田宅=资产管理有利" },
+          { "dimension": "健康", "polarity": "TURBULENT", "confidence": "★★★", "summary": "66岁，五行较均衡=健康基础良好" }
+        ],
+        "weighted_score": 0.67
+      },
+      {
+        "number": 17,
+        "name": "Angelina Jolie",
+        "birth": { "date": "1975-06-04", "time": "09:09", "tz": "PDT (UTC-7)", "place": "Los Angeles, CA, USA", "lat": 34.0522, "lng": -118.2437, "gender": "F" },
+        "charts": { "bazi": "Angelina_Jolie_bazi.md", "ziwei": "Angelina_Jolie_ziwei.md", "western": "Angelina_Jolie_western.md" },
+        "predictions": [
+          { "dimension": "事业", "polarity": "TURBULENT", "confidence": "★★★", "summary": "事业面临转型，可能从演艺转向导演/人道主义" },
+          { "dimension": "家庭", "polarity": "NEGATIVE", "confidence": "★★★", "summary": "与前配偶相关问题持续，房产/子女监护可能有发展" },
+          { "dimension": "法律", "polarity": "POSITIVE", "confidence": "★★★★", "summary": "2026正官年+Jupiter square Saturn=法律事务有重要进展或裁决" }
+        ],
+        "weighted_score": 0.67
+      },
+      {
+        "number": 18,
+        "name": "Prince William",
+        "birth": { "date": "1982-06-21", "time": "21:03", "tz": "BST (UTC+1)", "place": "London, England, UK", "lat": 51.5074, "lng": -0.1278, "gender": "M" },
+        "charts": { "bazi": "Prince_William_bazi.md", "ziwei": "Prince_William_ziwei.md", "western": "Prince_William_western.md" },
+        "predictions": [
+          { "dimension": "家庭", "polarity": "POSITIVE", "confidence": "★★★★★", "summary": "家庭事务是压倒性焦点。配偶健康或家庭内部事务需大量关注" },
+          { "dimension": "公众角色", "polarity": "TURBULENT", "confidence": "★★★★", "summary": "皇室职责和个人意愿之间可能有张力" },
+          { "dimension": "健康", "polarity": "POSITIVE", "confidence": "★★★", "summary": "Sun trine Jupiter=基础良好" }
+        ],
+        "weighted_score": null
+      },
+      {
+        "number": 19,
+        "name": "Donald Trump",
+        "birth": { "date": "1946-06-14", "time": "10:54", "tz": "EDT (UTC-4)", "place": "Jamaica, Queens, NY, USA", "lat": 40.7028, "lng": -73.7935, "gender": "M" },
+        "charts": { "bazi": "Donald_Trump_bazi.md", "ziwei": "Donald_Trump_ziwei.md", "western": "Donald_Trump_western.md" },
+        "predictions": [
+          { "dimension": "健康", "polarity": "NEGATIVE", "confidence": "★★★★★", "summary": "大限在疾厄宫+廉贞化忌=双重健康负面信号。81岁高龄" },
+          { "dimension": "政治", "polarity": "POSITIVE", "confidence": "★★★★★", "summary": "政治处于权力巅峰" },
+          { "dimension": "家庭", "polarity": "POSITIVE", "confidence": "★★★★", "summary": "天同化禄在夫妻=婚姻和谐有福" }
+        ],
+        "weighted_score": null
+      },
+      {
+        "number": 20,
+        "name": "Leonardo DiCaprio",
+        "birth": { "date": "1974-11-11", "time": "02:47", "tz": "PST (UTC-8)", "place": "Los Angeles, CA, USA", "lat": 34.0522, "lng": -118.2437, "gender": "M" },
+        "charts": { "bazi": "Leonardo_DiCaprio_bazi.md", "ziwei": "Leonardo_DiCaprio_ziwei.md", "western": "Leonardo_DiCaprio_western.md" },
+        "predictions": [
+          { "dimension": "事业", "polarity": "POSITIVE", "confidence": "★★★★", "summary": "事业稳定，新电影项目可能。不是最高光时刻" },
+          { "dimension": "感情", "polarity": "TURBULENT", "confidence": "★★★", "summary": "感情模式不太可能改变。婚姻信号弱" },
+          { "dimension": "财务", "polarity": "POSITIVE", "confidence": "★★★★★", "summary": "财务非常强势，投资和品牌收入活跃" }
+        ],
+        "weighted_score": null
+      },
+      {
+        "number": 21,
+        "name": "Margot Robbie",
+        "birth": { "date": "1990-07-02", "time": "07:45", "tz": "AEST (UTC+10)", "place": "Dalby, QLD, Australia", "lat": -27.1833, "lng": 151.2667, "gender": "F" },
+        "charts": { "bazi": "Margot_Robbie_bazi.md", "ziwei": "Margot_Robbie_ziwei.md", "western": "Margot_Robbie_western.md" },
+        "predictions": [
+          { "dimension": "感情/家庭", "polarity": "POSITIVE", "confidence": "★★★★★", "summary": "子女方面可能有重大事件——怀孕/生育可能性很高" },
+          { "dimension": "事业", "polarity": "TURBULENT", "confidence": "★★★★", "summary": "事业从台前向幕后转型" },
+          { "dimension": "财务", "polarity": "NEGATIVE", "confidence": "★★★", "summary": "天同化忌在财帛=财务有压力" }
+        ],
+        "weighted_score": null
+      },
+      {
+        "number": 22,
+        "name": "Prince Harry",
+        "birth": { "date": "1984-09-15", "time": "16:20", "tz": "BST (UTC+1)", "place": "London, England, UK", "lat": 51.5074, "lng": -0.1278, "gender": "M" },
+        "charts": { "bazi": "Prince_Harry_bazi.md", "ziwei": "Prince_Harry_ziwei.md", "western": "Prince_Harry_western.md" },
+        "predictions": [
+          { "dimension": "家庭", "polarity": "TURBULENT", "confidence": "★★★★", "summary": "家庭内部紧张或变动。与皇室关系可能有新发展或冲突" },
+          { "dimension": "法律/纠纷", "polarity": "TURBULENT", "confidence": "★★★★", "summary": "可能涉及法律事务、媒体纠纷或皇室争议" },
+          { "dimension": "事业", "polarity": "POSITIVE", "confidence": "★★★", "summary": "继续推进个人品牌和公益" }
+        ],
+        "weighted_score": 0.67
+      },
+      {
+        "number": 23,
+        "name": "Nicole Kidman",
+        "birth": { "date": "1967-06-20", "time": "15:15", "tz": "HST (UTC-10)", "place": "Honolulu, HI, USA", "lat": 21.3069, "lng": -157.8583, "gender": "F" },
+        "charts": { "bazi": "Nicole_Kidman_bazi.md", "ziwei": "Nicole_Kidman_ziwei.md", "western": "Nicole_Kidman_western.md" },
+        "predictions": [
+          { "dimension": "事业", "polarity": "POSITIVE", "confidence": "★★★★", "summary": "演艺事业仍活跃，新影视项目可能" },
+          { "dimension": "感情", "polarity": "POSITIVE", "confidence": "★★★★", "summary": "婚姻稳定但内部有调整" },
+          { "dimension": "健康", "polarity": "NEGATIVE", "confidence": "★★★", "summary": "金完全缺失+火旺=注意呼吸/皮肤" }
+        ],
+        "weighted_score": -0.33
+      },
+      {
+        "number": 24,
+        "name": "Oprah Winfrey",
+        "birth": { "date": "1954-01-29", "time": "04:30", "tz": "CST (UTC-6)", "place": "Kosciusko, MS, USA", "lat": 33.0576, "lng": -89.5876, "gender": "F" },
+        "charts": { "bazi": "Oprah_Winfrey_bazi.md", "ziwei": "Oprah_Winfrey_ziwei.md", "western": "Oprah_Winfrey_western.md" },
+        "predictions": [
+          { "dimension": "健康", "polarity": "NEGATIVE", "confidence": "★★★★", "summary": "大限在疾厄宫=健康是核心主题" },
+          { "dimension": "事业/影响力", "polarity": "POSITIVE", "confidence": "★★★★", "summary": "可能在健康/养生领域有新媒体项目" },
+          { "dimension": "财务", "polarity": "TURBULENT", "confidence": "★★★★", "summary": "贪狼化忌在迁移=对外投资需谨慎" }
+        ],
+        "weighted_score": null
+      },
+      {
+        "number": 25,
+        "name": "Robert Downey Jr.",
+        "birth": { "date": "1965-04-04", "time": "13:10", "tz": "EST (UTC-5)", "place": "Manhattan, NY, USA", "lat": 40.7831, "lng": -73.9712, "gender": "M" },
+        "charts": { "bazi": "Robert_Downey_Jr_bazi.md", "ziwei": "Robert_Downey_Jr_ziwei.md", "western": "Robert_Downey_Jr_western.md" },
+        "predictions": [
+          { "dimension": "事业", "polarity": "POSITIVE", "confidence": "★★★★★", "summary": "事业新周期上升。可能有重大新项目或获奖/提名" },
+          { "dimension": "感情/家庭", "polarity": "TURBULENT", "confidence": "★★★★", "summary": "家庭有调整，配偶在事业中发挥重要作用" },
+          { "dimension": "健康", "polarity": "NEGATIVE", "confidence": "★★★", "summary": "Saturn opposite Uranus=身体突发压力" }
+        ],
+        "weighted_score": null
+      },
+      {
+        "number": 26,
+        "name": "Tom Hanks",
+        "birth": { "date": "1956-07-09", "time": "11:17", "tz": "PDT (UTC-7)", "place": "Concord, CA, USA", "lat": 37.978, "lng": -122.0311, "gender": "M" },
+        "charts": { "bazi": "Tom_Hanks_bazi.md", "ziwei": "Tom_Hanks_ziwei.md", "western": "Tom_Hanks_western.md" },
+        "predictions": [
+          { "dimension": "事业", "polarity": "POSITIVE", "confidence": "★★★★", "summary": "可能有重要作品或公众活动" },
+          { "dimension": "家庭", "polarity": "TURBULENT", "confidence": "★★★★", "summary": "婚姻稳定但家庭可能有需关注事务" },
+          { "dimension": "健康", "polarity": "NEGATIVE", "confidence": "★★★", "summary": "水完全缺失+火旺=注意肾脏" }
+        ],
+        "weighted_score": null
+      },
+      {
+        "number": 27,
+        "name": "Tiger Woods",
+        "birth": { "date": "1975-12-30", "time": "22:50", "tz": "PST (UTC-8)", "place": "Cypress, CA, USA", "lat": 33.817, "lng": -118.0374, "gender": "M" },
+        "charts": { "bazi": "Tiger_Woods_bazi.md", "ziwei": "Tiger_Woods_ziwei.md", "western": "Tiger_Woods_western.md" },
+        "predictions": [
+          { "dimension": "财务", "polarity": "NEGATIVE", "confidence": "★★★", "summary": "太阴化忌在财帛+大限在财帛宫=双重财务负面信号" },
+          { "dimension": "事业", "polarity": "NEGATIVE", "confidence": "★★★", "summary": "竞技继续下滑，品牌/教练角色可能发展" },
+          { "dimension": "健康", "polarity": "NEGATIVE", "confidence": "★★★", "summary": "子午冲=身体有冲击" }
+        ],
+        "weighted_score": 0.67
+      },
+      {
+        "number": 28,
+        "name": "Kamala Harris",
+        "birth": { "date": "1964-10-20", "time": "21:28", "tz": "PDT (UTC-7)", "place": "Oakland, CA, USA", "lat": 37.8044, "lng": -122.2712, "gender": "F" },
+        "charts": { "bazi": "Kamala_Harris_bazi.md", "ziwei": "Kamala_Harris_ziwei.md", "western": "Kamala_Harris_western.md" },
+        "predictions": [
+          { "dimension": "政治", "polarity": "POSITIVE", "confidence": "★★★★★", "summary": "政治事业处于关键转折。权力地位有重大变化" },
+          { "dimension": "财务", "polarity": "POSITIVE", "confidence": "★★★★", "summary": "身宫财帛（紫微旺+天府得）=财务基础稳固" },
+          { "dimension": "健康", "polarity": "TURBULENT", "confidence": "★★★", "summary": "火完全缺失遇丙午=五行补充但可能反应剧烈" }
+        ],
+        "weighted_score": null
+      },
+      {
+        "number": 29,
+        "name": "Meghan Markle",
+        "birth": { "date": "1981-08-04", "time": "04:46", "tz": "PDT (UTC-7)", "place": "Canoga Park, CA, USA", "lat": 34.2011, "lng": -118.5976, "gender": "F" },
+        "charts": { "bazi": "Meghan_Markle_bazi.md", "ziwei": "Meghan_Markle_ziwei.md", "western": "Meghan_Markle_western.md" },
+        "predictions": [
+          { "dimension": "事业", "polarity": "POSITIVE", "confidence": "★★★★", "summary": "新媒体项目/品牌，事业更独立自主" },
+          { "dimension": "感情/家庭", "polarity": "NEGATIVE", "confidence": "★★★", "summary": "与皇室关系仍是焦点。家庭有压力" },
+          { "dimension": "法律", "polarity": "NEGATIVE", "confidence": "★★★", "summary": "七杀大限+擎羊=法律权威压力" }
+        ],
+        "weighted_score": 0.67
+      },
+      {
+        "number": 30,
+        "name": "Britney Spears",
+        "birth": { "date": "1981-12-02", "time": "01:30", "tz": "CST (UTC-6)", "place": "McComb, MS, USA", "lat": 31.2438, "lng": -90.4534, "gender": "F" },
+        "charts": { "bazi": "Britney_Spears_bazi.md", "ziwei": "Britney_Spears_ziwei.md", "western": "Britney_Spears_western.md" },
+        "predictions": [
+          { "dimension": "感情/婚姻", "polarity": "NEGATIVE", "confidence": "★★★", "summary": "感情/婚姻可能有法律事件——离婚、财产分割或新纠纷" },
+          { "dimension": "事业", "polarity": "POSITIVE", "confidence": "★★★★", "summary": "可能有音乐/表演回归或新作品" },
+          { "dimension": "心理健康", "polarity": "NEGATIVE", "confidence": "★★★★", "summary": "心理健康仍需关注。可能有情绪波动或公众关注事件" }
+        ],
+        "weighted_score": null
+      }
+    ]
+  },
+  "round2": {
+    "skill_version": "post-Round1 modifications (reading_guide.md v4.0.0, 265 lines)",
+    "modifications_applied": [
+      "Step 2.5: 极性判定规则 (polarity signal tables + conflict resolution)",
+      "婚恋极性特别规则 (two-step method: intensity → direction)",
+      "健康预测门槛 (threshold for health predictions)",
+      "危机事件识别 (experimental crisis indicators)",
+      "不可证伪检查 + 维度取舍 (unfalsifiability check, max 3-4 dimensions)"
+    ],
+    "aggregate": {
+      "total_dimensions": 90,
+      "match": 41,
+      "partial": 40,
+      "mismatch": 9,
+      "match_rate": 0.456,
+      "mismatch_rate": 0.100,
+      "partial_rate": 0.444,
+      "weighted_score": 0.36
+    },
+    "batch_aggregates": {
+      "batch1": { "dimensions": 30, "match": 15, "partial": 12, "mismatch": 3, "weighted": 0.40 },
+      "batch2": { "dimensions": 30, "match": 12, "partial": 16, "mismatch": 2, "weighted": 0.33 },
+      "batch3": { "dimensions": 30, "match": 14, "partial": 12, "mismatch": 4, "weighted": 0.33 }
+    },
+    "dimension_performance": {
+      "family_domestic": { "weighted": 0.71, "note": "Strongest dimension" },
+      "career_creative": { "weighted": 0.54, "note": "Bulk of correct predictions" },
+      "finance_business": { "weighted": 0.53, "note": "Zero mismatches" },
+      "romance_marriage": { "weighted": -0.07, "note": "Net negative — more mismatches than matches" },
+      "health_wellbeing": { "weighted": 0.00, "note": "83% PARTIAL (unfalsifiable)" }
+    },
+    "celebrities": [
+      {
+        "number": 1, "batch": 1,
+        "name": "Elon Musk",
+        "birth": { "date": "1971-06-28", "time": "07:30", "tz": "SAST (UTC+2)", "place": "Pretoria, South Africa", "lat": -25.75, "lng": 28.20, "gender": "M" },
+        "charts": { "bazi": "Elon_Musk_bazi.md", "ziwei": "Elon_Musk_ziwei.md", "western": "Elon_Musk_western.md" },
+        "predictions": [
+          { "dimension": "Career controversy", "polarity": "TURBULENT", "confidence": "Med-High", "summary": "事业活跃但至少一次重大公共争议/法律冲突" },
+          { "dimension": "Financial expansion", "polarity": "POSITIVE", "confidence": "Med", "summary": "财务继续增长" },
+          { "dimension": "Health", "polarity": "NEGATIVE", "confidence": "Med", "summary": "健康需警惕过劳, 可能需就医" }
+        ],
+        "scores": [1, 1, 0],
+        "weighted_score": 0.67
+      },
+      {
+        "number": 2, "batch": 1,
+        "name": "Hillary Clinton",
+        "birth": { "date": "1947-10-26", "time": "18:45", "tz": "CST (UTC-6)", "place": "Chicago, IL, USA", "lat": 41.8833, "lng": -87.6333, "gender": "F" },
+        "charts": { "bazi": "Hillary_Clinton_bazi.md", "ziwei": "Hillary_Clinton_ziwei.md", "western": "Hillary_Clinton_western.md" },
+        "predictions": [
+          { "dimension": "Political influence", "polarity": "POSITIVE", "confidence": "Med-High", "summary": "政治影响力不减" },
+          { "dimension": "Health", "polarity": "NEGATIVE", "confidence": "Med-High", "summary": "健康面临考验" },
+          { "dimension": "Alliance discord", "polarity": "TURBULENT", "confidence": "Med", "summary": "政治盟友关系出现分歧" }
+        ],
+        "scores": [0, 0, 1],
+        "weighted_score": 0.33
+      },
+      {
+        "number": 3, "batch": 1,
+        "name": "George Clooney",
+        "birth": { "date": "1961-05-06", "time": "02:58", "tz": "EST (UTC-5)", "place": "Lexington, KY, USA", "lat": 38.05, "lng": -84.50, "gender": "M" },
+        "charts": { "bazi": "George_Clooney_bazi.md", "ziwei": "George_Clooney_ziwei.md", "western": "George_Clooney_western.md" },
+        "predictions": [
+          { "dimension": "Public image challenge", "polarity": "TURBULENT", "confidence": "Med-High", "summary": "公众形象面临挑战" },
+          { "dimension": "Creative/directing", "polarity": "POSITIVE", "confidence": "Med", "summary": "创作/导演领域有新项目或认可" },
+          { "dimension": "Family stability", "polarity": "POSITIVE", "confidence": "Med", "summary": "家庭关系稳定" }
+        ],
+        "scores": [1, 1, 1],
+        "weighted_score": 1.00
+      },
+      {
+        "number": 4, "batch": 1,
+        "name": "Jennifer Aniston",
+        "birth": { "date": "1969-02-11", "time": "22:22", "tz": "PST (UTC-8)", "place": "Los Angeles, CA, USA", "lat": 34.15, "lng": -118.3667, "gender": "F" },
+        "charts": { "bazi": "Jennifer_Aniston_bazi.md", "ziwei": "Jennifer_Aniston_ziwei.md", "western": "Jennifer_Aniston_western.md" },
+        "predictions": [
+          { "dimension": "Romance/single", "polarity": "NEGATIVE", "confidence": "Med", "summary": "感情无重大突破, 更可能维持单身" },
+          { "dimension": "Career stability", "polarity": "POSITIVE", "confidence": "Med", "summary": "事业保持稳定, 有新合作" },
+          { "dimension": "Emotional turbulence", "polarity": "TURBULENT", "confidence": "Med", "summary": "情绪波动加大" }
+        ],
+        "scores": [-1, 1, 0],
+        "weighted_score": 0.00
+      },
+      {
+        "number": 5, "batch": 1,
+        "name": "Lionel Messi",
+        "birth": { "date": "1987-06-24", "time": "20:30", "tz": "ART (UTC-3)", "place": "Rosario, Argentina", "lat": -32.95, "lng": -60.6333, "gender": "M" },
+        "charts": { "bazi": "Lionel_Messi_bazi.md", "ziwei": "Lionel_Messi_ziwei.md", "western": "Lionel_Messi_western.md" },
+        "predictions": [
+          { "dimension": "Career decline/transition", "polarity": "TURBULENT", "confidence": "Med-High", "summary": "竞技下滑, 可能考虑退役/转型" },
+          { "dimension": "Family", "polarity": "POSITIVE", "confidence": "Med", "summary": "家庭充实, 子女有好消息" },
+          { "dimension": "Financial growth", "polarity": "POSITIVE", "confidence": "Med", "summary": "财务稳健增长" }
+        ],
+        "scores": [-1, 0, 1],
+        "weighted_score": 0.00
+      },
+      {
+        "number": 6, "batch": 1,
+        "name": "Novak Djokovic",
+        "birth": { "date": "1987-05-22", "time": "23:25", "tz": "CEST (UTC+2)", "place": "Belgrade, Serbia", "lat": 44.8333, "lng": 20.50, "gender": "M" },
+        "charts": { "bazi": "Novak_Djokovic_bazi.md", "ziwei": "Novak_Djokovic_ziwei.md", "western": "Novak_Djokovic_western.md" },
+        "predictions": [
+          { "dimension": "Competitive decline", "polarity": "NEGATIVE", "confidence": "Med-High", "summary": "竞技表现下滑" },
+          { "dimension": "Negative publicity", "polarity": "NEGATIVE", "confidence": "Med", "summary": "遭遇负面舆论/争议" },
+          { "dimension": "Financial stability", "polarity": "POSITIVE", "confidence": "Med", "summary": "财务稳健" }
+        ],
+        "scores": [1, 0, 0],
+        "weighted_score": 0.33
+      },
+      {
+        "number": 7, "batch": 1,
+        "name": "Chris Pratt",
+        "birth": { "date": "1979-06-21", "time": "16:31", "tz": "CDT (UTC-5)", "place": "Virginia, MN, USA", "lat": 47.5167, "lng": -92.5333, "gender": "M" },
+        "charts": { "bazi": "Chris_Pratt_bazi.md", "ziwei": "Chris_Pratt_ziwei.md", "western": "Chris_Pratt_western.md" },
+        "predictions": [
+          { "dimension": "Career breakthrough", "polarity": "POSITIVE", "confidence": "Med-High", "summary": "事业有重大突破" },
+          { "dimension": "Income growth", "polarity": "POSITIVE", "confidence": "Med", "summary": "收入显著增长" },
+          { "dimension": "Family tension", "polarity": "TURBULENT", "confidence": "Med", "summary": "事业忙碌影响家庭" }
+        ],
+        "scores": [1, 1, 0],
+        "weighted_score": 0.67
+      },
+      {
+        "number": 8, "batch": 1,
+        "name": "Venus Williams",
+        "birth": { "date": "1980-06-17", "time": "14:12", "tz": "PDT (UTC-7)", "place": "Lynwood, CA, USA", "lat": 33.9333, "lng": -118.2167, "gender": "F" },
+        "charts": { "bazi": "Venus_Williams_bazi.md", "ziwei": "Venus_Williams_ziwei.md", "western": "Venus_Williams_western.md" },
+        "predictions": [
+          { "dimension": "Career-to-business transition", "polarity": "POSITIVE", "confidence": "Med", "summary": "竞技转商业/媒体方向有实质进展" },
+          { "dimension": "Health management", "polarity": "NEGATIVE", "confidence": "Med", "summary": "慢性健康问题需管理" },
+          { "dimension": "Romance difficulties", "polarity": "NEGATIVE", "confidence": "Med", "summary": "感情关系困难" }
+        ],
+        "scores": [0, 0, -1],
+        "weighted_score": -0.33
+      },
+      {
+        "number": 9, "batch": 1,
+        "name": "Kendall Jenner",
+        "birth": { "date": "1995-11-03", "time": "15:38", "tz": "PST (UTC-8)", "place": "Los Angeles, CA, USA", "lat": 34.05, "lng": -118.25, "gender": "F" },
+        "charts": { "bazi": "Kendall_Jenner_bazi.md", "ziwei": "Kendall_Jenner_ziwei.md", "western": "Kendall_Jenner_western.md" },
+        "predictions": [
+          { "dimension": "Brand expansion", "polarity": "POSITIVE", "confidence": "Med", "summary": "品牌影响力扩张" },
+          { "dimension": "Romance change", "polarity": "TURBULENT", "confidence": "Med", "summary": "感情经历显著变化" },
+          { "dimension": "Anxiety", "polarity": "NEGATIVE", "confidence": "Med", "summary": "可能经历焦虑/情绪低落" }
+        ],
+        "scores": [1, 1, 0],
+        "weighted_score": 0.67
+      },
+      {
+        "number": 10, "batch": 1,
+        "name": "Megan Fox",
+        "birth": { "date": "1986-05-16", "time": "00:35", "tz": "EDT (UTC-4)", "place": "Oak Ridge, TN, USA", "lat": 36.0167, "lng": -84.2667, "gender": "F" },
+        "charts": { "bazi": "Megan_Fox_bazi.md", "ziwei": "Megan_Fox_ziwei.md", "western": "Megan_Fox_western.md" },
+        "predictions": [
+          { "dimension": "Romance turmoil", "polarity": "NEGATIVE", "confidence": "Med", "summary": "感情继续动荡, 高概率分手或新恋情" },
+          { "dimension": "Career rise", "polarity": "POSITIVE", "confidence": "Med", "summary": "演艺事业回升" },
+          { "dimension": "Living situation/ex conflict", "polarity": "TURBULENT", "confidence": "Med", "summary": "居住环境变化, 可能与前伴侣有财产摩擦" }
+        ],
+        "scores": [1, 0, 1],
+        "weighted_score": 0.67
+      },
+      {
+        "number": 11, "batch": 2,
+        "name": "Sean Penn",
+        "birth": { "date": "1960-08-17", "time": "15:17", "tz": "PDT (UTC-7)", "place": "Burbank, CA, USA", "lat": 34.1833, "lng": -118.30, "gender": "M" },
+        "charts": { "bazi": "Sean_Penn_bazi.md", "ziwei": "Sean_Penn_ziwei.md", "western": "Sean_Penn_western.md" },
+        "predictions": [
+          { "dimension": "Career/creative output", "polarity": "POSITIVE", "confidence": "Med-High", "summary": "BaZi 巳火禄地 + ZiWei 权武曲财帛 + Western Sun-Jupiter trine" },
+          { "dimension": "Financial situation", "polarity": "POSITIVE", "confidence": "Med", "summary": "BaZi 正财 + ZiWei 权武曲财帛 + Western Jupiter 1H" },
+          { "dimension": "Life direction/transition", "polarity": "TURBULENT", "confidence": "Med", "summary": "BaZi 偏印 + ZiWei 大限迁移 + Western Venus-Mars square" }
+        ],
+        "scores": [1, 0, 1],
+        "weighted_score": 0.67
+      },
+      {
+        "number": 12, "batch": 2,
+        "name": "Jack Black",
+        "birth": { "date": "1969-08-28", "time": "03:04", "tz": "PDT (UTC-7)", "place": "Redondo Beach, CA, USA", "lat": 33.85, "lng": -118.3833, "gender": "M" },
+        "charts": { "bazi": "Jack_Black_bazi.md", "ziwei": "Jack_Black_ziwei.md", "western": "Jack_Black_western.md" },
+        "predictions": [
+          { "dimension": "Relationship/Marriage", "polarity": "TURBULENT", "confidence": "Med-High", "summary": "BaZi 大运转换年 + ZiWei 禄忌同宫夫妻" },
+          { "dimension": "Creative/spiritual growth", "polarity": "POSITIVE", "confidence": "Med", "summary": "BaZi 食神/伤官 + ZiWei 权贪狼福德" },
+          { "dimension": "Career direction/identity shift", "polarity": "TURBULENT", "confidence": "Med", "summary": "大运转换(丁卯→丙寅)" }
+        ],
+        "scores": [-1, 1, 0],
+        "weighted_score": 0.00
+      },
+      {
+        "number": 13, "batch": 2,
+        "name": "J.D. Vance",
+        "birth": { "date": "1984-08-02", "time": "08:11", "tz": "EDT (UTC-4)", "place": "Middletown, OH, USA", "lat": 39.5167, "lng": -84.40, "gender": "M" },
+        "charts": { "bazi": "JD_Vance_bazi.md", "ziwei": "JD_Vance_ziwei.md", "western": "JD_Vance_western.md" },
+        "predictions": [
+          { "dimension": "Career/power position", "polarity": "TURBULENT", "confidence": "High", "summary": "BaZi 官杀混杂+大运转换+五行缺火" },
+          { "dimension": "Public image/reputation", "polarity": "NEGATIVE", "confidence": "Med-High", "summary": "BaZi 官杀混杂 + ZiWei 忌太阳疾厄" },
+          { "dimension": "Life direction/major transition", "polarity": "TURBULENT", "confidence": "High", "summary": "BaZi 2026入丙子大运" }
+        ],
+        "scores": [1, 0, 1],
+        "weighted_score": 0.67
+      },
+      {
+        "number": 14, "batch": 2,
+        "name": "Chelsea Clinton",
+        "birth": { "date": "1980-02-27", "time": "23:24", "tz": "CST (UTC-6)", "place": "Little Rock, AR, USA", "lat": 34.7333, "lng": -92.2833, "gender": "F" },
+        "charts": { "bazi": "Chelsea_Clinton_bazi.md", "ziwei": "Chelsea_Clinton_ziwei.md", "western": "Chelsea_Clinton_western.md" },
+        "predictions": [
+          { "dimension": "Career/finance", "polarity": "POSITIVE", "confidence": "Med-High", "summary": "BaZi 偏财/正财 + ZiWei 大限入财帛+禄太阳" },
+          { "dimension": "Public communication", "polarity": "NEGATIVE", "confidence": "Med", "summary": "BaZi 偏印双透 + ZiWei 忌天同迁移" },
+          { "dimension": "Emotional wellbeing", "polarity": "NEGATIVE", "confidence": "Med", "summary": "BaZi 偏印双透 + Western Venus-Pluto 0.1°" }
+        ],
+        "scores": [1, 0, 0],
+        "weighted_score": 0.33
+      },
+      {
+        "number": 15, "batch": 2,
+        "name": "Kaley Cuoco",
+        "birth": { "date": "1985-11-30", "time": "12:18", "tz": "PST (UTC-8)", "place": "Camarillo, CA, USA", "lat": 34.2167, "lng": -119.0333, "gender": "F" },
+        "charts": { "bazi": "Kaley_Cuoco_bazi.md", "ziwei": "Kaley_Cuoco_ziwei.md", "western": "Kaley_Cuoco_western.md" },
+        "predictions": [
+          { "dimension": "Career/professional standing", "polarity": "TURBULENT", "confidence": "Med", "summary": "BaZi 偏印 + ZiWei 空劫夹命+田宅大限" },
+          { "dimension": "Family/domestic life", "polarity": "POSITIVE", "confidence": "Med-High", "summary": "BaZi 食神 + ZiWei 田宅大限+天喜" },
+          { "dimension": "Romance/partnership", "polarity": "POSITIVE", "confidence": "Med", "summary": "BaZi 正官 + ZiWei 禄存夫妻" }
+        ],
+        "scores": [0, 1, 1],
+        "weighted_score": 0.67
+      },
+      {
+        "number": 16, "batch": 2,
+        "name": "Zac Efron",
+        "birth": { "date": "1987-10-18", "time": "13:22", "tz": "PDT (UTC-7)", "place": "San Luis Obispo, CA, USA", "lat": 35.2833, "lng": -120.6667, "gender": "M" },
+        "charts": { "bazi": "Zac_Efron_bazi.md", "ziwei": "Zac_Efron_ziwei.md", "western": "Zac_Efron_western.md" },
+        "predictions": [
+          { "dimension": "Career/public projects", "polarity": "TURBULENT", "confidence": "Med", "summary": "BaZi 七杀大运 + ZiWei 七杀旺大限+忌巨门迁移" },
+          { "dimension": "Public image/reputation", "polarity": "NEGATIVE", "confidence": "Med", "summary": "BaZi 七杀 + Western Mars-Neptune square" },
+          { "dimension": "Romance", "polarity": "POSITIVE", "confidence": "Med", "summary": "BaZi 食神+正财 + ZiWei 禄太阴" }
+        ],
+        "scores": [0, 0, 0],
+        "weighted_score": 0.00
+      },
+      {
+        "number": 17, "batch": 2,
+        "name": "Cindy Crawford",
+        "birth": { "date": "1966-02-20", "time": "14:08", "tz": "CST (UTC-6)", "place": "DeKalb, IL, USA", "lat": 41.9333, "lng": -88.75, "gender": "F" },
+        "charts": { "bazi": "Cindy_Crawford_bazi.md", "ziwei": "Cindy_Crawford_ziwei.md", "western": "Cindy_Crawford_western.md" },
+        "predictions": [
+          { "dimension": "Health/physical wellbeing", "polarity": "NEGATIVE", "confidence": "High", "summary": "BaZi 七杀攻身 + ZiWei 大限疾厄宫 + Western Mars-Saturn-Pluto T-square" },
+          { "dimension": "Financial/business", "polarity": "POSITIVE", "confidence": "Med", "summary": "BaZi 偏财+正财 + ZiWei 禄天同财帛" },
+          { "dimension": "Social circle/partnerships", "polarity": "NEGATIVE", "confidence": "Med", "summary": "BaZi 伤官克官 + ZiWei 忌廉贞仆役" }
+        ],
+        "scores": [-1, 1, 0],
+        "weighted_score": 0.00
+      },
+      {
+        "number": 18, "batch": 2,
+        "name": "Ronaldinho",
+        "birth": { "date": "1980-03-21", "time": "03:20", "tz": "BRT (UTC-3)", "place": "Porto Alegre, Brazil", "lat": -30.0333, "lng": -51.2167, "gender": "M" },
+        "charts": { "bazi": "Ronaldinho_bazi.md", "ziwei": "Ronaldinho_ziwei.md", "western": "Ronaldinho_western.md" },
+        "predictions": [
+          { "dimension": "Career/professional direction", "polarity": "TURBULENT", "confidence": "High", "summary": "BaZi 大运转换年 + ZiWei 官禄大限" },
+          { "dimension": "Finance/wealth", "polarity": "POSITIVE", "confidence": "Med", "summary": "BaZi 正财+食神 + ZiWei 权武曲财帛" },
+          { "dimension": "Legal/reputation issues", "polarity": "NEGATIVE", "confidence": "Med", "summary": "BaZi 七杀+伤官 + Western Saturn-Neptune" }
+        ],
+        "scores": [1, 0, 0],
+        "weighted_score": 0.33
+      },
+      {
+        "number": 19, "batch": 2,
+        "name": "Steven Spielberg",
+        "birth": { "date": "1946-12-18", "time": "18:16", "tz": "EST (UTC-5)", "place": "Cincinnati, OH, USA", "lat": 39.1667, "lng": -84.45, "gender": "M" },
+        "charts": { "bazi": "Steven_Spielberg_bazi.md", "ziwei": "Steven_Spielberg_ziwei.md", "western": "Steven_Spielberg_western.md" },
+        "predictions": [
+          { "dimension": "Health/vitality", "polarity": "NEGATIVE", "confidence": "High", "summary": "BaZi 食神泄身+申金 + ZiWei 大限疾厄+七杀火星" },
+          { "dimension": "Creative legacy/artistic output", "polarity": "POSITIVE", "confidence": "Med-High", "summary": "BaZi 食神 + ZiWei 禄天同官禄" },
+          { "dimension": "Financial/estate matters", "polarity": "POSITIVE", "confidence": "Med", "summary": "BaZi 偏财 + ZiWei 权天机财帛" }
+        ],
+        "scores": [0, 1, 0],
+        "weighted_score": 0.33
+      },
+      {
+        "number": 20, "batch": 2,
+        "name": "Meryl Streep",
+        "birth": { "date": "1949-06-22", "time": "08:05", "tz": "EDT (UTC-4)", "place": "Summit, NJ, USA", "lat": 40.7333, "lng": -74.3667, "gender": "F" },
+        "charts": { "bazi": "Meryl_Streep_bazi.md", "ziwei": "Meryl_Streep_ziwei.md", "western": "Meryl_Streep_western.md" },
+        "predictions": [
+          { "dimension": "Public image/recognition", "polarity": "TURBULENT", "confidence": "Med-High", "summary": "BaZi 正官+土过旺 + Western Sun-Uranus 0.0° exact" },
+          { "dimension": "Career/artistic contribution", "polarity": "POSITIVE", "confidence": "Med", "summary": "BaZi 正官+食神 + ZiWei 禄武曲官禄" },
+          { "dimension": "Emotional wellbeing/inner life", "polarity": "NEGATIVE", "confidence": "Med", "summary": "BaZi 五行失衡 + Western Moon-Pluto 0.5°" }
+        ],
+        "scores": [0, 1, 0],
+        "weighted_score": 0.33
+      },
+      {
+        "number": 21, "batch": 3,
+        "name": "Gwyneth Paltrow",
+        "birth": { "date": "1972-09-27", "time": "17:25", "tz": "PDT (UTC-7)", "place": "Los Angeles, CA, USA", "lat": 34.05, "lng": -118.25, "gender": "F" },
+        "charts": { "bazi": "Gwyneth_Paltrow_bazi.md", "ziwei": "Gwyneth_Paltrow_ziwei.md", "western": "Gwyneth_Paltrow_western.md" },
+        "predictions": [
+          { "dimension": "Business/financial ventures", "polarity": "TURBULENT", "confidence": "Med-High", "summary": "金旺无木 + 忌武曲在福德" },
+          { "dimension": "Relationships/social life", "polarity": "POSITIVE", "confidence": "Med", "summary": "甲辰大运 brings 正财 + 科左辅在夫妻" },
+          { "dimension": "Public image/communication", "polarity": "POSITIVE", "confidence": "Med", "summary": "壬伤官 + 禄天梁在父母 + Moon trine Mercury 0.1°" }
+        ],
+        "scores": [1, 0, -1],
+        "weighted_score": 0.00
+      },
+      {
+        "number": 22, "batch": 3,
+        "name": "Rafael Nadal",
+        "birth": { "date": "1986-06-03", "time": "18:20", "tz": "CEST (UTC+2)", "place": "Manacor, Mallorca, Spain", "lat": 39.5667, "lng": 3.2167, "gender": "M" },
+        "charts": { "bazi": "Rafael_Nadal_bazi.md", "ziwei": "Rafael_Nadal_ziwei.md", "western": "Rafael_Nadal_western.md" },
+        "predictions": [
+          { "dimension": "Career transition/identity", "polarity": "TURBULENT", "confidence": "High", "summary": "丁酉大运末期 + Jupiter square Uranus 0.2°" },
+          { "dimension": "Financial security", "polarity": "POSITIVE", "confidence": "Med", "summary": "食神生财 + 禄天同在财帛" },
+          { "dimension": "Public role/legacy building", "polarity": "POSITIVE", "confidence": "Med", "summary": "2025 官印相生 + Moon conjunct North Node 0.9°" }
+        ],
+        "scores": [1, 1, 1],
+        "weighted_score": 1.00
+      },
+      {
+        "number": 23, "batch": 3,
+        "name": "Diana Ross",
+        "birth": { "date": "1944-03-26", "time": "23:46", "tz": "EWT (UTC-4)", "place": "Detroit, MI, USA", "lat": 42.3333, "lng": -83.05, "gender": "F" },
+        "charts": { "bazi": "Diana_Ross_bazi.md", "ziwei": "Diana_Ross_ziwei.md", "western": "Diana_Ross_western.md" },
+        "predictions": [
+          { "dimension": "Legacy/public recognition", "polarity": "POSITIVE", "confidence": "Med-High", "summary": "2025 杀印相生 + Sun trine Pluto 0.2°" },
+          { "dimension": "Social circle/support network", "polarity": "TURBULENT", "confidence": "Med", "summary": "官杀混杂 + 大限仆役宫+地劫" },
+          { "dimension": "Emotional/inner wellbeing", "polarity": "NEGATIVE", "confidence": "Med", "summary": "木多克土 + 忌太阳迁移" }
+        ],
+        "scores": [1, 0, 0],
+        "weighted_score": 0.33
+      },
+      {
+        "number": 24, "batch": 3,
+        "name": "Kristen Stewart",
+        "birth": { "date": "1990-04-09", "time": "09:21", "tz": "PDT (UTC-7)", "place": "Los Angeles, CA, USA", "lat": 34.05, "lng": -118.25, "gender": "F" },
+        "charts": { "bazi": "Kristen_Stewart_bazi.md", "ziwei": "Kristen_Stewart_ziwei.md", "western": "Kristen_Stewart_western.md" },
+        "predictions": [
+          { "dimension": "Career/creative expression", "polarity": "POSITIVE", "confidence": "Med-High", "summary": "丙子大运 食神透出 + Mars conjunct MC 0.7°" },
+          { "dimension": "Romance/emotional life", "polarity": "TURBULENT", "confidence": "High", "summary": "Moon square Neptune 0.1° near-exact" },
+          { "dimension": "Public image/reputation", "polarity": "TURBULENT", "confidence": "Med", "summary": "七杀双透 + Mars-MC" }
+        ],
+        "scores": [1, 0, 0],
+        "weighted_score": 0.33
+      },
+      {
+        "number": 25, "batch": 3,
+        "name": "Gisele Bundchen",
+        "birth": { "date": "1980-07-20", "time": "17:00", "tz": "BRT (UTC-3)", "place": "Tres de Maio, Brazil", "lat": -27.7667, "lng": -54.2333, "gender": "F" },
+        "charts": { "bazi": "Gisele_Bundchen_bazi.md", "ziwei": "Gisele_Bundchen_ziwei.md", "western": "Gisele_Bundchen_western.md" },
+        "predictions": [
+          { "dimension": "Romance/marriage", "polarity": "TURBULENT", "confidence": "High", "summary": "大运转换年 + 七杀双现 + Venus opposite Neptune 0.9°" },
+          { "dimension": "Finance/business", "polarity": "POSITIVE", "confidence": "Med", "summary": "戊偏财大运+寅禄地 + Venus trine Pluto 0.3°" },
+          { "dimension": "Career/professional direction", "polarity": "POSITIVE", "confidence": "Med", "summary": "寅禄地 + Mars conjunct MC 0.8°" }
+        ],
+        "scores": [-1, 1, 1],
+        "weighted_score": 0.33
+      },
+      {
+        "number": 26, "batch": 3,
+        "name": "Cameron Diaz",
+        "birth": { "date": "1972-08-30", "time": "02:53", "tz": "PDT (UTC-7)", "place": "San Diego, CA, USA", "lat": 32.7167, "lng": -117.15, "gender": "F" },
+        "charts": { "bazi": "Cameron_Diaz_bazi.md", "ziwei": "Cameron_Diaz_ziwei.md", "western": "Cameron_Diaz_western.md" },
+        "predictions": [
+          { "dimension": "Health/physical vitality", "polarity": "NEGATIVE", "confidence": "Med-High", "summary": "水旺无木 + 大限疾厄宫: 破军得+天马" },
+          { "dimension": "Family/domestic life", "polarity": "POSITIVE", "confidence": "Med", "summary": "癸卯 食神大运 + Cancer ASC" },
+          { "dimension": "Financial stability", "polarity": "POSITIVE", "confidence": "Med", "summary": "食神生财 + Mercury sextile Saturn 0.4°" }
+        ],
+        "scores": [0, 1, 1],
+        "weighted_score": 0.67
+      },
+      {
+        "number": 27, "batch": 3,
+        "name": "Ben Affleck",
+        "birth": { "date": "1972-08-15", "time": "02:53", "tz": "PDT (UTC-7)", "place": "Berkeley, CA, USA", "lat": 37.8667, "lng": -122.2667, "gender": "M" },
+        "charts": { "bazi": "Ben_Affleck_bazi.md", "ziwei": "Ben_Affleck_ziwei.md", "western": "Ben_Affleck_western.md" },
+        "predictions": [
+          { "dimension": "Career/public standing", "polarity": "NEGATIVE", "confidence": "High", "summary": "无火! + 忌武曲在大限仆役+地劫+擎羊陷 + Saturn square MC 0.4°" },
+          { "dimension": "Relationships/marriage", "polarity": "TURBULENT", "confidence": "Med-High", "summary": "正财大运但无火 + Mars square Neptune" },
+          { "dimension": "Finance/business", "polarity": "TURBULENT", "confidence": "Med-High", "summary": "无火 wealth cycle broken + 忌武曲+地劫" }
+        ],
+        "scores": [-1, 1, 0],
+        "weighted_score": 0.00
+      },
+      {
+        "number": 28, "batch": 3,
+        "name": "Matthew McConaughey",
+        "birth": { "date": "1969-11-04", "time": "19:34", "tz": "CST (UTC-6)", "place": "Uvalde, TX, USA", "lat": 29.2167, "lng": -99.7833, "gender": "M" },
+        "charts": { "bazi": "Matthew_McConaughey_bazi.md", "ziwei": "Matthew_McConaughey_ziwei.md", "western": "Matthew_McConaughey_western.md" },
+        "predictions": [
+          { "dimension": "Career/creative projects", "polarity": "POSITIVE", "confidence": "Med-High", "summary": "己巳大运 食神制杀 + Sun sextile Moon 0.5° + Venus conjunct Jupiter 0.9°" },
+          { "dimension": "Health/physical vitality", "polarity": "NEGATIVE", "confidence": "Med", "summary": "无火+土旺克水 + 大限在疾厄宫+擎羊庙" },
+          { "dimension": "Communication/public messaging", "polarity": "TURBULENT", "confidence": "Med", "summary": "七杀double + 忌文曲福德 + Mercury opposite Saturn 0.7°" }
+        ],
+        "scores": [1, 0, 0],
+        "weighted_score": 0.33
+      },
+      {
+        "number": 29, "batch": 3,
+        "name": "Javier Bardem",
+        "birth": { "date": "1969-03-01", "time": "21:30", "tz": "WET (UTC+0)", "place": "Las Palmas de Gran Canaria, Spain", "lat": 28.10, "lng": -15.40, "gender": "M" },
+        "charts": { "bazi": "Javier_Bardem_bazi.md", "ziwei": "Javier_Bardem_ziwei.md", "western": "Javier_Bardem_western.md" },
+        "predictions": [
+          { "dimension": "Career/artistic achievement", "polarity": "POSITIVE", "confidence": "Med-High", "summary": "辛酉 七杀大运 + 伤官双透 + Venus conjunct Saturn 0.9°" },
+          { "dimension": "Marriage/partnership", "polarity": "TURBULENT", "confidence": "Med-High", "summary": "七杀大运 + 忌文曲在夫妻 + Venus-Saturn restriction" },
+          { "dimension": "Health/stress management", "polarity": "NEGATIVE", "confidence": "Med", "summary": "辛酉纯金克乙木 + 大限疾厄: 巨门旺+天马" }
+        ],
+        "scores": [1, -1, 0],
+        "weighted_score": 0.00
+      },
+      {
+        "number": 30, "batch": 3,
+        "name": "Stephen Curry",
+        "birth": { "date": "1988-03-14", "time": "13:51", "tz": "EST (UTC-5)", "place": "Akron, OH, USA", "lat": 41.0833, "lng": -81.5167, "gender": "M" },
+        "charts": { "bazi": "Stephen_Curry_bazi.md", "ziwei": "Stephen_Curry_ziwei.md", "western": "Stephen_Curry_western.md" },
+        "predictions": [
+          { "dimension": "Career/athletic performance", "polarity": "TURBULENT", "confidence": "High", "summary": "大运转换年 + 五行极度失衡 + Mars square MC 0.6°" },
+          { "dimension": "Finance/business ventures", "polarity": "POSITIVE", "confidence": "Med", "summary": "己未自力 + 禄贪狼在财帛 + Jupiter trine Uranus 0.4°" },
+          { "dimension": "Family/home life", "polarity": "POSITIVE", "confidence": "Med", "summary": "未=偏印home energy + 天同+右弼科田宅" }
+        ],
+        "scores": [1, 0, 0],
+        "weighted_score": 0.33
+      }
+    ]
+  },
+  "comparison": {
+    "round1_to_round2": {
+      "match_rate_change": "+6.7pp (38.9% → 45.6%)",
+      "mismatch_rate_change": "-2.6pp (12.6% → 10.0%)",
+      "weighted_score_change": "+0.10 (0.26 → 0.36, +38% relative)",
+      "key_improvement": "Polarity determination rules reduced mismatch rate; health threshold reduced false positives",
+      "remaining_issues": [
+        "Romance/marriage dimension still net negative (-0.07 weighted)",
+        "5/9 R2 mismatches were relationship polarity reversals",
+        "3 high-confidence mismatches indicate calibration problem",
+        "Health predictions 83% PARTIAL — nearly unfalsifiable"
+      ]
+    }
+  },
+  "round2_post_modifications": {
+    "description": "4 additional modifications approved after Round 2 scoring, applied to reading_guide.md for Round 3",
+    "modifications": [
+      "婚恋极性特别规则: Two-step method (intensity → direction); fallback: 方向待定 defaults to '关系高度活跃期' not TURBULENT",
+      "置信度上限规则: Romance capped at Med-High, Health capped at Medium; HIGH requires all 3 systems agree",
+      "健康预测附加条件: Must specify specific health direction, not generic; others' health excluded from person's dimension",
+      "五行缺失的大运/流年补充判定: Missing element + luck period supplement ≠ functional deficit"
+    ]
+  }
+}
