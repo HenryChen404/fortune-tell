@@ -3,6 +3,8 @@
 
 import argparse
 import sys
+from datetime import datetime
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 from kerykeion import AstrologicalSubjectFactory
 from kerykeion.chart_data_factory import ChartDataFactory
 
@@ -166,6 +168,21 @@ def generate_western_md(year, month, day, hour, minute, lat, lng, tz_str, house_
     return '\n'.join(lines)
 
 
+def validate_birth_args(parser, args):
+    try:
+        datetime(args.year, args.month, args.day, args.hour, args.minute)
+    except ValueError as exc:
+        parser.error(
+            f'无效出生日期/时间: {args.year}-{args.month}-{args.day} '
+            f'{args.hour}:{args.minute} ({exc})'
+        )
+
+    try:
+        ZoneInfo(args.tz)
+    except (ZoneInfoNotFoundError, ValueError):
+        parser.error(f"无效时区: {args.tz!r}。示例: Asia/Shanghai, America/New_York")
+
+
 def main():
     parser = argparse.ArgumentParser(description='西洋占星排盘')
     parser.add_argument('--year', type=int, required=True)
@@ -180,6 +197,7 @@ def main():
                         help='宫位制: P=Placidus, K=Koch, W=Whole Sign, A=Equal 等（默认P）')
     args = parser.parse_args()
 
+    validate_birth_args(parser, args)
     result = generate_western_md(args.year, args.month, args.day, args.hour, args.minute,
                                   args.lat, args.lng, args.tz, args.house_system)
     print(result)

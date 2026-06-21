@@ -51,6 +51,65 @@ function parseArgs() {
   return args;
 }
 
+function fail(message) {
+  console.error(`Error: ${message}`);
+  process.exit(1);
+}
+
+function parseIntegerArg(value, name, defaultValue) {
+  const raw = value === undefined ? String(defaultValue) : String(value);
+  if (!/^-?\d+$/.test(raw)) {
+    fail(`${name} must be an integer.`);
+  }
+  return Number(raw);
+}
+
+function parseBirthDate(rawDate) {
+  const match = String(rawDate).match(/^(\d{1,4})-(\d{1,2})-(\d{1,2})$/);
+  if (!match) {
+    fail(`invalid date '${rawDate}'. Expected format: YYYY-M-D.`);
+  }
+
+  const year = Number(match[1]);
+  const month = Number(match[2]);
+  const day = Number(match[3]);
+
+  if (month < 1 || month > 12) {
+    fail(`invalid date '${rawDate}'. Month must be 1-12.`);
+  }
+  if (day < 1 || day > 31) {
+    fail(`invalid date '${rawDate}'. Day must be 1-31.`);
+  }
+
+  const testDate = new Date(year, month - 1, day);
+  if (
+    testDate.getFullYear() !== year ||
+    testDate.getMonth() !== month - 1 ||
+    testDate.getDate() !== day
+  ) {
+    fail(`invalid date '${rawDate}'. Date does not exist.`);
+  }
+
+  return { year, month, day };
+}
+
+function validateTime(hour, minute) {
+  if (hour < 0 || hour > 23) {
+    fail(`invalid hour '${hour}'. Hour must be 0-23.`);
+  }
+  if (minute < 0 || minute > 59) {
+    fail(`invalid minute '${minute}'. Minute must be 0-59.`);
+  }
+}
+
+function normalizeGender(rawGender) {
+  const gender = String(rawGender).toLowerCase();
+  if (gender === 'male' || gender === 'm') return '男';
+  if (gender === 'female' || gender === 'f') return '女';
+  if (rawGender === '男' || rawGender === '女') return rawGender;
+  fail(`invalid gender '${rawGender}'. Expected male/female/男/女/m/f.`);
+}
+
 function hourToTimeIndex(hour, minute) {
   const total = hour * 60 + (minute || 0);
   // 时辰索引: 0=子(23:00-01:00), 1=丑(01:00-03:00), ..., 12=子(23:00-01:00 晚子)
@@ -156,14 +215,15 @@ if (!args.date || !args.gender) {
   process.exit(1);
 }
 
-const hour = parseInt(args.hour || '0', 10);
-const minute = parseInt(args.minute || '0', 10);
+const hour = parseIntegerArg(args.hour, 'hour', 0);
+const minute = parseIntegerArg(args.minute, 'minute', 0);
 const lng = parseFloat(args.lng || '120');
-const gender = (args.gender === 'male' || args.gender === 'm') ? '男' : (args.gender === 'female' || args.gender === 'f') ? '女' : args.gender;
+const gender = normalizeGender(args.gender);
 
 // 解析原始日期
-const dateParts = args.date.split('-').map(Number);
-const origYear = dateParts[0], origMonth = dateParts[1], origDay = dateParts[2];
+const birthDate = parseBirthDate(args.date);
+const origYear = birthDate.year, origMonth = birthDate.month, origDay = birthDate.day;
+validateTime(hour, minute);
 
 // 真太阳时校正
 const tst = trueSolarTime(origYear, origMonth, origDay, hour, minute, lng);

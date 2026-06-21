@@ -4,11 +4,16 @@
 import argparse
 import sys
 import collections
-from jhora import utils, const
-from jhora.panchanga import drik
-from jhora.horoscope.dhasa.graha import vimsottari
+from datetime import datetime
 
-AVAILABLE_AYANAMSAS = list(const.available_ayanamsa_modes.keys())
+AVAILABLE_AYANAMSAS = (
+    'FAGAN', 'KP', 'LAHIRI', 'RAMAN', 'USHASHASHI', 'YUKTESHWAR',
+    'SURYASIDDHANTA', 'SURYASIDDHANTA_MSUN', 'ARYABHATA', 'ARYABHATA_MSUN',
+    'SS_CITRA', 'TRUE_CITRA', 'TRUE_REVATI', 'SS_REVATI', 'SENTHIL',
+    'TRUE_LAHIRI', 'TRUE_PUSHYA', 'TRUE_MULA', 'KP-SENTHIL', 'SIDM_USER',
+    'SUNDAR_SS',
+)
+VALID_GENDERS = ('male', 'female', '男', '女', 'm', 'f')
 
 Place = collections.namedtuple('Place', ['Place', 'latitude', 'longitude', 'timezone'])
 
@@ -56,6 +61,10 @@ def format_deg(deg):
 
 
 def generate_vedic_md(year, month, day, hour, minute, lat, lng, tz_offset, gender, ayanamsa='LAHIRI'):
+    from jhora import utils
+    from jhora.panchanga import drik
+    from jhora.horoscope.dhasa.graha import vimsottari
+
     # 设置 Ayanamsa
     drik.set_ayanamsa_mode(ayanamsa)
 
@@ -195,6 +204,23 @@ def generate_vedic_md(year, month, day, hour, minute, lat, lng, tz_offset, gende
     return '\n'.join(lines)
 
 
+def validate_birth_args(parser, args):
+    try:
+        datetime(args.year, args.month, args.day, args.hour, args.minute)
+    except ValueError as exc:
+        parser.error(
+            f'无效出生日期/时间: {args.year}-{args.month}-{args.day} '
+            f'{args.hour}:{args.minute} ({exc})'
+        )
+
+    if args.gender.lower() not in VALID_GENDERS:
+        parser.error(f'gender 必须是 {", ".join(VALID_GENDERS)} 之一，收到: {args.gender!r}')
+
+    args.ayanamsa = args.ayanamsa.upper()
+    if args.ayanamsa not in AVAILABLE_AYANAMSAS:
+        parser.error(f'ayanamsa 必须是 {", ".join(AVAILABLE_AYANAMSAS)} 之一，收到: {args.ayanamsa!r}')
+
+
 def main():
     parser = argparse.ArgumentParser(description='吠陀占星排盘')
     parser.add_argument('--year', type=int, required=True)
@@ -210,6 +236,7 @@ def main():
                         help=f'Ayanamsa 模式（默认LAHIRI）。可选: {", ".join(AVAILABLE_AYANAMSAS)}')
     args = parser.parse_args()
 
+    validate_birth_args(parser, args)
     result = generate_vedic_md(args.year, args.month, args.day, args.hour, args.minute,
                                 args.lat, args.lng, args.tz, args.gender, args.ayanamsa)
     print(result)

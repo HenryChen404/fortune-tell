@@ -8,6 +8,9 @@ from datetime import datetime
 from lunar_python import Solar
 
 
+VALID_GENDERS = ('male', 'female', '男', '女', 'm', 'f')
+
+
 def true_solar_time(year, month, day, hour, minute, lng):
     """将钟表时间（北京时间等标准时区时间）转换为真太阳时。
 
@@ -185,6 +188,19 @@ def generate_bazi_md(year, month, day, hour, minute, gender, lng=120.0):
     return '\n'.join(lines)
 
 
+def validate_birth_args(parser, args):
+    try:
+        datetime(args.year, args.month, args.day, args.hour, args.minute)
+    except ValueError as exc:
+        parser.error(
+            f'无效出生日期/时间: {args.year}-{args.month}-{args.day} '
+            f'{args.hour}:{args.minute} ({exc})'
+        )
+
+    if args.gender.lower() not in VALID_GENDERS:
+        parser.error(f'gender 必须是 {", ".join(VALID_GENDERS)} 之一，收到: {args.gender!r}')
+
+
 def main():
     parser = argparse.ArgumentParser(description='八字五行排盘')
     parser.add_argument('--year', type=int, required=True)
@@ -196,6 +212,7 @@ def main():
     parser.add_argument('--gender', type=str, required=True, help='male/female/男/女')
     args = parser.parse_args()
 
+    validate_birth_args(parser, args)
     result = generate_bazi_md(args.year, args.month, args.day, args.hour, args.minute, args.gender, args.lng)
     print(result)
 
