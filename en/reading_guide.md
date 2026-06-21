@@ -1,126 +1,147 @@
-# Chart Delineation Rules Guide
+# 解盘规则指南
 
-Loaded by the main SKILL.md via the Read tool when entering a chart delineation. **All rules below must be strictly followed during every delineation.**
-
----
-
-## Step 1: Prepare
-
-1. Read `$REFS/birth-info.md` to confirm querent's identity
-2. Determine applicable systems based on the querent's question (Rule 1: at least 2 systems must apply)
-3. **Only read the chart and verification files for applicable systems** (e.g., BaZi question → read `bazi.md` + `bazi_calibration.md`)
-4. No verification file → prompt querent to complete verification first
-5. Querent's intent unclear → **ask first, do not force an answer**
-
-## Step 2: Per-System Analysis
-
-For each applicable system, apply verification data using these rules:
-
-### Read Baseline
-
-Each calibration file has a `## Querent Baseline` section at the top (if it exists). Read it before per-system analysis. The baseline affects phrasing and intensity judgments for all subsequent delineation.
-
-### Direction Selection (which direction to use)
-
-| Verification result | Handling |
-|-------------------|----------|
-| `confirmed` | Read along the confirmed direction, high weight |
-| `confirmed_form` | Read along the **LOCKED manifestation form**, high weight. When the same natal symbol appears in the future, preferentially map to this manifestation form |
-| `confirmed_scaled` | Read along the confirmed direction, but **ADJUST intensity phrasing per baseline** (see Baseline Correction below) |
-| `contradicted` | Deprioritize; apply contradiction rules below |
-| `tier2_skipped` | Use innate strength, direction not locked, medium confidence; strong indicators noted as "unverified" |
-| `uncertain` | Low confidence, exploratory phrasing |
-| Same natal symbol across periods | Synthesize: multiple confirmed → increase confidence; inconsistent → discuss by period |
-
-### Prominence and Tone (determined by source natal indicator's innate strength, corrected by baseline)
-
-| Innate strength | Prominence | Tone |
-|-------------------|------------|------|
-| Strong | Core finding, 2-3 sentences | "This signature is very prominent in your chart..." |
-| Medium | Supporting info, 1-2 sentences | "Your chart suggests a certain tendency here..." |
-| Weak | Mention only when querent asks, 1 sentence | "There's a relatively faint signal..." |
-
-**Baseline Correction** (if `## Querent Baseline` exists):
-
-| Combination | Correction |
-|-------------|------------|
-| Strong innate strength + weak intensity baseline | Keep core finding status, but downgrade phrasing half a level ("very prominent" → "has a certain influence") |
-| Weak innate strength + strong intensity baseline | Upgrade attention ("faint signal" → "worth noting") |
-| Kin-related + high kin buffer | Use more conservative phrasing, preferentially map to non-kin domains (e.g., assets, emotions) |
-| Manifestation tendency toward internal psychology | Downgrade external event predictions half a level, upgrade internal psychological experience predictions half a level |
-
-### Language Certainty (determined by confidence)
-
-| Confidence | Phrasing |
-|-----------|----------|
-| High | Direct assertion: "Your chart clearly shows..." |
-| Medium | Moderate qualification: "Based on what we have so far..." |
-| Low | Exploratory: "There's an interesting signal, but I'm not fully sure yet..." |
-
-### Contradiction Handling (contradicted status)
-
-| Scenario | Handling |
-|----------|----------|
-| Delineating the past | Trust querent's experience; do not force-explain with theory |
-| Delineating the present | Present the contradiction: "Theoretically strong, but not apparent from what we've seen — may be operating subtly" |
-| Predicting the future | Be conservative: "Theoretical signal exists but past didn't confirm it; I'm cautious" |
-| Partially confirmed + partially contradicted | Note period-dependent manifestation; discuss separately |
-| Pre-time-correction contradicted data | Extremely low reference value, essentially disregard |
-
-## Step 3: Cross-System Comparison
-
-Compare each system's conclusions on the same theme (Rule 2):
-
-| System agreement | Verification state | Handling |
-|-----------------|-------------------|----------|
-| All agree | Verified | Core finding, high confidence |
-| All agree | Partially unverified | Core finding, medium confidence |
-| Majority agree | Verified | Supporting finding, moderate phrasing |
-| Majority agree | Unverified | Mention when relevant, conservative |
-| Minority agree | — | Do not output |
-| Complete divergence | — | Honestly tell querent no reliable conclusion can be drawn |
-
-Merged entries (sources ≥ 2 systems) confirmed → cross-system agreement auto-validated.
-
-## Step 4: Output
-
-1. Map ancient concepts to modern context (Rule 3)
-2. **Decompose** the querent's question into atomic sub-questions; output each using this structure:
-
----
-**[Summary Conclusion]** One-sentence overall judgment
-
-- **System N's analysis**: Specific delineation (**bold** key conclusions, *italics* for qualifications)
-
-**[Synthesis]** Consolidate system analyses into final conclusion
+由主 SKILL.md 在进入解盘时通过 Read 工具加载。**每次解盘必须严格遵守以下规则。**
 
 ---
 
-3. At the end, naturally mention "if anything feels off, let me know" — do not proactively ask "was this accurate?"
+## Step 1: 准备
 
-## Time Handling
+1. 读取 `$REFS/birth-info.md` 确认命主身份
+2. 根据命主的问题判断适用体系（第一法则：至少 2 个体系适用才继续）
+   - 仅 1 个体系适用时，告知局限："这个问题我只能从[体系名]来分析，缺少第二个体系交叉验证，结论可靠度有限。我可以先给你一个初步参考，但请注意这没有经过多体系确认。"
+3. **只读取适用体系的命盘文件和验盘档案**（如问八字相关 → 读 `bazi.md` + `bazi_calibration.md`）
+4. 验盘档案不存在 → 提示先完成验盘
+5. 不理解命主意图 → **先提问，不强行回答**
 
-For time-related questions, use the system's current date to locate the querent's active period:
+## Step 2: 逐体系分析
 
-| System | Time concepts |
-|--------|--------------|
-| BaZi | Major Luck Period, Annual, Monthly, Daily |
-| ZiWei | Decadal Period, Annual, Monthly, Daily |
-| Western | Transits, Progressions, Solar Return |
-| Vedic | Dasha, Bhukti/Antardasha, Gochara |
+对每个适用体系，按以下规则应用验盘数据：
+
+### 读取基准线
+
+每个验盘档案头部有 `## 命主基准线` 段（如果存在），在逐体系分析之前先读取。基准线影响后续所有解盘的措辞和强度判断。
+
+### 方向选择（用哪个方向）
+
+| 验盘结果 | 处理 |
+|---------|------|
+| `confirmed` | 按确认方向解盘，高权重 |
+| `confirmed_form` | 按**已锁定的显化形式**解盘，高权重。未来同类原局象出现时，优先映射到此显化形式 |
+| `confirmed_scaled` | 按确认方向解盘，但**按基准线调整强度措辞**（见下方基准线修正） |
+| `contradicted` | 降权，按下方矛盾处理规则 |
+| `tier2_skipped` | 用先天强弱，方向不锁定，中置信度；强者注明"未经验证" |
+| `uncertain` | 低置信度，探索性措辞 |
+| 同一原局象多时期 | 综合分析：多时期 confirmed → 提升置信度；结果不一致 → 分时期讨论 |
+
+### 篇幅和语气（由来源原局象的先天强弱决定，经基准线修正）
+
+| 先天强弱 | 篇幅 | 语气 |
+|---------|------|------|
+| 强 | 核心发现，2-3 句 | "你命盘中这个特征很明显……" |
+| 中 | 辅助信息，1-2 句 | "从命盘来看，这方面有一定倾向……" |
+| 弱 | 命主问及时才提，1 句 | "有一个比较微弱的信号……" |
+
+**基准线修正**（如果 `## 命主基准线` 存在）：
+
+| 组合 | 修正 |
+|------|------|
+| 先天强弱强 + 强度基线偏弱 | 保持核心发现地位，但措辞降半级（"很明显" → "有一定影响"） |
+| 先天强弱弱 + 强度基线偏强 | 提升关注度（"微弱信号" → "值得注意"） |
+| 涉及六亲 + 六亲缓冲高 | 用更保守的措辞，优先映射到非六亲领域（如资产、情绪） |
+| 显化倾向偏内在心理 | 外部事件预测降半级，内在心理体验预测升半级 |
+
+### 措辞确定性（由置信度决定）
+
+| 置信度 | 措辞 |
+|-------|------|
+| 高 | 直接断言："你的命盘显示……" |
+| 中 | 适度限定："从目前的信息来看……" |
+| 低 | 探索性："有一个有意思的信号，但我还不太确定……" |
+
+### contradicted 状态的矛盾处理
+
+| 场景 | 处理 |
+|------|------|
+| 解盘过去 | 信任命主体验，不用理论强行解释 |
+| 解盘当前 | 呈现矛盾："理论上很强，但之前了解来看不太明显，可能以不易察觉的方式运作" |
+| 预测未来 | 保守："有理论信号但过去未印证，我持谨慎态度" |
+| 部分时期 confirmed + 部分 contradicted | 说明显化有时期性，区分讨论 |
+| 时辰校正前的 contradicted 数据 | 参考价值极低，基本忽略 |
+
+## Step 3: 交叉比对
+
+比较各体系对同一主题的结论（第二法则）：
+
+| 体系一致性 | 验盘状态 | 处理 |
+|-----------|---------|------|
+| 全部一致 | 已验盘 | 核心发现，高置信度 |
+| 全部一致 | 部分未验盘 | 核心发现，中置信度 |
+| 多数一致 | 已验盘 | 辅助发现，中等措辞 |
+| 多数一致 | 未验盘 | 相关时提及，保守措辞 |
+| 少数一致 | — | 不输出 |
+| 完全分歧 | — | 坦诚告知无法给出可靠结论 |
+
+合并条目（来源 ≥ 2 个体系）confirmed → 跨体系一致性自动确认。
+
+## Step 4: 输出
+
+1. 将古代概念映射到现代语境（第三法则）。常见映射参考：
+
+| 古代术语 | 现代映射 |
+|---------|---------|
+| 伤官 | 创造力表达、挑战权威的倾向 |
+| 官杀 | 职业压力、管理层关系、制度约束 |
+| 夫妻宫化忌 | 亲密关系中的摩擦点 |
+| 田宅宫 | 居住环境、不动产、家庭安全感 |
+| 七杀临命 | 高压环境下的执行力与决断 |
+| Saturn Return | 30岁左右的责任转折期 |
+| Rahu Mahadasha | 物质野心高涨、非常规机遇期 |
+| 紫微化权 | 领导欲望增强、主导权扩大 |
+| 太阳落陷 | 公众认可度受限、需要低调积累 |
+
+2. **拆解问题**为原子级子问题，逐个按以下结构输出：
+
+---
+**【总结结论】** 一句话综合判断
+
+- **体系 N 的分析**：具体解盘（**加粗**关键结论，*斜体*条件限定）
+
+**【综合】** 各体系汇总，最终结论
 
 ---
 
-## Checklist
+3. 解盘结束时自然提一句"如果觉得某处不太准可以告诉我"——不主动问"准不准"
 
-- [ ] Baseline read (if exists)
-- [ ] Prominence/tone matches innate strength (corrected by baseline)
-- [ ] Phrasing matches confidence level
-- [ ] Unverified entries: medium confidence, strong indicators noted as unverified
-- [ ] confirmed → high weight
-- [ ] confirmed_form → use locked manifestation form
-- [ ] confirmed_scaled → adjust intensity per baseline
-- [ ] contradicted → deprioritized (differentiate past/present/future)
-- [ ] Cross-system agreement comparison done
-- [ ] Three Rules applied (answerability → majority agreement → ancient-to-modern mapping)
-- [ ] Response structure: sub-questions → summary → system analysis → synthesis
+## 时间处理
+
+涉及时间的问题，使用系统当前日期定位命主所处周期：
+
+| 体系 | 时间概念 |
+|------|---------|
+| 八字 | 大运、流年、流月、流日 |
+| 紫微 | 大限、流年、流月、流日 |
+| 西洋 | 行运(transit)、推运(progression)、太阳回归(solar return) |
+| 吠陀 | Dasha、Bhukti/Antardasha、Gochara |
+
+---
+
+## 核查清单
+
+- [ ] 适用体系数量 ≥ 2（第一法则）
+- [ ] 不适用的体系未参与解盘
+- [ ] 仅 1 体系适用时已告知局限
+- [ ] 基准线已读取（如存在）
+- [ ] 篇幅/语气匹配先天强弱（经基准线修正）
+- [ ] 措辞匹配置信度
+- [ ] 未验盘条目：中置信度，强者注明未验证
+- [ ] confirmed → 高权重
+- [ ] confirmed_form → 按锁定的显化形式解盘
+- [ ] confirmed_scaled → 按基准线调整强度措辞
+- [ ] contradicted → 降权（区分过去/当前/未来）
+- [ ] 跨体系一致性比对
+- [ ] 不一致的点已告知用户
+- [ ] 完全分歧时已坦诚说明
+- [ ] 三大法则（可答性 → 高共识 → 古今映射）
+- [ ] 回答结构：子问题 → 总结 → 体系分析 → 综合
+- [ ] 零术语（面向用户）
+- [ ] 基准线修正措辞匹配先天强弱
