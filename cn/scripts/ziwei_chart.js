@@ -152,8 +152,18 @@ function generateMarkdown(result) {
   lines.push(`- 生肖: ${result.zodiac}`);
   lines.push(`- 星座: ${result.sign}`);
   lines.push(`- 五行局: ${result.fiveElementsClass}`);
-  lines.push(`- 命宫主星: ${result.soul}`);
-  lines.push(`- 身宫主星: ${result.body}`);
+  lines.push(`- 命主: ${result.soul}`);
+  lines.push(`- 身主: ${result.body}`);
+
+  // Find actual major stars in 命宫 and 身宫 location
+  for (const p of result.palaces) {
+    if (p.name === '命宫') {
+      lines.push(`- 命宫主星: ${formatStars(p.majorStars) || '无主星'}`);
+    }
+    if (p.isBodyPalace) {
+      lines.push(`- 身宫位置: ${p.name}（主星: ${formatStars(p.majorStars) || '无主星'}）`);
+    }
+  }
   lines.push('');
 
   // 十二宫排盘
