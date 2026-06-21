@@ -9,9 +9,10 @@ const { astro } = require('iztro');
  * 将钟表时间（北京时间等标准时区时间）转换为真太阳时。
  * 返回校正后的 { year, month, day, hour, minute }
  */
-function trueSolarTime(year, month, day, hour, minute, lng) {
-  // 经度时差修正（中国标准时间基准经度为120°E）
-  const lngCorrection = 4.0 * (lng - 120.0); // 分钟
+function trueSolarTime(year, month, day, hour, minute, lng, tzOffset) {
+  // 经度时差修正（基准经度 = 时区偏移 × 15）
+  const standardMeridian = (tzOffset !== undefined ? tzOffset : 8) * 15.0;
+  const lngCorrection = 4.0 * (lng - standardMeridian); // 分钟
 
   // 均时差修正 (Equation of Time)
   const dt = new Date(year, month - 1, day);
@@ -218,6 +219,7 @@ if (!args.date || !args.gender) {
 const hour = parseIntegerArg(args.hour, 'hour', 0);
 const minute = parseIntegerArg(args.minute, 'minute', 0);
 const lng = parseFloat(args.lng || '120');
+const tzOffset = parseFloat(args.tz || '8');
 const gender = normalizeGender(args.gender);
 
 // 解析原始日期
@@ -226,7 +228,7 @@ const origYear = birthDate.year, origMonth = birthDate.month, origDay = birthDat
 validateTime(hour, minute);
 
 // 真太阳时校正
-const tst = trueSolarTime(origYear, origMonth, origDay, hour, minute, lng);
+const tst = trueSolarTime(origYear, origMonth, origDay, hour, minute, lng, tzOffset);
 const correctedDate = `${tst.year}-${tst.month}-${tst.day}`;
 const timeIndex = hourToTimeIndex(tst.hour, tst.minute);
 

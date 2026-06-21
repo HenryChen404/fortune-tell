@@ -11,15 +11,18 @@ from lunar_python import Solar
 VALID_GENDERS = ('male', 'female', '男', '女', 'm', 'f')
 
 
-def true_solar_time(year, month, day, hour, minute, lng):
-    """将钟表时间（北京时间等标准时区时间）转换为真太阳时。
+def true_solar_time(year, month, day, hour, minute, lng, tz_offset=8):
+    """将钟表时间转换为真太阳时。
 
     真太阳时 = 钟表时间 + 经度时差修正 + 均时差修正
-    - 经度时差: 4分钟 × (出生地经度 - 标准经度120°)
+    - 经度时差: 4分钟 × (出生地经度 - 标准时区基准经度)
+    - 标准时区基准经度 = tz_offset × 15（如 UTC+8 → 120°E, UTC-5 → -75°E）
     - 均时差(Equation of Time): 由一年中的日序数计算
     """
-    # 经度时差修正（中国标准时间基准经度为120°E）
-    lng_correction = 4.0 * (lng - 120.0)  # 分钟
+    # 标准时区基准经度
+    standard_meridian = tz_offset * 15.0
+    # 经度时差修正
+    lng_correction = 4.0 * (lng - standard_meridian)  # 分钟
 
     # 均时差修正
     dt = datetime(year, month, day)
@@ -74,10 +77,10 @@ def get_hidden_gan_str(hide_gan_list):
     return '、'.join(f'{g}({WUXING_MAP.get(g, "")})' for g in hide_gan_list)
 
 
-def generate_bazi_md(year, month, day, hour, minute, gender, lng=120.0):
+def generate_bazi_md(year, month, day, hour, minute, gender, lng=120.0, tz_offset=8):
     # 真太阳时校正
     t_year, t_month, t_day, t_hour, t_minute = true_solar_time(
-        year, month, day, hour, minute, lng
+        year, month, day, hour, minute, lng, tz_offset
     )
     solar = Solar(t_year, t_month, t_day, t_hour, t_minute, 0)
     lunar = solar.getLunar()
@@ -209,11 +212,12 @@ def main():
     parser.add_argument('--hour', type=int, required=True)
     parser.add_argument('--minute', type=int, default=0)
     parser.add_argument('--lng', type=float, default=120.0, help='出生地经度，用于真太阳时校正（默认120°E）')
+    parser.add_argument('--tz', type=float, default=8, help='时区UTC偏移量，用于真太阳时校正（默认8=UTC+8）')
     parser.add_argument('--gender', type=str, required=True, help='male/female/男/女')
     args = parser.parse_args()
 
     validate_birth_args(parser, args)
-    result = generate_bazi_md(args.year, args.month, args.day, args.hour, args.minute, args.gender, args.lng)
+    result = generate_bazi_md(args.year, args.month, args.day, args.hour, args.minute, args.gender, args.lng, args.tz)
     print(result)
 
 

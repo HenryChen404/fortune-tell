@@ -5,6 +5,7 @@ import argparse
 import sys
 import collections
 from datetime import datetime
+import pytz
 
 AVAILABLE_AYANAMSAS = (
     'FAGAN', 'KP', 'LAHIRI', 'RAMAN', 'USHASHASHI', 'YUKTESHWAR',
@@ -60,10 +61,20 @@ def format_deg(deg):
     return f"{d}°{m:02d}'"
 
 
-def generate_vedic_md(year, month, day, hour, minute, lat, lng, tz_offset, gender, ayanamsa='LAHIRI'):
+def resolve_tz_offset(tz_str, year, month, day, hour, minute):
+    """Resolve IANA timezone string to numeric UTC offset, respecting DST."""
+    tz = pytz.timezone(tz_str)
+    dt_naive = datetime(year, month, day, hour, minute)
+    dt_local = tz.localize(dt_naive)
+    return dt_local.utcoffset().total_seconds() / 3600
+
+
+def generate_vedic_md(year, month, day, hour, minute, lat, lng, tz_str, gender, ayanamsa='LAHIRI'):
     from jhora import utils
     from jhora.panchanga import drik
     from jhora.horoscope.dhasa.graha import vimsottari
+
+    tz_offset = resolve_tz_offset(tz_str, year, month, day, hour, minute)
 
     # 设置 Ayanamsa
     drik.set_ayanamsa_mode(ayanamsa)
@@ -80,7 +91,7 @@ def generate_vedic_md(year, month, day, hour, minute, lat, lng, tz_offset, gende
     lines.append(f'- 性别: {"男" if is_male else "女"}')
     lines.append(f'- 出生时间: {year}-{month:02d}-{day:02d} {hour:02d}:{minute:02d}')
     lines.append(f'- 坐标: {lat}°N, {lng}°E')
-    lines.append(f'- 时区: UTC+{tz_offset}')
+    lines.append(f'- 时区: {tz_str} (UTC{tz_offset:+g})')
     lines.append(f'- Ayanamsa: {ayanamsa}')
     lines.append('')
 
@@ -216,6 +227,11 @@ def validate_birth_args(parser, args):
     if args.gender.lower() not in VALID_GENDERS:
         parser.error(f'gender 必须是 {", ".join(VALID_GENDERS)} 之一，收到: {args.gender!r}')
 
+    try:
+        pytz.timezone(args.tz)
+    except pytz.exceptions.UnknownTimeZoneError:
+        parser.error(f'无效时区: {args.tz!r}。示例: Asia/Shanghai, America/New_York')
+
     args.ayanamsa = args.ayanamsa.upper()
     if args.ayanamsa not in AVAILABLE_AYANAMSAS:
         parser.error(f'ayanamsa 必须是 {", ".join(AVAILABLE_AYANAMSAS)} 之一，收到: {args.ayanamsa!r}')
@@ -230,7 +246,7 @@ def main():
     parser.add_argument('--minute', type=int, default=0)
     parser.add_argument('--lat', type=float, required=True)
     parser.add_argument('--lng', type=float, required=True)
-    parser.add_argument('--tz', type=float, required=True, help='Timezone offset, e.g. 8 for UTC+8')
+    parser.add_argument('--tz', type=str, required=True, help='IANA timezone string, e.g. Asia/Shanghai, America/New_York')
     parser.add_argument('--gender', type=str, required=True, help='male/female/男/女')
     parser.add_argument('--ayanamsa', type=str, default='LAHIRI',
                         help=f'Ayanamsa 模式（默认LAHIRI）。可选: {", ".join(AVAILABLE_AYANAMSAS)}')

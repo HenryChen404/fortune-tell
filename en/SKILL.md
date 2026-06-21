@@ -272,8 +272,8 @@ Example:
 4. Validate the name (see "Name Validation" below)
 5. Derive latitude/longitude and timezone from the birthplace yourself — **do not ask the querent for coordinates or timezone**. Rules:
    - Coordinates: use common knowledge for the city (e.g. Beijing → 39.9, 116.4; New York → 40.7, -74.0)
-   - Timezone string (for Western astrology): e.g. `Asia/Shanghai`, `America/New_York`
-   - UTC offset number (for Vedic astrology): e.g. China → `8`, US Eastern → `-5`
+   - Timezone string (for Western and Vedic astrology): e.g. `Asia/Shanghai`, `America/New_York`
+   - UTC offset number (for BaZi and ZiWei true solar time): e.g. China → `8`, US Eastern → `-5`. For historical DST periods, use the offset that was in effect at the birth time (e.g. China 1986-1991 summer → `9`)
    - Only ask the querent to clarify if the city is obscure or ambiguous
 6. Run the charting scripts to generate natal chart data (**all four commands run in parallel** — issue four independent Bash calls simultaneously):
 
@@ -286,18 +286,18 @@ mkdir -p "$REFS"
 
 The following four charting commands **run in parallel** with no dependencies:
 
-**BaZi (Four Pillars) — Chart Construction (立四柱)** (--lng for true solar time correction):
+**BaZi (Four Pillars) — Chart Construction (立四柱)** (--lng and --tz for true solar time correction):
 ```bash
 python3.11 "$SCRIPTS/bazi_chart.py" \
   --year YYYY --month MM --day DD --hour HH --minute MM \
-  --lng LNG --gender male/female > "$REFS/bazi.md"
+  --lng LNG --tz TZ_OFFSET --gender male/female > "$REFS/bazi.md"
 ```
 
-**Zi Wei Dou Shu — Star Placement (安星布盘)** (--lng for true solar time correction):
+**Zi Wei Dou Shu — Star Placement (安星布盘)** (--lng and --tz for true solar time correction):
 ```bash
 node "$SCRIPTS/ziwei_chart.js" \
   --date YYYY-M-D --hour HH --minute MM \
-  --lng LNG --gender male/female > "$REFS/ziwei.md"
+  --lng LNG --tz TZ_OFFSET --gender male/female > "$REFS/ziwei.md"
 ```
 
 **Western Astrology — Natal Chart** (--house-system optional, default P=Placidus):
@@ -311,14 +311,15 @@ python3.11 "$SCRIPTS/western_chart.py" \
 ```bash
 python3.11 "$SCRIPTS/vedic_chart.py" \
   --year YYYY --month MM --day DD --hour HH --minute MM \
-  --lat LAT --lng LNG --tz TZ_OFFSET \
+  --lat LAT --lng LNG --tz TIMEZONE_STRING \
   --gender male/female > "$REFS/vedic-astrology.md"
 ```
 
 Parameter notes:
 - `--lat` / `--lng`: Birthplace latitude/longitude (decimal degrees)
 - `--lng` (BaZi/ZiWei): Birth longitude for true solar time correction. **Must be provided**, otherwise defaults to 120°E (Shanghai)
-- `--tz`: Western astrology uses timezone string (e.g. `Asia/Shanghai`); Vedic uses UTC offset number (e.g. `8`)
+- `--tz` (BaZi/ZiWei): UTC offset number for true solar time correction. **Must match birth location timezone** (e.g. China → `8`, US Eastern → `-5`). Defaults to `8` if omitted
+- `--tz` (Western/Vedic): IANA timezone string (e.g. `Asia/Shanghai`, `America/New_York`). Handles DST automatically
 - `--gender`: `male` or `female`
 - `--house-system` (Western, optional): House system, e.g. `P` (Placidus), `K` (Koch), `W` (Whole Sign). Default: `P`
 - `--ayanamsa` (Vedic, optional): Ayanamsa mode, e.g. `LAHIRI`, `KP`, `RAMAN`. Default: `LAHIRI`

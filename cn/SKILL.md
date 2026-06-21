@@ -277,18 +277,18 @@ mkdir -p "$REFS"
 
 以下四个排盘命令**同时并行执行**，无依赖关系：
 
-**八字五行 — 排盘（立四柱）**（--lng 用于真太阳时校正）：
+**八字五行 — 排盘（立四柱）**（--lng 和 --tz 用于真太阳时校正）：
 ```bash
 python3.11 "$SCRIPTS/bazi_chart.py" \
   --year YYYY --month MM --day DD --hour HH --minute MM \
-  --lng LNG --gender male/female > "$REFS/bazi.md"
+  --lng LNG --tz TZ_OFFSET --gender male/female > "$REFS/bazi.md"
 ```
 
-**紫微斗数 — 起盘（安星布盘）**（--lng 用于真太阳时校正）：
+**紫微斗数 — 起盘（安星布盘）**（--lng 和 --tz 用于真太阳时校正）：
 ```bash
 node "$SCRIPTS/ziwei_chart.js" \
   --date YYYY-M-D --hour HH --minute MM \
-  --lng LNG --gender male/female > "$REFS/ziwei.md"
+  --lng LNG --tz TZ_OFFSET --gender male/female > "$REFS/ziwei.md"
 ```
 
 **西洋占星 — 起本命盘（Natal Chart）**（--house-system 可选，默认 P=Placidus）：
@@ -302,14 +302,15 @@ python3.11 "$SCRIPTS/western_chart.py" \
 ```bash
 python3.11 "$SCRIPTS/vedic_chart.py" \
   --year YYYY --month MM --day DD --hour HH --minute MM \
-  --lat LAT --lng LNG --tz TZ_OFFSET \
+  --lat LAT --lng LNG --tz TIMEZONE_STRING \
   --gender male/female > "$REFS/vedic-astrology.md"
 ```
 
 参数说明：
 - `--lat` / `--lng`：出生地经纬度（十进制度数）
 - `--lng`（八字/紫微）：出生地经度，用于真太阳时校正。**必须传入**，否则默认120°E（上海）
-- `--tz`：西洋占星用时区字符串（如 `Asia/Shanghai`），吠陀用 UTC 偏移数字（如 `8`）
+- `--tz`（八字/紫微）：时区UTC偏移量，用于真太阳时校正。**必须匹配出生地时区**（如中国 → `8`，美东 → `-5`）。不传则默认 `8`
+- `--tz`（西洋/吠陀）：IANA 时区字符串（如 `Asia/Shanghai`、`America/New_York`），自动处理夏令时
 - `--gender`：`male` 或 `female`
 - `--house-system`（西洋占星，可选）：宫位制，如 `P`(Placidus)、`K`(Koch)、`W`(Whole Sign)，默认 `P`
 - `--ayanamsa`（吠陀占星，可选）：Ayanamsa 模式，如 `LAHIRI`、`KP`、`RAMAN`，默认 `LAHIRI`
